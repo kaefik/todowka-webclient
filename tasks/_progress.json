@@ -264,7 +264,7 @@
       "layer": 5,
       "effort": "M",
       "depends_on": ["L4/17-button.md", "L4/19-input-textarea.md", "L4/20-select.md", "L4/21-checkbox.md", "L1/04-types-file.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L5/30-project-card.md": {
@@ -288,7 +288,7 @@
       "layer": 5,
       "effort": "M",
       "depends_on": ["L4/17-button.md", "L4/19-input-textarea.md", "L1/04-types-file.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L5/33-progress-bar.md": {
@@ -304,7 +304,7 @@
       "layer": 6,
       "effort": "M",
       "depends_on": ["L4/17-button.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L6/35-header.md": {
@@ -312,7 +312,7 @@
       "layer": 6,
       "effort": "S",
       "depends_on": ["L4/17-button.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L6/36-main-content.md": {
@@ -336,7 +336,7 @@
       "layer": 7,
       "effort": "M",
       "depends_on": ["L2/06-tasks-api.md", "L3/16-react-query-provider.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L7/39-use-projects-hook.md": {
@@ -344,7 +344,7 @@
       "layer": 7,
       "effort": "M",
       "depends_on": ["L2/07-projects-api.md", "L3/16-react-query-provider.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L7/40-use-inbox-hook.md": {
@@ -352,7 +352,7 @@
       "layer": 7,
       "effort": "M",
       "depends_on": ["L2/08-inbox-api.md", "L3/16-react-query-provider.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L7/41-use-tags-hook.md": {
@@ -360,7 +360,7 @@
       "layer": 7,
       "effort": "S",
       "depends_on": ["L2/09-tags-api.md", "L3/16-react-query-provider.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L7/42-use-contexts-hook.md": {
@@ -368,7 +368,7 @@
       "layer": 7,
       "effort": "S",
       "depends_on": ["L2/10-contexts-api.md", "L3/16-react-query-provider.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L7/43-use-areas-hook.md": {
@@ -376,7 +376,7 @@
       "layer": 7,
       "effort": "S",
       "depends_on": ["L2/11-areas-api.md", "L3/16-react-query-provider.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L8/44-root-layout.md": {
@@ -504,7 +504,7 @@
       "layer": 10,
       "effort": "M",
       "depends_on": ["L4/25-spinner.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L10/60-optimistic-updates.md": {
