@@ -1,0 +1,487 @@
+{
+  "project": "Todo Web Client",
+  "created": "2026-03-12T00:00:00Z",
+  "guide": "tasks/00-guide.md",
+  "tasks": {
+    "L0/01-init-project.md": {
+      "title": "Init Next.js project with TypeScript & dependencies",
+      "layer": 0,
+      "effort": "S",
+      "depends_on": [],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L0/02-tailwind-config.md": {
+      "title": "Configure Tailwind CSS & design tokens",
+      "layer": 0,
+      "effort": "S",
+      "depends_on": ["L0/01-init-project.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L0/03-directory-structure.md": {
+      "title": "Setup directory structure",
+      "layer": 0,
+      "effort": "XS",
+      "depends_on": ["L0/01-init-project.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L1/04-types-file.md": {
+      "title": "Create TypeScript types file",
+      "layer": 1,
+      "effort": "S",
+      "depends_on": ["L0/03-directory-structure.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L2/05-api-client.md": {
+      "title": "Implement TodoAPIClient base class",
+      "layer": 2,
+      "effort": "S",
+      "depends_on": ["L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L2/06-tasks-api.md": {
+      "title": "Create tasks API module",
+      "layer": 2,
+      "effort": "M",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L2/07-projects-api.md": {
+      "title": "Create projects API module",
+      "layer": 2,
+      "effort": "M",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L2/08-inbox-api.md": {
+      "title": "Create inbox API module",
+      "layer": 2,
+      "effort": "S",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L2/09-tags-api.md": {
+      "title": "Create tags API module",
+      "layer": 2,
+      "effort": "S",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L2/10-contexts-api.md": {
+      "title": "Create contexts API module",
+      "layer": 2,
+      "effort": "S",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L2/11-areas-api.md": {
+      "title": "Create areas API module",
+      "layer": 2,
+      "effort": "S",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L2/12-notifications-api.md": {
+      "title": "Create notifications API module",
+      "layer": 2,
+      "effort": "S",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L3/13-task-store.md": {
+      "title": "Create Task store (Zustand)",
+      "layer": 3,
+      "effort": "S",
+      "depends_on": ["L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L3/14-navigation-store.md": {
+      "title": "Create Navigation store (Zustand)",
+      "layer": 3,
+      "effort": "S",
+      "depends_on": ["L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L3/15-gtd-store.md": {
+      "title": "Create GTD store (Zustand)",
+      "layer": 3,
+      "effort": "S",
+      "depends_on": ["L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L3/16-react-query-provider.md": {
+      "title": "Setup React Query client provider",
+      "layer": 3,
+      "effort": "M",
+      "depends_on": ["L0/01-init-project.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L4/17-button.md": {
+      "title": "Create Button component",
+      "layer": 4,
+      "effort": "S",
+      "depends_on": ["L0/02-tailwind-config.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L4/18-card.md": {
+      "title": "Create Card component",
+      "layer": 4,
+      "effort": "S",
+      "depends_on": ["L0/02-tailwind-config.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L4/19-input-textarea.md": {
+      "title": "Create Input & Textarea components",
+      "layer": 4,
+      "effort": "S",
+      "depends_on": ["L0/02-tailwind-config.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L4/20-select.md": {
+      "title": "Create Select component",
+      "layer": 4,
+      "effort": "S",
+      "depends_on": ["L0/02-tailwind-config.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L4/21-checkbox.md": {
+      "title": "Create Checkbox component",
+      "layer": 4,
+      "effort": "S",
+      "depends_on": ["L0/02-tailwind-config.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L4/22-badge.md": {
+      "title": "Create Badge component",
+      "layer": 4,
+      "effort": "S",
+      "depends_on": ["L0/02-tailwind-config.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L4/23-modal.md": {
+      "title": "Create Modal component",
+      "layer": 4,
+      "effort": "M",
+      "depends_on": ["L4/17-button.md", "L4/18-card.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L4/24-empty-state.md": {
+      "title": "Create EmptyState component",
+      "layer": 4,
+      "effort": "S",
+      "depends_on": ["L0/02-tailwind-config.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L4/25-spinner.md": {
+      "title": "Create Spinner component",
+      "layer": 4,
+      "effort": "XS",
+      "depends_on": ["L0/02-tailwind-config.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L5/26-task-item.md": {
+      "title": "Create TaskItem component",
+      "layer": 5,
+      "effort": "M",
+      "depends_on": ["L4/22-badge.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L5/27-task-list.md": {
+      "title": "Create TaskList component",
+      "layer": 5,
+      "effort": "M",
+      "depends_on": ["L5/26-task-item.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L5/28-task-filters.md": {
+      "title": "Create TaskFilters component",
+      "layer": 5,
+      "effort": "S",
+      "depends_on": ["L4/19-input-textarea.md", "L4/20-select.md", "L4/22-badge.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L5/29-task-form.md": {
+      "title": "Create TaskForm component",
+      "layer": 5,
+      "effort": "M",
+      "depends_on": ["L4/17-button.md", "L4/19-input-textarea.md", "L4/20-select.md", "L4/21-checkbox.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L5/30-project-card.md": {
+      "title": "Create ProjectCard component",
+      "layer": 5,
+      "effort": "M",
+      "depends_on": ["L4/22-badge.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L5/31-project-list.md": {
+      "title": "Create ProjectList component",
+      "layer": 5,
+      "effort": "M",
+      "depends_on": ["L5/30-project-card.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L5/32-project-form.md": {
+      "title": "Create ProjectForm component",
+      "layer": 5,
+      "effort": "M",
+      "depends_on": ["L4/17-button.md", "L4/19-input-textarea.md", "L1/04-types-file.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L5/33-progress-bar.md": {
+      "title": "Create ProgressBar component",
+      "layer": 5,
+      "effort": "S",
+      "depends_on": ["L0/02-tailwind-config.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L6/34-sidebar.md": {
+      "title": "Create Sidebar component",
+      "layer": 6,
+      "effort": "M",
+      "depends_on": ["L4/17-button.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L6/35-header.md": {
+      "title": "Create Header component",
+      "layer": 6,
+      "effort": "S",
+      "depends_on": ["L4/17-button.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L6/36-main-content.md": {
+      "title": "Create MainContent component",
+      "layer": 6,
+      "effort": "XS",
+      "depends_on": ["L6/34-sidebar.md", "L6/35-header.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L6/37-quick-capture.md": {
+      "title": "Create QuickCapture component",
+      "layer": 6,
+      "effort": "M",
+      "depends_on": ["L4/17-button.md", "L4/19-input-textarea.md", "L5/29-task-form.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L7/38-use-tasks-hook.md": {
+      "title": "Create useTasks hook",
+      "layer": 7,
+      "effort": "M",
+      "depends_on": ["L2/06-tasks-api.md", "L3/16-react-query-provider.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L7/39-use-projects-hook.md": {
+      "title": "Create useProjects hook",
+      "layer": 7,
+      "effort": "M",
+      "depends_on": ["L2/07-projects-api.md", "L3/16-react-query-provider.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L7/40-use-inbox-hook.md": {
+      "title": "Create useInbox hook",
+      "layer": 7,
+      "effort": "M",
+      "depends_on": ["L2/08-inbox-api.md", "L3/16-react-query-provider.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L7/41-use-tags-hook.md": {
+      "title": "Create useTags hook",
+      "layer": 7,
+      "effort": "S",
+      "depends_on": ["L2/09-tags-api.md", "L3/16-react-query-provider.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L7/42-use-contexts-hook.md": {
+      "title": "Create useContexts hook",
+      "layer": 7,
+      "effort": "S",
+      "depends_on": ["L2/10-contexts-api.md", "L3/16-react-query-provider.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L7/43-use-areas-hook.md": {
+      "title": "Create useAreas hook",
+      "layer": 7,
+      "effort": "S",
+      "depends_on": ["L2/11-areas-api.md", "L3/16-react-query-provider.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L8/44-root-layout.md": {
+      "title": "Create root layout (app/layout.tsx)",
+      "layer": 8,
+      "effort": "S",
+      "depends_on": ["L6/34-sidebar.md", "L6/35-header.md", "L6/36-main-content.md", "L3/16-react-query-provider.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L8/45-dashboard-page.md": {
+      "title": "Create Dashboard page (app/page.tsx)",
+      "layer": 8,
+      "effort": "L",
+      "depends_on": ["L6/37-quick-capture.md", "L7/38-use-tasks-hook.md", "L7/39-use-projects-hook.md", "L3/13-task-store.md", "L3/15-gtd-store.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L8/46-inbox-page.md": {
+      "title": "Create Inbox page (app/inbox/page.tsx)",
+      "layer": 8,
+      "effort": "L",
+      "depends_on": ["L5/27-task-list.md", "L7/40-use-inbox-hook.md", "L5/29-task-form.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L8/47-tasks-page.md": {
+      "title": "Create Tasks page (app/tasks/page.tsx)",
+      "layer": 8,
+      "effort": "L",
+      "depends_on": ["L5/27-task-list.md", "L7/38-use-tasks-hook.md", "L5/28-task-filters.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L8/48-next-actions-page.md": {
+      "title": "Create Next Actions page (app/tasks/next-actions/page.tsx)",
+      "layer": 8,
+      "effort": "M",
+      "depends_on": ["L5/27-task-list.md", "L7/38-use-tasks-hook.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L8/49-projects-page.md": {
+      "title": "Create Projects list page (app/projects/page.tsx)",
+      "layer": 8,
+      "effort": "L",
+      "depends_on": ["L5/31-project-list.md", "L7/39-use-projects-hook.md", "L5/32-project-form.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L8/50-project-details-page.md": {
+      "title": "Create Project details page (app/projects/[id]/page.tsx)",
+      "layer": 8,
+      "effort": "L",
+      "depends_on": ["L5/27-task-list.md", "L5/30-project-card.md", "L7/38-use-tasks-hook.md", "L7/39-use-projects-hook.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L8/51-areas-page.md": {
+      "title": "Create Areas page (app/areas/page.tsx)",
+      "layer": 8,
+      "effort": "M",
+      "depends_on": ["L7/43-use-areas-hook.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L8/52-contexts-page.md": {
+      "title": "Create Contexts page (app/contexts/page.tsx)",
+      "layer": 8,
+      "effort": "M",
+      "depends_on": ["L7/42-use-contexts-hook.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L8/53-tags-page.md": {
+      "title": "Create Tags page (app/tags/page.tsx)",
+      "layer": 8,
+      "effort": "M",
+      "depends_on": ["L7/41-use-tags-hook.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L8/54-review-page.md": {
+      "title": "Create Weekly Review page (app/review/page.tsx)",
+      "layer": 8,
+      "effort": "L",
+      "depends_on": ["L7/40-use-inbox-hook.md", "L7/38-use-tasks-hook.md", "L7/39-use-projects-hook.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L9/55-readme.md": {
+      "title": "Create README.md",
+      "layer": 9,
+      "effort": "S",
+      "depends_on": [],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L9/56-env-setup.md": {
+      "title": "Create environment setup docs",
+      "layer": 9,
+      "effort": "XS",
+      "depends_on": ["L0/01-init-project.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L9/57-agents-update.md": {
+      "title": "Update AGENTS.md with build/test commands",
+      "layer": 9,
+      "effort": "XS",
+      "depends_on": ["L9/55-readme.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L10/58-error-boundaries.md": {
+      "title": "Add error boundaries",
+      "layer": 10,
+      "effort": "M",
+      "depends_on": ["L8/44-root-layout.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L10/59-loading-states.md": {
+      "title": "Add loading states",
+      "layer": 10,
+      "effort": "M",
+      "depends_on": ["L4/25-spinner.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L10/60-optimistic-updates.md": {
+      "title": "Add optimistic updates",
+      "layer": 10,
+      "effort": "L",
+      "depends_on": ["L7/38-use-tasks-hook.md", "L7/39-use-projects-hook.md", "L7/40-use-inbox-hook.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    }
+  }
+}
