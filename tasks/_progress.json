@@ -320,8 +320,8 @@
       "layer": 6,
       "effort": "XS",
       "depends_on": ["L6/34-sidebar.md", "L6/35-header.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "MainContent component created with responsive padding, centered container, and proper spacing."
     },
     "L6/37-quick-capture.md": {
       "title": "Create QuickCapture component",
@@ -384,7 +384,7 @@
       "layer": 8,
       "effort": "S",
       "depends_on": ["L6/34-sidebar.md", "L6/35-header.md", "L6/36-main-content.md", "L3/16-react-query-provider.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L8/45-dashboard-page.md": {
