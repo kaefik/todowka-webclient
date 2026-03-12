@@ -96,8 +96,8 @@
       "layer": 2,
       "effort": "S",
       "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Notifications API module created with full CRUD operations."
     },
     "L3/13-task-store.md": {
       "title": "Create Task store (Zustand)",
