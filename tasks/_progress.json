@@ -368,8 +368,8 @@
       "layer": 7,
       "effort": "S",
       "depends_on": ["L2/10-contexts-api.md", "L3/16-react-query-provider.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "useContexts hook created with all CRUD operations (useContexts, useContext, useCreateContext, useUpdateContext, useDeleteContext)."
     },
     "L7/43-use-areas-hook.md": {
       "title": "Create useAreas hook",
@@ -448,7 +448,7 @@
       "layer": 8,
       "effort": "M",
       "depends_on": ["L7/42-use-contexts-hook.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L8/53-tags-page.md": {
