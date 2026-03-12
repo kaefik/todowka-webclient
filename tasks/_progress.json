@@ -328,8 +328,8 @@
       "layer": 6,
       "effort": "M",
       "depends_on": ["L4/17-button.md", "L4/19-input-textarea.md", "L5/29-task-form.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "QuickCapture component created with input, submit button, useCreateInboxTask integration, form clearing, and loading state."
     },
     "L7/38-use-tasks-hook.md": {
       "title": "Create useTasks hook",
