@@ -384,8 +384,8 @@
       "layer": 8,
       "effort": "S",
       "depends_on": ["L6/34-sidebar.md", "L6/35-header.md", "L6/36-main-content.md", "L3/16-react-query-provider.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Root layout updated with Sidebar and MainContent components, integrated with QueryClientProvider."
     },
     "L8/45-dashboard-page.md": {
       "title": "Create Dashboard page (app/page.tsx)",
@@ -496,7 +496,7 @@
       "layer": 10,
       "effort": "M",
       "depends_on": ["L8/44-root-layout.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L10/59-loading-states.md": {
