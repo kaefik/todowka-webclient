@@ -216,7 +216,7 @@
       "layer": 4,
       "effort": "M",
       "depends_on": ["L4/17-button.md", "L4/18-card.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L4/24-empty-state.md": {
