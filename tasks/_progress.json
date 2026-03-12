@@ -192,8 +192,8 @@
       "layer": 4,
       "effort": "S",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Select component created with dropdown functionality and click outside handling."
     },
     "L4/21-checkbox.md": {
       "title": "Create Checkbox component",
