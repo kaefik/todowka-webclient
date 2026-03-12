@@ -316,8 +316,8 @@
         "L4/22-badge.md",
         "L1/04-types-file.md"
       ],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "ProjectCard component created with project display, progress bar, task count, and action buttons."
     },
     "L5/31-project-list.md": {
       "title": "Create ProjectList component",
@@ -326,7 +326,7 @@
       "depends_on": [
         "L5/30-project-card.md"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L5/32-project-form.md": {
