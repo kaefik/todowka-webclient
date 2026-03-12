@@ -64,8 +64,8 @@
       "layer": 2,
       "effort": "S",
       "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Inbox API module created with getAll and create operations."
     },
     "L2/09-tags-api.md": {
       "title": "Create tags API module",
