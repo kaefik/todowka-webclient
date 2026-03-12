@@ -268,8 +268,8 @@
         "L4/22-badge.md",
         "L1/04-types-file.md"
       ],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "TaskItem component created with task display, badges, and action buttons (Edit, Next, Complete, Delete)."
     },
     "L5/27-task-list.md": {
       "title": "Create TaskList component",
@@ -278,7 +278,7 @@
       "depends_on": [
         "L5/26-task-item.md"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L5/28-task-filters.md": {
