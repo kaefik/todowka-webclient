@@ -160,8 +160,8 @@
       "layer": 3,
       "effort": "M",
       "depends_on": ["L0/01-init-project.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "React Query client provider configured with default options and devtools."
     },
     "L4/17-button.md": {
       "title": "Create Button component",
