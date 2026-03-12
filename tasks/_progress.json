@@ -24,15 +24,15 @@
       "layer": 0,
       "effort": "XS",
       "depends_on": ["L0/01-init-project.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Complete directory structure created with placeholder pages for all routes."
     },
     "L1/04-types-file.md": {
       "title": "Create TypeScript types file",
       "layer": 1,
       "effort": "S",
       "depends_on": ["L0/03-directory-structure.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L2/05-api-client.md": {
