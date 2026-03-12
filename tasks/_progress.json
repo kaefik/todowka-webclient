@@ -278,8 +278,8 @@
       "depends_on": [
         "L5/26-task-item.md"
       ],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "TaskList component created with EmptyState support and proper React list rendering."
     },
     "L5/28-task-filters.md": {
       "title": "Create TaskFilters component",
@@ -496,7 +496,7 @@
         "L7/40-use-inbox-hook.md",
         "L5/29-task-form.md"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L8/47-tasks-page.md": {
@@ -508,7 +508,7 @@
         "L7/38-use-tasks-hook.md",
         "L5/28-task-filters.md"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L8/48-next-actions-page.md": {
@@ -519,7 +519,7 @@
         "L5/27-task-list.md",
         "L7/38-use-tasks-hook.md"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L8/49-projects-page.md": {
@@ -544,7 +544,7 @@
         "L7/38-use-tasks-hook.md",
         "L7/39-use-projects-hook.md"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L8/51-areas-page.md": {
