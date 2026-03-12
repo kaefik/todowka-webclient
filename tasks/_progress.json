@@ -496,8 +496,8 @@
         "L7/40-use-inbox-hook.md",
         "L5/29-task-form.md"
       ],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Inbox page created with TaskList, TaskForm modal for clarifying tasks, and delete confirmation. Process All button added."
     },
     "L8/47-tasks-page.md": {
       "title": "Create Tasks page (app/tasks/page.tsx)",
