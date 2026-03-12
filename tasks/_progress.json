@@ -40,6 +40,62 @@
       "layer": 2,
       "effort": "S",
       "depends_on": ["L1/04-types-file.md"],
+      "status": "DONE",
+      "completed_output": "TodoAPIClient base class implemented with GET, POST, PUT, DELETE methods and error handling."
+    },
+    "L2/06-tasks-api.md": {
+      "title": "Create tasks API module",
+      "layer": 2,
+      "effort": "M",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L2/07-projects-api.md": {
+      "title": "Create projects API module",
+      "layer": 2,
+      "effort": "M",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L2/08-inbox-api.md": {
+      "title": "Create inbox API module",
+      "layer": 2,
+      "effort": "S",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L2/09-tags-api.md": {
+      "title": "Create tags API module",
+      "layer": 2,
+      "effort": "S",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L2/10-contexts-api.md": {
+      "title": "Create contexts API module",
+      "layer": 2,
+      "effort": "S",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L2/11-areas-api.md": {
+      "title": "Create areas API module",
+      "layer": 2,
+      "effort": "S",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L2/12-notifications-api.md": {
+      "title": "Create notifications API module",
+      "layer": 2,
+      "effort": "S",
+      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
       "status": "READY",
       "completed_output": null
     },
