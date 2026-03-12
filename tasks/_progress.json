@@ -264,8 +264,8 @@
       "layer": 5,
       "effort": "M",
       "depends_on": ["L4/17-button.md", "L4/19-input-textarea.md", "L4/20-select.md", "L4/21-checkbox.md", "L1/04-types-file.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "TaskForm component created with React Hook Form, Zod validation, and support for all task fields (title, description, priority, project, context, tags)."
     },
     "L5/30-project-card.md": {
       "title": "Create ProjectCard component",
@@ -328,7 +328,7 @@
       "layer": 6,
       "effort": "M",
       "depends_on": ["L4/17-button.md", "L4/19-input-textarea.md", "L5/29-task-form.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L7/38-use-tasks-hook.md": {
