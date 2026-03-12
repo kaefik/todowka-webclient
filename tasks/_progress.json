@@ -216,8 +216,8 @@
       "layer": 4,
       "effort": "M",
       "depends_on": ["L4/17-button.md", "L4/18-card.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Modal component created with open/close state and backdrop."
     },
     "L4/24-empty-state.md": {
       "title": "Create EmptyState component",
