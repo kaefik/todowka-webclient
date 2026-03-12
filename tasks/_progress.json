@@ -480,8 +480,8 @@
       "layer": 9,
       "effort": "XS",
       "depends_on": ["L0/01-init-project.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Environment setup docs created with .env.local.example and SETUP.md."
     },
     "L9/57-agents-update.md": {
       "title": "Update AGENTS.md with build/test commands",
