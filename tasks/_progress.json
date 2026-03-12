@@ -544,8 +544,8 @@
         "L7/38-use-tasks-hook.md",
         "L7/39-use-projects-hook.md"
       ],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Project details page created with ProjectCard, TaskList filtered by project_id, and add task modal with TaskForm."
     },
     "L8/51-areas-page.md": {
       "title": "Create Areas page (app/areas/page.tsx)",
