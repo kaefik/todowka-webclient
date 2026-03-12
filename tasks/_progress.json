@@ -120,8 +120,8 @@
       "layer": 3,
       "effort": "S",
       "depends_on": ["L1/04-types-file.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "GTD store created with inboxCount, nextActionsCount, and reviewMode state."
     },
     "L4/22-badge.md": {
       "title": "Create Badge component",
