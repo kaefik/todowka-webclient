@@ -326,8 +326,8 @@
       "depends_on": [
         "L5/30-project-card.md"
       ],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "ProjectList component created with responsive grid layout (1-2-3 columns) and EmptyState support."
     },
     "L5/32-project-form.md": {
       "title": "Create ProjectForm component",
@@ -531,7 +531,7 @@
         "L7/39-use-projects-hook.md",
         "L5/32-project-form.md"
       ],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L8/50-project-details-page.md": {
