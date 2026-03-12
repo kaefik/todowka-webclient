@@ -312,15 +312,15 @@
       "layer": 6,
       "effort": "S",
       "depends_on": ["L4/17-button.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Header component created with mobile menu toggle and page title display."
     },
     "L6/36-main-content.md": {
       "title": "Create MainContent component",
       "layer": 6,
       "effort": "XS",
       "depends_on": ["L6/34-sidebar.md", "L6/35-header.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L6/37-quick-capture.md": {
