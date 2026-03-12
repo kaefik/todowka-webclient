@@ -586,8 +586,8 @@
         "L7/38-use-tasks-hook.md",
         "L7/39-use-projects-hook.md"
       ],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Weekly Review page created with 4-step workflow (inbox, projects, next-actions, someday) with step navigation and TaskList/ProjectList integration."
     },
     "L9/55-readme.md": {
       "title": "Create README.md",
