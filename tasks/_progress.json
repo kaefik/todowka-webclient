@@ -304,8 +304,8 @@
       "layer": 6,
       "effort": "M",
       "depends_on": ["L4/17-button.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Sidebar component created with navigation, responsive design, active route highlighting, and integration with useNavigationStore."
     },
     "L6/35-header.md": {
       "title": "Create Header component",
