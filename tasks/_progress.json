@@ -8,15 +8,15 @@
       "layer": 0,
       "effort": "S",
       "depends_on": [],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Next.js 14 project initialized with TypeScript, Tailwind CSS, and all required dependencies. Dev server runs successfully on localhost:3000."
     },
     "L0/02-tailwind-config.md": {
       "title": "Configure Tailwind CSS & design tokens",
       "layer": 0,
       "effort": "S",
       "depends_on": ["L0/01-init-project.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L0/03-directory-structure.md": {
@@ -24,7 +24,7 @@
       "layer": 0,
       "effort": "XS",
       "depends_on": ["L0/01-init-project.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L1/04-types-file.md": {
@@ -128,7 +128,7 @@
       "layer": 3,
       "effort": "M",
       "depends_on": ["L0/01-init-project.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L4/17-button.md": {
@@ -448,7 +448,7 @@
       "layer": 9,
       "effort": "XS",
       "depends_on": ["L0/01-init-project.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L9/57-agents-update.md": {
