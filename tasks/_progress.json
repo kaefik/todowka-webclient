@@ -15,7 +15,9 @@
       "title": "Configure Tailwind CSS & design tokens",
       "layer": 0,
       "effort": "S",
-      "depends_on": ["L0/01-init-project.md"],
+      "depends_on": [
+        "L0/01-init-project.md"
+      ],
       "status": "DONE",
       "completed_output": "Tailwind CSS configured with custom colors and design tokens. Base styles applied in globals.css."
     },
@@ -23,7 +25,9 @@
       "title": "Setup directory structure",
       "layer": 0,
       "effort": "XS",
-      "depends_on": ["L0/01-init-project.md"],
+      "depends_on": [
+        "L0/01-init-project.md"
+      ],
       "status": "DONE",
       "completed_output": "Complete directory structure created with placeholder pages for all routes."
     },
@@ -31,7 +35,9 @@
       "title": "Create TypeScript types file",
       "layer": 1,
       "effort": "S",
-      "depends_on": ["L0/03-directory-structure.md"],
+      "depends_on": [
+        "L0/03-directory-structure.md"
+      ],
       "status": "DONE",
       "completed_output": "All TypeScript types defined matching API schemas."
     },
@@ -39,7 +45,9 @@
       "title": "Implement TodoAPIClient base class",
       "layer": 2,
       "effort": "S",
-      "depends_on": ["L1/04-types-file.md"],
+      "depends_on": [
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "TodoAPIClient base class implemented with GET, POST, PUT, DELETE methods and error handling."
     },
@@ -47,7 +55,10 @@
       "title": "Create tasks API module",
       "layer": 2,
       "effort": "M",
-      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "depends_on": [
+        "L2/05-api-client.md",
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "Tasks API module created with full CRUD operations and filtering support."
     },
@@ -55,7 +66,10 @@
       "title": "Create projects API module",
       "layer": 2,
       "effort": "M",
-      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "depends_on": [
+        "L2/05-api-client.md",
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "Projects API module created with full CRUD operations and pagination support."
     },
@@ -63,7 +77,10 @@
       "title": "Create inbox API module",
       "layer": 2,
       "effort": "S",
-      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "depends_on": [
+        "L2/05-api-client.md",
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "Inbox API module created with getAll and create operations."
     },
@@ -71,7 +88,10 @@
       "title": "Create tags API module",
       "layer": 2,
       "effort": "S",
-      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "depends_on": [
+        "L2/05-api-client.md",
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "Tags API module created with full CRUD operations."
     },
@@ -79,7 +99,10 @@
       "title": "Create contexts API module",
       "layer": 2,
       "effort": "S",
-      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "depends_on": [
+        "L2/05-api-client.md",
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "Contexts API module created with full CRUD operations."
     },
@@ -87,7 +110,10 @@
       "title": "Create areas API module",
       "layer": 2,
       "effort": "S",
-      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "depends_on": [
+        "L2/05-api-client.md",
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "Areas API module created with full CRUD operations."
     },
@@ -95,7 +121,10 @@
       "title": "Create notifications API module",
       "layer": 2,
       "effort": "S",
-      "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
+      "depends_on": [
+        "L2/05-api-client.md",
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "Notifications API module created with full CRUD operations."
     },
@@ -103,7 +132,9 @@
       "title": "Create Task store (Zustand)",
       "layer": 3,
       "effort": "S",
-      "depends_on": ["L1/04-types-file.md"],
+      "depends_on": [
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "Task store created with selectedTask, filters, and viewMode state."
     },
@@ -111,7 +142,9 @@
       "title": "Create Navigation store (Zustand)",
       "layer": 3,
       "effort": "S",
-      "depends_on": ["L1/04-types-file.md"],
+      "depends_on": [
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "Navigation store created with currentPage and sidebarOpen state with persistence."
     },
@@ -119,7 +152,9 @@
       "title": "Create GTD store (Zustand)",
       "layer": 3,
       "effort": "S",
-      "depends_on": ["L1/04-types-file.md"],
+      "depends_on": [
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "GTD store created with inboxCount, nextActionsCount, and reviewMode state."
     },
@@ -127,39 +162,20 @@
       "title": "Create Badge component",
       "layer": 4,
       "effort": "S",
-      "depends_on": ["L0/02-tailwind-config.md", "L1/04-types-file.md"],
+      "depends_on": [
+        "L0/02-tailwind-config.md",
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "Badge component created with status and priority color variants."
-    },
-    "L3/13-task-store.md": {
-      "title": "Create Task store (Zustand)",
-      "layer": 3,
-      "effort": "S",
-      "depends_on": ["L1/04-types-file.md"],
-      "status": "BLOCKED",
-      "completed_output": null
-    },
-    "L3/14-navigation-store.md": {
-      "title": "Create Navigation store (Zustand)",
-      "layer": 3,
-      "effort": "S",
-      "depends_on": ["L1/04-types-file.md"],
-      "status": "BLOCKED",
-      "completed_output": null
-    },
-    "L3/15-gtd-store.md": {
-      "title": "Create GTD store (Zustand)",
-      "layer": 3,
-      "effort": "S",
-      "depends_on": ["L1/04-types-file.md"],
-      "status": "BLOCKED",
-      "completed_output": null
     },
     "L3/16-react-query-provider.md": {
       "title": "Setup React Query client provider",
       "layer": 3,
       "effort": "M",
-      "depends_on": ["L0/01-init-project.md"],
+      "depends_on": [
+        "L0/01-init-project.md"
+      ],
       "status": "DONE",
       "completed_output": "React Query client provider configured with default options and devtools."
     },
@@ -167,7 +183,9 @@
       "title": "Create Button component",
       "layer": 4,
       "effort": "S",
-      "depends_on": ["L0/02-tailwind-config.md"],
+      "depends_on": [
+        "L0/02-tailwind-config.md"
+      ],
       "status": "DONE",
       "completed_output": "Button component created with primary, secondary, ghost, and destructive variants and sm, md, lg sizes."
     },
@@ -175,7 +193,9 @@
       "title": "Create Card component",
       "layer": 4,
       "effort": "S",
-      "depends_on": ["L0/02-tailwind-config.md"],
+      "depends_on": [
+        "L0/02-tailwind-config.md"
+      ],
       "status": "DONE",
       "completed_output": "Card component created with CardHeader, CardContent, and CardFooter subcomponents."
     },
@@ -183,7 +203,9 @@
       "title": "Create Input & Textarea components",
       "layer": 4,
       "effort": "S",
-      "depends_on": ["L0/02-tailwind-config.md"],
+      "depends_on": [
+        "L0/02-tailwind-config.md"
+      ],
       "status": "DONE",
       "completed_output": "Input and Textarea components created with focus states and proper styling."
     },
@@ -191,7 +213,9 @@
       "title": "Create Select component",
       "layer": 4,
       "effort": "S",
-      "depends_on": ["L0/02-tailwind-config.md"],
+      "depends_on": [
+        "L0/02-tailwind-config.md"
+      ],
       "status": "DONE",
       "completed_output": "Select component created with dropdown functionality and click outside handling."
     },
@@ -199,23 +223,20 @@
       "title": "Create Checkbox component",
       "layer": 4,
       "effort": "S",
-      "depends_on": ["L0/02-tailwind-config.md"],
+      "depends_on": [
+        "L0/02-tailwind-config.md"
+      ],
       "status": "DONE",
       "completed_output": "Checkbox component created with label support and custom onChange handler."
-    },
-    "L4/22-badge.md": {
-      "title": "Create Badge component",
-      "layer": 4,
-      "effort": "S",
-      "depends_on": ["L0/02-tailwind-config.md", "L1/04-types-file.md"],
-      "status": "BLOCKED",
-      "completed_output": null
     },
     "L4/23-modal.md": {
       "title": "Create Modal component",
       "layer": 4,
       "effort": "M",
-      "depends_on": ["L4/17-button.md", "L4/18-card.md"],
+      "depends_on": [
+        "L4/17-button.md",
+        "L4/18-card.md"
+      ],
       "status": "DONE",
       "completed_output": "Modal component created with open/close state and backdrop."
     },
@@ -223,7 +244,9 @@
       "title": "Create EmptyState component",
       "layer": 4,
       "effort": "S",
-      "depends_on": ["L0/02-tailwind-config.md"],
+      "depends_on": [
+        "L0/02-tailwind-config.md"
+      ],
       "status": "DONE",
       "completed_output": "EmptyState component created with icon, title, description, and action props."
     },
@@ -231,7 +254,9 @@
       "title": "Create Spinner component",
       "layer": 4,
       "effort": "XS",
-      "depends_on": ["L0/02-tailwind-config.md"],
+      "depends_on": [
+        "L0/02-tailwind-config.md"
+      ],
       "status": "DONE",
       "completed_output": "Spinner component created with sm, md, lg sizes."
     },
@@ -239,15 +264,20 @@
       "title": "Create TaskItem component",
       "layer": 5,
       "effort": "M",
-      "depends_on": ["L4/22-badge.md", "L1/04-types-file.md"],
-      "status": "BLOCKED",
+      "depends_on": [
+        "L4/22-badge.md",
+        "L1/04-types-file.md"
+      ],
+      "status": "READY",
       "completed_output": null
     },
     "L5/27-task-list.md": {
       "title": "Create TaskList component",
       "layer": 5,
       "effort": "M",
-      "depends_on": ["L5/26-task-item.md"],
+      "depends_on": [
+        "L5/26-task-item.md"
+      ],
       "status": "BLOCKED",
       "completed_output": null
     },
@@ -255,15 +285,26 @@
       "title": "Create TaskFilters component",
       "layer": 5,
       "effort": "S",
-      "depends_on": ["L4/19-input-textarea.md", "L4/20-select.md", "L4/22-badge.md", "L1/04-types-file.md"],
-      "status": "BLOCKED",
+      "depends_on": [
+        "L4/19-input-textarea.md",
+        "L4/20-select.md",
+        "L4/22-badge.md",
+        "L1/04-types-file.md"
+      ],
+      "status": "READY",
       "completed_output": null
     },
     "L5/29-task-form.md": {
       "title": "Create TaskForm component",
       "layer": 5,
       "effort": "M",
-      "depends_on": ["L4/17-button.md", "L4/19-input-textarea.md", "L4/20-select.md", "L4/21-checkbox.md", "L1/04-types-file.md"],
+      "depends_on": [
+        "L4/17-button.md",
+        "L4/19-input-textarea.md",
+        "L4/20-select.md",
+        "L4/21-checkbox.md",
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "TaskForm component created with React Hook Form, Zod validation, and support for all task fields (title, description, priority, project, context, tags)."
     },
@@ -271,15 +312,20 @@
       "title": "Create ProjectCard component",
       "layer": 5,
       "effort": "M",
-      "depends_on": ["L4/22-badge.md", "L1/04-types-file.md"],
-      "status": "BLOCKED",
+      "depends_on": [
+        "L4/22-badge.md",
+        "L1/04-types-file.md"
+      ],
+      "status": "READY",
       "completed_output": null
     },
     "L5/31-project-list.md": {
       "title": "Create ProjectList component",
       "layer": 5,
       "effort": "M",
-      "depends_on": ["L5/30-project-card.md"],
+      "depends_on": [
+        "L5/30-project-card.md"
+      ],
       "status": "BLOCKED",
       "completed_output": null
     },
@@ -287,7 +333,11 @@
       "title": "Create ProjectForm component",
       "layer": 5,
       "effort": "M",
-      "depends_on": ["L4/17-button.md", "L4/19-input-textarea.md", "L1/04-types-file.md"],
+      "depends_on": [
+        "L4/17-button.md",
+        "L4/19-input-textarea.md",
+        "L1/04-types-file.md"
+      ],
       "status": "DONE",
       "completed_output": "ProjectForm component created with React Hook Form, Zod validation, and support for name, description, and area fields."
     },
@@ -295,7 +345,9 @@
       "title": "Create ProgressBar component",
       "layer": 5,
       "effort": "S",
-      "depends_on": ["L0/02-tailwind-config.md"],
+      "depends_on": [
+        "L0/02-tailwind-config.md"
+      ],
       "status": "DONE",
       "completed_output": "ProgressBar component created with clamped progress and smooth transition."
     },
@@ -303,7 +355,9 @@
       "title": "Create Sidebar component",
       "layer": 6,
       "effort": "M",
-      "depends_on": ["L4/17-button.md"],
+      "depends_on": [
+        "L4/17-button.md"
+      ],
       "status": "DONE",
       "completed_output": "Sidebar component created with navigation, responsive design, active route highlighting, and integration with useNavigationStore."
     },
@@ -311,7 +365,9 @@
       "title": "Create Header component",
       "layer": 6,
       "effort": "S",
-      "depends_on": ["L4/17-button.md"],
+      "depends_on": [
+        "L4/17-button.md"
+      ],
       "status": "DONE",
       "completed_output": "Header component created with mobile menu toggle and page title display."
     },
@@ -319,7 +375,10 @@
       "title": "Create MainContent component",
       "layer": 6,
       "effort": "XS",
-      "depends_on": ["L6/34-sidebar.md", "L6/35-header.md"],
+      "depends_on": [
+        "L6/34-sidebar.md",
+        "L6/35-header.md"
+      ],
       "status": "DONE",
       "completed_output": "MainContent component created with responsive padding, centered container, and proper spacing."
     },
@@ -327,7 +386,11 @@
       "title": "Create QuickCapture component",
       "layer": 6,
       "effort": "M",
-      "depends_on": ["L4/17-button.md", "L4/19-input-textarea.md", "L5/29-task-form.md"],
+      "depends_on": [
+        "L4/17-button.md",
+        "L4/19-input-textarea.md",
+        "L5/29-task-form.md"
+      ],
       "status": "DONE",
       "completed_output": "QuickCapture component created with input, submit button, useCreateInboxTask integration, form clearing, and loading state."
     },
@@ -335,7 +398,10 @@
       "title": "Create useTasks hook",
       "layer": 7,
       "effort": "M",
-      "depends_on": ["L2/06-tasks-api.md", "L3/16-react-query-provider.md"],
+      "depends_on": [
+        "L2/06-tasks-api.md",
+        "L3/16-react-query-provider.md"
+      ],
       "status": "DONE",
       "completed_output": "useTasks hook created with all mutations and query invalidation."
     },
@@ -343,7 +409,10 @@
       "title": "Create useProjects hook",
       "layer": 7,
       "effort": "M",
-      "depends_on": ["L2/07-projects-api.md", "L3/16-react-query-provider.md"],
+      "depends_on": [
+        "L2/07-projects-api.md",
+        "L3/16-react-query-provider.md"
+      ],
       "status": "DONE",
       "completed_output": "useProjects hook created with all CRUD operations including complete, with pagination support."
     },
@@ -351,7 +420,10 @@
       "title": "Create useInbox hook",
       "layer": 7,
       "effort": "M",
-      "depends_on": ["L2/08-inbox-api.md", "L3/16-react-query-provider.md"],
+      "depends_on": [
+        "L2/08-inbox-api.md",
+        "L3/16-react-query-provider.md"
+      ],
       "status": "DONE",
       "completed_output": "useInbox hook created with useInbox and useCreateInboxTask hooks, invalidating both inbox and tasks queries."
     },
@@ -359,7 +431,10 @@
       "title": "Create useTags hook",
       "layer": 7,
       "effort": "S",
-      "depends_on": ["L2/09-tags-api.md", "L3/16-react-query-provider.md"],
+      "depends_on": [
+        "L2/09-tags-api.md",
+        "L3/16-react-query-provider.md"
+      ],
       "status": "DONE",
       "completed_output": "useTags hook created with all CRUD operations (useTags, useTag, useCreateTag, useUpdateTag, useDeleteTag)."
     },
@@ -367,7 +442,10 @@
       "title": "Create useContexts hook",
       "layer": 7,
       "effort": "S",
-      "depends_on": ["L2/10-contexts-api.md", "L3/16-react-query-provider.md"],
+      "depends_on": [
+        "L2/10-contexts-api.md",
+        "L3/16-react-query-provider.md"
+      ],
       "status": "DONE",
       "completed_output": "useContexts hook created with all CRUD operations (useContexts, useContext, useCreateContext, useUpdateContext, useDeleteContext)."
     },
@@ -375,7 +453,10 @@
       "title": "Create useAreas hook",
       "layer": 7,
       "effort": "S",
-      "depends_on": ["L2/11-areas-api.md", "L3/16-react-query-provider.md"],
+      "depends_on": [
+        "L2/11-areas-api.md",
+        "L3/16-react-query-provider.md"
+      ],
       "status": "DONE",
       "completed_output": "useAreas hook created with all CRUD operations (useAreas, useArea, useCreateArea, useUpdateArea, useDeleteArea)."
     },
@@ -383,7 +464,12 @@
       "title": "Create root layout (app/layout.tsx)",
       "layer": 8,
       "effort": "S",
-      "depends_on": ["L6/34-sidebar.md", "L6/35-header.md", "L6/36-main-content.md", "L3/16-react-query-provider.md"],
+      "depends_on": [
+        "L6/34-sidebar.md",
+        "L6/35-header.md",
+        "L6/36-main-content.md",
+        "L3/16-react-query-provider.md"
+      ],
       "status": "DONE",
       "completed_output": "Root layout updated with Sidebar and MainContent components, integrated with QueryClientProvider."
     },
@@ -391,15 +477,25 @@
       "title": "Create Dashboard page (app/page.tsx)",
       "layer": 8,
       "effort": "L",
-      "depends_on": ["L6/37-quick-capture.md", "L7/38-use-tasks-hook.md", "L7/39-use-projects-hook.md", "L3/13-task-store.md", "L3/15-gtd-store.md"],
-      "status": "BLOCKED",
+      "depends_on": [
+        "L6/37-quick-capture.md",
+        "L7/38-use-tasks-hook.md",
+        "L7/39-use-projects-hook.md",
+        "L3/13-task-store.md",
+        "L3/15-gtd-store.md"
+      ],
+      "status": "READY",
       "completed_output": null
     },
     "L8/46-inbox-page.md": {
       "title": "Create Inbox page (app/inbox/page.tsx)",
       "layer": 8,
       "effort": "L",
-      "depends_on": ["L5/27-task-list.md", "L7/40-use-inbox-hook.md", "L5/29-task-form.md"],
+      "depends_on": [
+        "L5/27-task-list.md",
+        "L7/40-use-inbox-hook.md",
+        "L5/29-task-form.md"
+      ],
       "status": "BLOCKED",
       "completed_output": null
     },
@@ -407,7 +503,11 @@
       "title": "Create Tasks page (app/tasks/page.tsx)",
       "layer": 8,
       "effort": "L",
-      "depends_on": ["L5/27-task-list.md", "L7/38-use-tasks-hook.md", "L5/28-task-filters.md"],
+      "depends_on": [
+        "L5/27-task-list.md",
+        "L7/38-use-tasks-hook.md",
+        "L5/28-task-filters.md"
+      ],
       "status": "BLOCKED",
       "completed_output": null
     },
@@ -415,7 +515,10 @@
       "title": "Create Next Actions page (app/tasks/next-actions/page.tsx)",
       "layer": 8,
       "effort": "M",
-      "depends_on": ["L5/27-task-list.md", "L7/38-use-tasks-hook.md"],
+      "depends_on": [
+        "L5/27-task-list.md",
+        "L7/38-use-tasks-hook.md"
+      ],
       "status": "BLOCKED",
       "completed_output": null
     },
@@ -423,7 +526,11 @@
       "title": "Create Projects list page (app/projects/page.tsx)",
       "layer": 8,
       "effort": "L",
-      "depends_on": ["L5/31-project-list.md", "L7/39-use-projects-hook.md", "L5/32-project-form.md"],
+      "depends_on": [
+        "L5/31-project-list.md",
+        "L7/39-use-projects-hook.md",
+        "L5/32-project-form.md"
+      ],
       "status": "BLOCKED",
       "completed_output": null
     },
@@ -431,7 +538,12 @@
       "title": "Create Project details page (app/projects/[id]/page.tsx)",
       "layer": 8,
       "effort": "L",
-      "depends_on": ["L5/27-task-list.md", "L5/30-project-card.md", "L7/38-use-tasks-hook.md", "L7/39-use-projects-hook.md"],
+      "depends_on": [
+        "L5/27-task-list.md",
+        "L5/30-project-card.md",
+        "L7/38-use-tasks-hook.md",
+        "L7/39-use-projects-hook.md"
+      ],
       "status": "BLOCKED",
       "completed_output": null
     },
@@ -439,7 +551,9 @@
       "title": "Create Areas page (app/areas/page.tsx)",
       "layer": 8,
       "effort": "M",
-      "depends_on": ["L7/43-use-areas-hook.md"],
+      "depends_on": [
+        "L7/43-use-areas-hook.md"
+      ],
       "status": "READY",
       "completed_output": null
     },
@@ -447,7 +561,9 @@
       "title": "Create Contexts page (app/contexts/page.tsx)",
       "layer": 8,
       "effort": "M",
-      "depends_on": ["L7/42-use-contexts-hook.md"],
+      "depends_on": [
+        "L7/42-use-contexts-hook.md"
+      ],
       "status": "READY",
       "completed_output": null
     },
@@ -455,7 +571,9 @@
       "title": "Create Tags page (app/tags/page.tsx)",
       "layer": 8,
       "effort": "M",
-      "depends_on": ["L7/41-use-tags-hook.md"],
+      "depends_on": [
+        "L7/41-use-tags-hook.md"
+      ],
       "status": "READY",
       "completed_output": null
     },
@@ -463,8 +581,12 @@
       "title": "Create Weekly Review page (app/review/page.tsx)",
       "layer": 8,
       "effort": "L",
-      "depends_on": ["L7/40-use-inbox-hook.md", "L7/38-use-tasks-hook.md", "L7/39-use-projects-hook.md"],
-      "status": "BLOCKED",
+      "depends_on": [
+        "L7/40-use-inbox-hook.md",
+        "L7/38-use-tasks-hook.md",
+        "L7/39-use-projects-hook.md"
+      ],
+      "status": "READY",
       "completed_output": null
     },
     "L9/55-readme.md": {
@@ -479,7 +601,9 @@
       "title": "Create environment setup docs",
       "layer": 9,
       "effort": "XS",
-      "depends_on": ["L0/01-init-project.md"],
+      "depends_on": [
+        "L0/01-init-project.md"
+      ],
       "status": "DONE",
       "completed_output": "Environment setup docs created with .env.local.example and SETUP.md."
     },
@@ -487,7 +611,9 @@
       "title": "Update AGENTS.md with build/test commands",
       "layer": 9,
       "effort": "XS",
-      "depends_on": ["L9/55-readme.md"],
+      "depends_on": [
+        "L9/55-readme.md"
+      ],
       "status": "DONE",
       "completed_output": "AGENTS.md created with all build, test, and development commands."
     },
@@ -495,7 +621,9 @@
       "title": "Add error boundaries",
       "layer": 10,
       "effort": "M",
-      "depends_on": ["L8/44-root-layout.md"],
+      "depends_on": [
+        "L8/44-root-layout.md"
+      ],
       "status": "READY",
       "completed_output": null
     },
@@ -503,7 +631,9 @@
       "title": "Add loading states",
       "layer": 10,
       "effort": "M",
-      "depends_on": ["L4/25-spinner.md"],
+      "depends_on": [
+        "L4/25-spinner.md"
+      ],
       "status": "READY",
       "completed_output": null
     },
@@ -511,8 +641,12 @@
       "title": "Add optimistic updates",
       "layer": 10,
       "effort": "L",
-      "depends_on": ["L7/38-use-tasks-hook.md", "L7/39-use-projects-hook.md", "L7/40-use-inbox-hook.md"],
-      "status": "BLOCKED",
+      "depends_on": [
+        "L7/38-use-tasks-hook.md",
+        "L7/39-use-projects-hook.md",
+        "L7/40-use-inbox-hook.md"
+      ],
+      "status": "READY",
       "completed_output": null
     }
   }
