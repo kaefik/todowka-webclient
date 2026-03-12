@@ -112,8 +112,8 @@
       "layer": 3,
       "effort": "S",
       "depends_on": ["L1/04-types-file.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Navigation store created with currentPage and sidebarOpen state with persistence."
     },
     "L3/15-gtd-store.md": {
       "title": "Create GTD store (Zustand)",
