@@ -104,8 +104,8 @@
       "layer": 3,
       "effort": "S",
       "depends_on": ["L1/04-types-file.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Task store created with selectedTask, filters, and viewMode state."
     },
     "L3/14-navigation-store.md": {
       "title": "Create Navigation store (Zustand)",
