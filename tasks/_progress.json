@@ -531,8 +531,8 @@
         "L7/39-use-projects-hook.md",
         "L5/32-project-form.md"
       ],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Projects page created with ProjectList, create/edit modals with ProjectForm, and CRUD actions (create, update, delete, complete)."
     },
     "L8/50-project-details-page.md": {
       "title": "Create Project details page (app/projects/[id]/page.tsx)",
