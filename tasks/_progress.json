@@ -360,8 +360,8 @@
       "layer": 7,
       "effort": "S",
       "depends_on": ["L2/09-tags-api.md", "L3/16-react-query-provider.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "useTags hook created with all CRUD operations (useTags, useTag, useCreateTag, useUpdateTag, useDeleteTag)."
     },
     "L7/42-use-contexts-hook.md": {
       "title": "Create useContexts hook",
@@ -456,7 +456,7 @@
       "layer": 8,
       "effort": "M",
       "depends_on": ["L7/41-use-tags-hook.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L8/54-review-page.md": {
