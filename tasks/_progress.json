@@ -232,8 +232,8 @@
       "layer": 4,
       "effort": "XS",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Spinner component created with sm, md, lg sizes."
     },
     "L5/26-task-item.md": {
       "title": "Create TaskItem component",
