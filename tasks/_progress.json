@@ -16,8 +16,8 @@
       "layer": 0,
       "effort": "S",
       "depends_on": ["L0/01-init-project.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Tailwind CSS configured with custom colors and design tokens. Base styles applied in globals.css."
     },
     "L0/03-directory-structure.md": {
       "title": "Setup directory structure",
@@ -136,7 +136,7 @@
       "layer": 4,
       "effort": "S",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L4/18-card.md": {
@@ -144,7 +144,7 @@
       "layer": 4,
       "effort": "S",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L4/19-input-textarea.md": {
@@ -152,7 +152,7 @@
       "layer": 4,
       "effort": "S",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L4/20-select.md": {
@@ -160,7 +160,7 @@
       "layer": 4,
       "effort": "S",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L4/21-checkbox.md": {
@@ -168,7 +168,7 @@
       "layer": 4,
       "effort": "S",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L4/22-badge.md": {
@@ -192,7 +192,7 @@
       "layer": 4,
       "effort": "S",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L4/25-spinner.md": {
@@ -200,7 +200,7 @@
       "layer": 4,
       "effort": "XS",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L5/26-task-item.md": {
@@ -264,7 +264,7 @@
       "layer": 5,
       "effort": "S",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "BLOCKED",
+      "status": "READY",
       "completed_output": null
     },
     "L6/34-sidebar.md": {
