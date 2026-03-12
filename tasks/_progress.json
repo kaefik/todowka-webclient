@@ -56,8 +56,8 @@
       "layer": 2,
       "effort": "M",
       "depends_on": ["L2/05-api-client.md", "L1/04-types-file.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Projects API module created with full CRUD operations and pagination support."
     },
     "L2/08-inbox-api.md": {
       "title": "Create inbox API module",
