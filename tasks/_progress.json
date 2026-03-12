@@ -344,8 +344,8 @@
       "layer": 7,
       "effort": "M",
       "depends_on": ["L2/07-projects-api.md", "L3/16-react-query-provider.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "useProjects hook created with all CRUD operations including complete, with pagination support."
     },
     "L7/40-use-inbox-hook.md": {
       "title": "Create useInbox hook",
