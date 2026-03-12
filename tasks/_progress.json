@@ -184,8 +184,8 @@
       "layer": 4,
       "effort": "S",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Input and Textarea components created with focus states and proper styling."
     },
     "L4/20-select.md": {
       "title": "Create Select component",
