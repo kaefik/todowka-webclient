@@ -200,8 +200,8 @@
       "layer": 4,
       "effort": "S",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Checkbox component created with label support and custom onChange handler."
     },
     "L4/22-badge.md": {
       "title": "Create Badge component",
