@@ -168,8 +168,8 @@
       "layer": 4,
       "effort": "S",
       "depends_on": ["L0/02-tailwind-config.md"],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Button component created with primary, secondary, ghost, and destructive variants and sm, md, lg sizes."
     },
     "L4/18-card.md": {
       "title": "Create Card component",
