@@ -4,6 +4,7 @@ import './globals.css';
 import { QueryClientProvider } from '@/lib/QueryClientProvider';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { MainContent } from '@/components/layout/MainContent';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,12 +21,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <QueryClientProvider>
-          <div className="flex min-h-screen">
-            <Sidebar />
-            <MainContent>{children}</MainContent>
-          </div>
-        </QueryClientProvider>
+        <ErrorBoundary>
+          <QueryClientProvider>
+            <div className="flex min-h-screen">
+              <Sidebar />
+              <MainContent>{children}</MainContent>
+            </div>
+          </QueryClientProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );
