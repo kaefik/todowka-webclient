@@ -73,7 +73,11 @@ export function useUpdateTask() {
       tasksAPI.update(id, data),
     onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey: ['tasks'] });
+      await queryClient.cancelQueries({ queryKey: ['inbox'] });
+      await queryClient.cancelQueries({ queryKey: ['nextActions'] });
       const previousTasks = queryClient.getQueryData<TaskListResponse>(['tasks']);
+      const previousInbox = queryClient.getQueryData<TaskListResponse>(['inbox']);
+      const previousNextActions = queryClient.getQueryData<TaskListResponse>(['nextActions']);
 
       queryClient.setQueryData(['tasks'], (old: TaskListResponse | undefined) => {
         if (old && 'items' in old) {
@@ -89,13 +93,45 @@ export function useUpdateTask() {
         );
       });
 
-      return { previousTasks };
+      queryClient.setQueryData(['inbox'], (old: TaskListResponse | undefined) => {
+        if (old && 'items' in old) {
+          return {
+            ...old,
+            items: old.items.map((task: Task) =>
+              task.id === id ? { ...task, ...data, updated_at: new Date().toISOString() } : task
+            ),
+          };
+        }
+        return (old || []).map((task: Task) =>
+          task.id === id ? { ...task, ...data, updated_at: new Date().toISOString() } : task
+        );
+      });
+
+      queryClient.setQueryData(['nextActions'], (old: TaskListResponse | undefined) => {
+        if (old && 'items' in old) {
+          return {
+            ...old,
+            items: old.items.map((task: Task) =>
+              task.id === id ? { ...task, ...data, updated_at: new Date().toISOString() } : task
+            ),
+          };
+        }
+        return (old || []).map((task: Task) =>
+          task.id === id ? { ...task, ...data, updated_at: new Date().toISOString() } : task
+        );
+      });
+
+      return { previousTasks, previousInbox, previousNextActions };
     },
     onError: (err, variables, context) => {
       queryClient.setQueryData(['tasks'], (context as any)?.previousTasks);
+      queryClient.setQueryData(['inbox'], (context as any)?.previousInbox);
+      queryClient.setQueryData(['nextActions'], (context as any)?.previousNextActions);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['inbox'] });
+      queryClient.invalidateQueries({ queryKey: ['nextActions'] });
     },
   });
 }
