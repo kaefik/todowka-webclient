@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, type ReactNode, type HTMLAttributes } from 'react';
+import React, { useState, useRef, useEffect, type ReactNode, type HTMLAttributes } from 'react';
 
 interface SelectProps {
   value?: string | number;
@@ -29,8 +29,13 @@ export function Select({ value, onChange, children, placeholder = 'Select...', c
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const handleSelect = (value: string) => {
+    setIsOpen(false);
+    onChange?.(value);
+  };
+
   return (
-    <div ref={selectRef} className={`relative ${className}`} data-select-parent>
+    <div ref={selectRef} className={`relative ${className}`}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -40,30 +45,34 @@ export function Select({ value, onChange, children, placeholder = 'Select...', c
         <span className="text-gray-400">{isOpen ? '▲' : '▼'}</span>
       </button>
       {isOpen && (
-        <div className="absolute z-10 w-full mt-1 bg-white border border-border rounded-md shadow-lg max-h-60 overflow-auto">
-          {children}
+        <div className="absolute z-50 w-full mt-1 bg-white border border-border rounded-md shadow-lg max-h-60 overflow-auto">
+          {Array.isArray(children) ? children.map((child: any) => {
+            if (child?.type?.name === 'SelectItem') {
+              return React.cloneElement(child, {
+                key: child.props.value || child.key,
+                onItemSelect: handleSelect
+              });
+            }
+            return child;
+          }) : children}
         </div>
       )}
     </div>
   );
 }
 
-interface SelectItemProps extends HTMLAttributes<HTMLDivElement> {
+interface SelectItemProps {
   value: string;
+  onItemSelect?: (value: string) => void;
+  children: ReactNode;
+  className?: string;
 }
 
-export function SelectItem({ value, children, className = '', ...props }: SelectItemProps) {
+export function SelectItem({ value, children, className = '', onItemSelect }: SelectItemProps) {
   return (
     <div
       className={`px-3 py-2 cursor-pointer hover:bg-gray-100 ${className}`}
-      {...props}
-      onClick={(e) => {
-        props.onClick?.(e);
-        const parent = (e.target as HTMLElement).closest('[data-select-parent]') as any;
-        if (parent?.props?.onChange) {
-          parent.props.onChange(value);
-        }
-      }}
+      onClick={() => onItemSelect?.(value)}
       data-value={value}
     >
       {children}
