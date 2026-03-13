@@ -13,6 +13,8 @@ interface TaskListProps {
 }
 
 export function TaskList({ tasks, loading, onComplete, onNextAction, onEdit, onDelete }: TaskListProps) {
+  const taskList = Array.isArray(tasks) ? tasks : tasks?.items || [];
+
   if (loading) {
     return (
       <div className="flex justify-center p-8">
@@ -21,7 +23,7 @@ export function TaskList({ tasks, loading, onComplete, onNextAction, onEdit, onD
     );
   }
 
-  if (tasks.length === 0) {
+  if (taskList.length === 0) {
     return (
       <EmptyState
         title="No tasks found"
@@ -33,7 +35,7 @@ export function TaskList({ tasks, loading, onComplete, onNextAction, onEdit, onD
 
   return (
     <div className="space-y-3">
-      {tasks.map((task) => (
+      {taskList.map((task) => (
         <TaskItem
           key={task.id}
           task={task}

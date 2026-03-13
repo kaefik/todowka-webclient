@@ -32,11 +32,17 @@ export function useCreateInboxTask() {
         is_next_action: false,
       } as Task;
 
-      queryClient.setQueryData(['inbox'], (old: Task[] | undefined) => {
+      queryClient.setQueryData(['inbox'], (old: any) => {
+        if (old && 'items' in old) {
+          return { ...old, items: [newTaskItem, ...old.items] };
+        }
         return [newTaskItem, ...(old || [])];
       });
 
-      queryClient.setQueryData(['tasks'], (old: Task[] | undefined) => {
+      queryClient.setQueryData(['tasks'], (old: any) => {
+        if (old && 'items' in old) {
+          return { ...old, items: [newTaskItem, ...old.items] };
+        }
         return [newTaskItem, ...(old || [])];
       });
 
