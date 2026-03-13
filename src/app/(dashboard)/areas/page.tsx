@@ -4,7 +4,7 @@ import { useAreas, useCreateArea, useUpdateArea, useDeleteArea } from '@/lib/hoo
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useState } from 'react';
-import type { Area } from '@/types';
+import type { Area, AreaListResponse } from '@/types';
 
 export default function AreasPage() {
   const { data: areas } = useAreas();
@@ -37,6 +37,8 @@ export default function AreasPage() {
     }
   };
 
+  const areaList = Array.isArray(areas) ? areas : (areas as any)?.items || [];
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Areas</h1>
@@ -53,7 +55,7 @@ export default function AreasPage() {
       </div>
 
       <div className="space-y-2">
-        {areas?.map((area) => (
+        {areaList.map((area: Area) => (
           <div key={area.id} className="p-3 bg-white border border-border rounded-lg flex items-center gap-2">
             {editingId === area.id ? (
               <>

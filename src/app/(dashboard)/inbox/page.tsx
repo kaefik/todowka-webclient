@@ -10,7 +10,7 @@ import { Modal } from '@/components/ui/Modal';
 import { TaskForm } from '@/components/task/TaskForm';
 import { Button } from '@/components/ui/Button';
 import { useState } from 'react';
-import type { Task, TaskUpdate } from '@/types';
+import type { Task, TaskUpdate, TaskListResponse } from '@/types';
 
 export default function InboxPage() {
   const { data: tasks, isLoading } = useInbox();
@@ -22,6 +22,9 @@ export default function InboxPage() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const updateTask = useUpdateTask();
   const deleteTask = useDeleteTask();
+
+  const taskList = Array.isArray(tasks) ? tasks : (tasks as any)?.items || [];
+  const projectList = Array.isArray(projects) ? projects : (projects as any)?.items || [];
 
   const handleClarify = (task: Task) => {
     setSelectedTask(task);
@@ -48,7 +51,7 @@ export default function InboxPage() {
       </div>
 
       <TaskList
-        tasks={tasks || []}
+        tasks={taskList}
         loading={isLoading}
         onComplete={() => {}}
         onEdit={handleClarify}
@@ -59,7 +62,7 @@ export default function InboxPage() {
         {selectedTask && (
           <TaskForm
             task={selectedTask}
-            projects={projects?.items || []}
+            projects={projectList}
             contexts={contexts || []}
             tags={tags || []}
             onSubmit={handleSave}

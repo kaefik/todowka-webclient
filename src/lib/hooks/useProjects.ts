@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { projectsAPI } from '@/lib/api/projects';
-import type { Project, ProjectCreate, ProjectUpdate, ProjectStatus } from '@/types';
+import type { Project, ProjectCreate, ProjectUpdate, ProjectStatus, ProjectListResponse } from '@/types';
 
 export function useProjects(page: number = 1, limit: number = 10) {
   return useQuery({
@@ -25,7 +25,7 @@ export function useCreateProject() {
     mutationFn: (data: ProjectCreate) => projectsAPI.create(data),
     onMutate: async (newProject) => {
       await queryClient.cancelQueries({ queryKey: ['projects'] });
-      const previousProjects = queryClient.getQueryData(['projects']);
+      const previousProjects = queryClient.getQueryData<ProjectListResponse>(['projects']);
 
       queryClient.setQueryData(['projects'], (old: any) => {
         const newItem = {
@@ -63,7 +63,7 @@ export function useUpdateProject() {
       projectsAPI.update(id, data),
     onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey: ['projects'] });
-      const previousProjects = queryClient.getQueryData(['projects']);
+      const previousProjects = queryClient.getQueryData<ProjectListResponse>(['projects']);
 
       queryClient.setQueryData(['projects'], (old: any) => {
         if (old?.items) {
@@ -94,7 +94,7 @@ export function useDeleteProject() {
     mutationFn: (id: number) => projectsAPI.delete(id),
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['projects'] });
-      const previousProjects = queryClient.getQueryData(['projects']);
+      const previousProjects = queryClient.getQueryData<ProjectListResponse>(['projects']);
 
       queryClient.setQueryData(['projects'], (old: any) => {
         if (old?.items) {
@@ -124,7 +124,7 @@ export function useCompleteProject() {
     mutationFn: (id: number) => projectsAPI.complete(id),
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['projects'] });
-      const previousProjects = queryClient.getQueryData(['projects']);
+      const previousProjects = queryClient.getQueryData<ProjectListResponse>(['projects']);
 
       queryClient.setQueryData(['projects'], (old: any) => {
         if (old?.items) {

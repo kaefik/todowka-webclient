@@ -1,10 +1,10 @@
-import type { Project } from '@/types';
+import type { Project, ProjectListResponse } from '@/types';
 import { ProjectCard } from './ProjectCard';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Spinner } from '@/components/ui/Spinner';
 
 interface ProjectListProps {
-  projects: Project[];
+  projects: ProjectListResponse;
   loading?: boolean;
   onEdit?: (project: Project) => void;
   onDelete?: (id: number) => void;
@@ -12,6 +12,8 @@ interface ProjectListProps {
 }
 
 export function ProjectList({ projects, loading, onEdit, onDelete, onComplete }: ProjectListProps) {
+  const projectList = Array.isArray(projects) ? projects : projects?.items || [];
+
   if (loading) {
     return (
       <div className="flex justify-center p-8">
@@ -20,7 +22,7 @@ export function ProjectList({ projects, loading, onEdit, onDelete, onComplete }:
     );
   }
 
-  if (projects.length === 0) {
+  if (projectList.length === 0) {
     return (
       <EmptyState
         title="No projects found"
@@ -32,7 +34,7 @@ export function ProjectList({ projects, loading, onEdit, onDelete, onComplete }:
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {projects.map((project) => (
+      {projectList.map((project: Project) => (
         <ProjectCard
           key={project.id}
           project={project}

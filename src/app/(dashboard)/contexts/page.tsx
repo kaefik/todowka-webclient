@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { useState } from 'react';
-import type { Context } from '@/types';
+import type { Context, ContextListResponse } from '@/types';
 
 export default function ContextsPage() {
   const { data: contexts } = useContexts();
@@ -42,6 +42,8 @@ export default function ContextsPage() {
     }
   };
 
+  const contextList = Array.isArray(contexts) ? contexts : (contexts as any)?.items || [];
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Contexts</h1>
@@ -64,7 +66,7 @@ export default function ContextsPage() {
       </div>
 
       <div className="space-y-2">
-        {contexts?.map((context) => (
+        {contextList.map((context: Context) => (
           <div key={context.id} className="p-3 bg-white border border-border rounded-lg">
             {editingId === context.id ? (
               <div className="space-y-3">

@@ -145,6 +145,9 @@ export interface PaginatedResponse<T> {
 
 export type TaskListResponse = Task[] | PaginatedResponse<Task>;
 export type ProjectListResponse = Project[] | PaginatedResponse<Project>;
+export type TagListResponse = Tag[] | PaginatedResponse<Tag>;
+export type ContextListResponse = Context[] | PaginatedResponse<Context>;
+export type AreaListResponse = Area[] | PaginatedResponse<Area>;
 
 export interface TaskFilters {
   status?: TaskStatus;

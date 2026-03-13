@@ -4,7 +4,7 @@ import { useTags, useCreateTag, useUpdateTag, useDeleteTag } from '@/lib/hooks/u
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { useState } from 'react';
-import type { Tag } from '@/types';
+import type { Tag, TagListResponse } from '@/types';
 
 const colorOptions = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF', '#000000', '#FFFFFF'];
 
@@ -43,6 +43,8 @@ export default function TagsPage() {
     }
   };
 
+  const tagList = Array.isArray(tags) ? tags : (tags as any)?.items || [];
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Tags</h1>
@@ -68,7 +70,7 @@ export default function TagsPage() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {tags?.map((tag) => (
+        {tagList.map((tag: Tag) => (
           <div key={tag.id} className="p-3 bg-white border border-border rounded-lg">
             {editingId === tag.id ? (
               <div className="space-y-3">

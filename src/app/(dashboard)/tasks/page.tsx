@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useTasks, useCompleteTask, useSetNextAction, useDeleteTask } from '@/lib/hooks/useTasks';
 import { TaskFilters } from '@/components/task/TaskFilters';
 import { TaskList } from '@/components/task/TaskList';
-import type { TaskFilters as TaskFiltersType } from '@/types';
+import type { TaskFilters as TaskFiltersType, TaskListResponse } from '@/types';
 
 export default function TasksPage() {
   const [filters, setFilters] = useState<TaskFiltersType>({});
@@ -13,6 +13,8 @@ export default function TasksPage() {
   const setNextAction = useSetNextAction();
   const deleteTask = useDeleteTask();
 
+  const taskList = Array.isArray(tasks) ? tasks : (tasks as any)?.items || [];
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Tasks</h1>
@@ -20,7 +22,7 @@ export default function TasksPage() {
       <TaskFilters filters={filters} onFiltersChange={setFilters} />
 
       <TaskList
-        tasks={tasks || []}
+        tasks={taskList}
         loading={isLoading}
         onComplete={(id) => completeTask.mutate(id)}
         onNextAction={(id) => setNextAction.mutate(id)}
