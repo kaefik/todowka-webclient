@@ -11,7 +11,7 @@ import type { Project, ProjectCreate, ProjectUpdate } from '@/types';
 
 export default function ProjectsPage() {
   const [page, setPage] = useState(1);
-  const { data: projectsData } = useProjects(page, 10);
+  const { data: projectsData, isLoading } = useProjects(page, 10);
   const { data: areas } = useAreas();
 
   const [editingProject, setEditingProject] = useState<Project | null>(null);
@@ -49,6 +49,7 @@ export default function ProjectsPage() {
 
       <ProjectList
         projects={projectsData?.items || []}
+        loading={isLoading}
         onEdit={setEditingProject}
         onDelete={handleDelete}
         onComplete={(id) => completeProject.mutate(id)}
@@ -59,6 +60,7 @@ export default function ProjectsPage() {
           areas={areas || []}
           onSubmit={handleSave}
           onCancel={() => setIsCreating(false)}
+          isSubmitting={createProject.isPending}
         />
       </Modal>
 
@@ -69,6 +71,7 @@ export default function ProjectsPage() {
             areas={areas || []}
             onSubmit={handleSave}
             onCancel={() => setEditingProject(null)}
+            isSubmitting={updateProject.isPending}
           />
         </Modal>
       )}

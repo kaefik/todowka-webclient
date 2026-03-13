@@ -4,7 +4,7 @@ import { useNextActions, useCompleteTask } from '@/lib/hooks/useTasks';
 import { TaskList } from '@/components/task/TaskList';
 
 export default function NextActionsPage() {
-  const { data: nextActions } = useNextActions();
+  const { data: nextActions, isLoading } = useNextActions();
   const completeTask = useCompleteTask();
 
   return (
@@ -13,6 +13,7 @@ export default function NextActionsPage() {
 
       <TaskList
         tasks={nextActions || []}
+        loading={isLoading}
         onComplete={(id) => completeTask.mutate(id)}
       />
     </div>

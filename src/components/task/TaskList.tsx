@@ -1,16 +1,26 @@
 import type { Task } from '@/types';
 import { TaskItem } from './TaskItem';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { Spinner } from '@/components/ui/Spinner';
 
 interface TaskListProps {
   tasks: Task[];
+  loading?: boolean;
   onComplete?: (id: number) => void;
   onNextAction?: (id: number) => void;
   onEdit?: (task: Task) => void;
   onDelete?: (id: number) => void;
 }
 
-export function TaskList({ tasks, onComplete, onNextAction, onEdit, onDelete }: TaskListProps) {
+export function TaskList({ tasks, loading, onComplete, onNextAction, onEdit, onDelete }: TaskListProps) {
+  if (loading) {
+    return (
+      <div className="flex justify-center p-8">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
   if (tasks.length === 0) {
     return (
       <EmptyState

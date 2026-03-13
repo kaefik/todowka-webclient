@@ -9,9 +9,9 @@ import { ProjectList } from '@/components/project/ProjectList';
 import type { Task } from '@/types';
 
 export default function Dashboard() {
-  const { data: inboxTasks } = useInbox();
-  const { data: nextActions } = useNextActions();
-  const { data: projects } = useProjects(1, 10);
+  const { data: inboxTasks, isLoading: inboxLoading } = useInbox();
+  const { data: nextActions, isLoading: nextActionsLoading } = useNextActions();
+  const { data: projects, isLoading: projectsLoading } = useProjects(1, 10);
   const completeTask = useCompleteTask();
   const setNextAction = useSetNextAction();
 
@@ -56,6 +56,7 @@ export default function Dashboard() {
         <h2 className="text-xl font-semibold mb-4">Next Actions</h2>
         <TaskList
           tasks={nextActions?.slice(0, 5) || []}
+          loading={nextActionsLoading}
           onComplete={handleComplete}
           onNextAction={handleNextAction}
         />
@@ -65,6 +66,7 @@ export default function Dashboard() {
         <h2 className="text-xl font-semibold mb-4">Active Projects</h2>
         <ProjectList
           projects={projects?.items?.filter(p => p.status === 'active') || []}
+          loading={projectsLoading}
         />
       </section>
     </div>

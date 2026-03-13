@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Select, SelectItem } from '@/components/ui/Select';
 import { Checkbox } from '@/components/ui/Checkbox';
+import { Spinner } from '@/components/ui/Spinner';
 import type { Project, Context, Tag } from '@/types';
 
 const taskSchema = z.object({
@@ -27,9 +28,10 @@ interface TaskFormProps {
   tags?: Tag[];
   onSubmit: (data: TaskCreate | TaskUpdate) => void;
   onCancel?: () => void;
+  isSubmitting?: boolean;
 }
 
-export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel }: TaskFormProps) {
+export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, isSubmitting }: TaskFormProps) {
   const {
     register,
     control,
@@ -163,7 +165,9 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel }:
             Cancel
           </Button>
         )}
-        <Button type="submit">{task ? 'Update' : 'Create'} Task</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? <Spinner size="sm" /> : (task ? 'Update' : 'Create') + ' Task'}
+        </Button>
       </div>
     </form>
   );

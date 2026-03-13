@@ -1,15 +1,25 @@
 import type { Project } from '@/types';
 import { ProjectCard } from './ProjectCard';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { Spinner } from '@/components/ui/Spinner';
 
 interface ProjectListProps {
   projects: Project[];
+  loading?: boolean;
   onEdit?: (project: Project) => void;
   onDelete?: (id: number) => void;
   onComplete?: (id: number) => void;
 }
 
-export function ProjectList({ projects, onEdit, onDelete, onComplete }: ProjectListProps) {
+export function ProjectList({ projects, loading, onEdit, onDelete, onComplete }: ProjectListProps) {
+  if (loading) {
+    return (
+      <div className="flex justify-center p-8">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
   if (projects.length === 0) {
     return (
       <EmptyState

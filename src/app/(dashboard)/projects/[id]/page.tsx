@@ -17,7 +17,7 @@ export default function ProjectDetailsPage() {
   const params = useParams();
   const projectId = parseInt(params.id as string);
   const { data: project } = useProject(projectId);
-  const { data: projectTasks } = useTasks({ project_id: projectId });
+  const { data: projectTasks, isLoading } = useTasks({ project_id: projectId });
   const { data: contexts } = useContexts();
   const { data: tags } = useTags();
 
@@ -40,6 +40,7 @@ export default function ProjectDetailsPage() {
 
       <TaskList
         tasks={projectTasks || []}
+        loading={isLoading}
         onComplete={(id) => completeTask.mutate(id)}
       />
 
@@ -53,6 +54,7 @@ export default function ProjectDetailsPage() {
             setIsCreatingTask(false);
           }}
           onCancel={() => setIsCreatingTask(false)}
+          isSubmitting={createTask.isPending}
         />
       </Modal>
     </div>

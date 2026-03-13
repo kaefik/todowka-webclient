@@ -13,9 +13,9 @@ type ReviewStep = 'inbox' | 'projects' | 'next-actions' | 'someday';
 
 export default function ReviewPage() {
   const [step, setStep] = useState<ReviewStep>('inbox');
-  const { data: inboxTasks } = useInbox();
-  const { data: somedayTasks } = useTasks({ status: 'someday' });
-  const { data: projects } = useProjects(1, 50);
+  const { data: inboxTasks, isLoading: inboxLoading } = useInbox();
+  const { data: somedayTasks, isLoading: somedayLoading } = useTasks({ status: 'someday' });
+  const { data: projects, isLoading: projectsLoading } = useProjects(1, 50);
   const updateTask = useUpdateTask();
 
   const steps = [
@@ -55,7 +55,7 @@ export default function ReviewPage() {
           <p className="mb-4 text-foreground-secondary">
             Process all items in your inbox. Clarify, organize, or delete them.
           </p>
-          <TaskList tasks={inboxTasks || []} />
+          <TaskList tasks={inboxTasks || []} loading={inboxLoading} />
         </section>
       )}
 
@@ -65,7 +65,7 @@ export default function ReviewPage() {
           <p className="mb-4 text-foreground-secondary">
             Review your projects, update status, and check progress.
           </p>
-          <ProjectList projects={projects?.items || []} />
+          <ProjectList projects={projects?.items || []} loading={projectsLoading} />
         </section>
       )}
 
@@ -77,6 +77,7 @@ export default function ReviewPage() {
           </p>
           <TaskList
             tasks={inboxTasks || []}
+            loading={inboxLoading}
             onNextAction={(id) => handleSetNextAction({ id })}
           />
         </section>
@@ -90,6 +91,7 @@ export default function ReviewPage() {
           </p>
           <TaskList
             tasks={somedayTasks || []}
+            loading={somedayLoading}
             onNextAction={(id) => handleSetActive({ id })}
           />
         </section>

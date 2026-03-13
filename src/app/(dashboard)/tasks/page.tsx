@@ -8,7 +8,7 @@ import type { TaskFilters as TaskFiltersType } from '@/types';
 
 export default function TasksPage() {
   const [filters, setFilters] = useState<TaskFiltersType>({});
-  const { data: tasks } = useTasks(filters);
+  const { data: tasks, isLoading } = useTasks(filters);
   const completeTask = useCompleteTask();
   const setNextAction = useSetNextAction();
   const deleteTask = useDeleteTask();
@@ -21,6 +21,7 @@ export default function TasksPage() {
 
       <TaskList
         tasks={tasks || []}
+        loading={isLoading}
         onComplete={(id) => completeTask.mutate(id)}
         onNextAction={(id) => setNextAction.mutate(id)}
         onDelete={(id) => {

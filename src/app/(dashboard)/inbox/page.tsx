@@ -13,7 +13,7 @@ import { useState } from 'react';
 import type { Task, TaskUpdate } from '@/types';
 
 export default function InboxPage() {
-  const { data: tasks } = useInbox();
+  const { data: tasks, isLoading } = useInbox();
   const { data: allTasks } = useTasks({ status: 'active' });
   const { data: projects } = useProjects();
   const { data: contexts } = useContexts();
@@ -49,6 +49,7 @@ export default function InboxPage() {
 
       <TaskList
         tasks={tasks || []}
+        loading={isLoading}
         onComplete={() => {}}
         onEdit={handleClarify}
         onDelete={handleDelete}
@@ -63,6 +64,7 @@ export default function InboxPage() {
             tags={tags || []}
             onSubmit={handleSave}
             onCancel={() => setSelectedTask(null)}
+            isSubmitting={updateTask.isPending}
           />
         )}
       </Modal>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
+import { Spinner } from '@/components/ui/Spinner';
 import { useCreateInboxTask } from '@/lib/hooks/useInbox';
 
 export function QuickCapture() {
@@ -27,7 +28,7 @@ export function QuickCapture() {
         className="flex-1"
       />
       <Button type="submit" disabled={!title.trim() || createTask.isPending}>
-        {createTask.isPending ? '...' : '+'}
+        {createTask.isPending ? <Spinner size="sm" /> : '+'}
       </Button>
     </form>
   );

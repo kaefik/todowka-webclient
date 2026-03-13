@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Select, SelectItem } from '@/components/ui/Select';
+import { Spinner } from '@/components/ui/Spinner';
 
 const projectSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100, 'Name too long'),
@@ -20,9 +21,10 @@ interface ProjectFormProps {
   areas?: Area[];
   onSubmit: (data: ProjectCreate | ProjectUpdate) => void;
   onCancel?: () => void;
+  isSubmitting?: boolean;
 }
 
-export function ProjectForm({ project, areas, onSubmit, onCancel }: ProjectFormProps) {
+export function ProjectForm({ project, areas, onSubmit, onCancel, isSubmitting }: ProjectFormProps) {
   const {
     control,
     handleSubmit,
@@ -90,7 +92,9 @@ export function ProjectForm({ project, areas, onSubmit, onCancel }: ProjectFormP
             Cancel
           </Button>
         )}
-        <Button type="submit">{project ? 'Update' : 'Create'} Project</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? <Spinner size="sm" /> : (project ? 'Update' : 'Create') + ' Project'}
+        </Button>
       </div>
     </form>
   );
