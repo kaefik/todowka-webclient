@@ -14,7 +14,7 @@ import type { Project, Context, Tag } from '@/types';
 
 const taskSchema = z.object({
   title: z.string().min(1, 'Title is required').max(200, 'Title too long'),
-  description: z.string().max(1000).optional(),
+  description: z.string().max(1000).nullable().optional(),
   priority: z.enum(['low', 'medium', 'high']).optional(),
   project_id: z.coerce.number().optional().or(z.literal('')),
   context_id: z.coerce.number().optional().or(z.literal('')),
@@ -49,8 +49,13 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
     },
   });
 
+  const handleSubmitWithLog = (data: TaskCreate | TaskUpdate) => {
+    console.log('Form data submitted:', data);
+    onSubmit(data);
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(handleSubmitWithLog)} className="space-y-4">
       <div>
         <label className="block text-sm font-medium mb-1">Title *</label>
         <Input {...register('title')} placeholder="Task title" />
