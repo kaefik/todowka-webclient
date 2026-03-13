@@ -37,6 +37,8 @@ export default function TasksPage() {
     }
   };
 
+  console.log('TasksPage data:', { projectList, contexts: contexts || [], tags: tags || [] });
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Tasks</h1>

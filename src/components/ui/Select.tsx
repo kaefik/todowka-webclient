@@ -37,7 +37,10 @@ export function Select({ value, onChange, children, placeholder = 'Select...', c
   const renderChildren = () => {
     if (!Array.isArray(children)) return children;
 
+    console.log('Select children:', children);
+
     return children.map((child: any, index: number) => {
+      console.log('Select child:', child, 'props:', child?.props);
       // Check if child has value prop (indicates SelectItem)
       if (child && typeof child === 'object' && 'props' in child && 'value' in child.props) {
         return React.cloneElement(child, {
@@ -76,10 +79,17 @@ interface SelectItemProps {
 }
 
 export function SelectItem({ value, children, className = '', onItemSelect }: SelectItemProps) {
+  console.log('SelectItem render:', { value, children, onItemSelect: !!onItemSelect });
+
+  const handleClick = () => {
+    console.log('SelectItem clicked:', value, 'onItemSelect:', !!onItemSelect);
+    onItemSelect?.(value);
+  };
+
   return (
     <div
       className={`px-3 py-2 cursor-pointer hover:bg-gray-100 ${className}`}
-      onClick={() => onItemSelect?.(value)}
+      onClick={handleClick}
       data-value={value}
     >
       {children}
