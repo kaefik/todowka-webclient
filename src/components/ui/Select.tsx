@@ -40,13 +40,22 @@ export function Select({ value, onChange, children, placeholder = 'Select...', c
     console.log('Select children:', children);
 
     return children.map((child: any, index: number) => {
-      console.log('Select child:', child, 'props:', child?.props);
+      console.log('Select child:', child, 'props:', child?.props, 'type:', child?.type?.name);
       // Check if child has value prop (indicates SelectItem)
-      if (child && typeof child === 'object' && 'props' in child && 'value' in child.props) {
-        return React.cloneElement(child, {
+      // Try multiple checks to handle different scenarios
+      const hasValue = child?.props?.value !== undefined;
+      const isSelectItem = child?.type?.name === 'SelectItem' ||
+                          (child && typeof child === 'object' && 'props' in child && hasValue);
+
+      console.log('  hasValue:', hasValue, 'isSelectItem:', isSelectItem);
+
+      if (isSelectItem) {
+        const cloned = React.cloneElement(child, {
           key: child.props.value || child.key || index,
           onItemSelect: handleSelect
         });
+        console.log('  Cloned element with onItemSelect');
+        return cloned;
       }
       return child;
     });
