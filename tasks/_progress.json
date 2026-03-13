@@ -646,8 +646,8 @@
         "L7/39-use-projects-hook.md",
         "L7/40-use-inbox-hook.md"
       ],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Optimistic updates added to all mutation hooks: useCreateTask, useUpdateTask, useDeleteTask, useCompleteTask, useSetNextAction, useCreateProject, useUpdateProject, useDeleteProject, useCompleteProject, useCreateInboxTask. UI updates immediately on mutations, rolls back on error, refetches after settle."
     }
   }
 }
