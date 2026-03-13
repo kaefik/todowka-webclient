@@ -34,6 +34,21 @@ export function Select({ value, onChange, children, placeholder = 'Select...', c
     onChange?.(value);
   };
 
+  const renderChildren = () => {
+    if (!Array.isArray(children)) return children;
+
+    return children.map((child: any, index: number) => {
+      // Check if child has value prop (indicates SelectItem)
+      if (child && typeof child === 'object' && 'props' in child && 'value' in child.props) {
+        return React.cloneElement(child, {
+          key: child.props.value || child.key || index,
+          onItemSelect: handleSelect
+        });
+      }
+      return child;
+    });
+  };
+
   return (
     <div ref={selectRef} className={`relative ${className}`}>
       <button
@@ -46,15 +61,7 @@ export function Select({ value, onChange, children, placeholder = 'Select...', c
       </button>
       {isOpen && (
         <div className="absolute z-50 w-full mt-1 bg-white border border-border rounded-md shadow-lg max-h-60 overflow-auto">
-          {Array.isArray(children) ? children.map((child: any) => {
-            if (child?.type?.name === 'SelectItem') {
-              return React.cloneElement(child, {
-                key: child.props.value || child.key,
-                onItemSelect: handleSelect
-              });
-            }
-            return child;
-          }) : children}
+          {renderChildren()}
         </div>
       )}
     </div>
