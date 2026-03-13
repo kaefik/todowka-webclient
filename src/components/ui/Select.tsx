@@ -35,11 +35,12 @@ export function Select({ value, onChange, children, placeholder = 'Select...', c
   };
 
   const renderChildren = () => {
-    if (!Array.isArray(children)) return children;
+    // Use React.Children.toArray to flatten nested arrays from .map()
+    const childrenArray = React.Children.toArray(children);
 
-    console.log('Select children:', children);
+    console.log('Select children (flattened):', childrenArray);
 
-    return children.map((child: any, index: number) => {
+    return childrenArray.map((child: any, index: number) => {
       console.log('Select child:', child, 'props:', child?.props, 'type:', child?.type?.name);
       // Check if child has value prop (indicates SelectItem)
       // Try multiple checks to handle different scenarios
