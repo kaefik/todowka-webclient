@@ -39,11 +39,13 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
     formState: { errors },
   } = useForm<TaskCreate | TaskUpdate>({
     resolver: zodResolver(taskSchema),
-    defaultValues: task || {
-      title: '',
-      description: '',
-      priority: 'medium',
-      tag_ids: [],
+    defaultValues: {
+      title: task?.title || '',
+      description: task?.description || '',
+      priority: task?.priority || 'medium',
+      project_id: task?.project_id,
+      context_id: task?.context_id,
+      tag_ids: task?.tags?.map(t => t.id) || [],
     },
   });
 
