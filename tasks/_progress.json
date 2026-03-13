@@ -634,8 +634,8 @@
       "depends_on": [
         "L4/25-spinner.md"
       ],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "Loading states added to TaskList, ProjectList, all pages with Spinner component. TaskForm and ProjectForm updated with isSubmitting prop and loading spinners in buttons. QuickCapture updated with loading spinner."
     },
     "L10/60-optimistic-updates.md": {
       "title": "Add optimistic updates",
