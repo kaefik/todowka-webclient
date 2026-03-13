@@ -1,7 +1,7 @@
 'use client';
 
 import { useInbox } from '@/lib/hooks/useInbox';
-import { useTasks, useUpdateTask, useDeleteTask } from '@/lib/hooks/useTasks';
+import { useTasks, useUpdateTask, useDeleteTask, useCompleteTask } from '@/lib/hooks/useTasks';
 import { useProjects } from '@/lib/hooks/useProjects';
 import { useContexts } from '@/lib/hooks/useContexts';
 import { useTags } from '@/lib/hooks/useTags';
@@ -22,6 +22,7 @@ export default function InboxPage() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const updateTask = useUpdateTask();
   const deleteTask = useDeleteTask();
+  const completeTask = useCompleteTask();
 
   const taskList = Array.isArray(tasks) ? tasks : (tasks as any)?.items || [];
   const projectList = Array.isArray(projects) ? projects : (projects as any)?.items || [];
@@ -53,7 +54,7 @@ export default function InboxPage() {
       <TaskList
         tasks={taskList}
         loading={isLoading}
-        onComplete={() => {}}
+        onComplete={(id) => completeTask.mutate(id)}
         onEdit={handleClarify}
         onDelete={handleDelete}
       />
