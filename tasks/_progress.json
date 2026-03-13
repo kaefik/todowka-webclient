@@ -624,8 +624,8 @@
       "depends_on": [
         "L8/44-root-layout.md"
       ],
-      "status": "READY",
-      "completed_output": null
+      "status": "DONE",
+      "completed_output": "ErrorBoundary component created and wrapped around the entire app in layout.tsx for graceful error handling."
     },
     "L10/59-loading-states.md": {
       "title": "Add loading states",
