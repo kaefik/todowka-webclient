@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { inboxAPI } from '@/lib/api/inbox';
-import type { InboxCreate, Task, TaskStatus, TaskPriority } from '@/types';
+import type { InboxCreate, Task, TaskStatus, TaskPriority, TaskListResponse } from '@/types';
 
 export function useInbox() {
   return useQuery({
@@ -18,8 +18,8 @@ export function useCreateInboxTask() {
     onMutate: async (newTask) => {
       await queryClient.cancelQueries({ queryKey: ['inbox'] });
       await queryClient.cancelQueries({ queryKey: ['tasks'] });
-      const previousInbox = queryClient.getQueryData(['inbox']);
-      const previousTasks = queryClient.getQueryData(['tasks']);
+      const previousInbox = queryClient.getQueryData<TaskListResponse>(['inbox']);
+      const previousTasks = queryClient.getQueryData<TaskListResponse>(['tasks']);
 
       const newTaskItem = {
         ...newTask,
@@ -32,14 +32,14 @@ export function useCreateInboxTask() {
         is_next_action: false,
       } as Task;
 
-      queryClient.setQueryData(['inbox'], (old: any) => {
+      queryClient.setQueryData(['inbox'], (old: TaskListResponse | undefined) => {
         if (old && 'items' in old) {
           return { ...old, items: [newTaskItem, ...old.items] };
         }
         return [newTaskItem, ...(old || [])];
       });
 
-      queryClient.setQueryData(['tasks'], (old: any) => {
+      queryClient.setQueryData(['tasks'], (old: TaskListResponse | undefined) => {
         if (old && 'items' in old) {
           return { ...old, items: [newTaskItem, ...old.items] };
         }

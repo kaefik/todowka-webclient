@@ -143,6 +143,9 @@ export interface PaginatedResponse<T> {
   pages: number;
 }
 
+export type TaskListResponse = Task[] | PaginatedResponse<Task>;
+export type ProjectListResponse = Project[] | PaginatedResponse<Project>;
+
 export interface TaskFilters {
   status?: TaskStatus;
   priority?: TaskPriority;

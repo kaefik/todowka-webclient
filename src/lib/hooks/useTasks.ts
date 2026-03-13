@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { tasksAPI } from '@/lib/api/tasks';
-import type { Task, TaskCreate, TaskUpdate, TaskFilters, TaskStatus } from '@/types';
+import type { Task, TaskCreate, TaskUpdate, TaskFilters, TaskStatus, TaskListResponse } from '@/types';
 
 export function useTasks(filters?: TaskFilters) {
   return useQuery({
@@ -32,22 +32,24 @@ export function useCreateTask() {
     mutationFn: (data: TaskCreate) => tasksAPI.create(data),
     onMutate: async (newTask) => {
       await queryClient.cancelQueries({ queryKey: ['tasks'] });
-      const previousTasks = queryClient.getQueryData(['tasks']);
+      const previousTasks = queryClient.getQueryData<TaskListResponse>(['tasks']);
 
-      queryClient.setQueryData(['tasks'], (old: Task[] | undefined) => {
-        return [
-          {
-            ...newTask,
-            id: Date.now(),
-            status: newTask.status || 'inbox',
-            priority: newTask.priority || 'medium',
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            tag_ids: newTask.tag_ids || [],
-            is_next_action: false,
-          } as Task,
-          ...(old || []),
-        ];
+      queryClient.setQueryData(['tasks'], (old: TaskListResponse | undefined) => {
+        const newTaskItem = {
+          ...newTask,
+          id: Date.now(),
+          status: newTask.status || 'inbox',
+          priority: newTask.priority || 'medium',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          tag_ids: newTask.tag_ids || [],
+          is_next_action: false,
+        } as Task;
+
+        if (old && 'items' in old) {
+          return { ...old, items: [newTaskItem, ...old.items] };
+        }
+        return [newTaskItem, ...(old || [])];
       });
 
       return { previousTasks };
@@ -68,10 +70,18 @@ export function useUpdateTask() {
       tasksAPI.update(id, data),
     onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey: ['tasks'] });
-      const previousTasks = queryClient.getQueryData(['tasks']);
+      const previousTasks = queryClient.getQueryData<TaskListResponse>(['tasks']);
 
-      queryClient.setQueryData(['tasks'], (old: Task[] | undefined) => {
-        return (old || []).map(task =>
+      queryClient.setQueryData(['tasks'], (old: TaskListResponse | undefined) => {
+        if (old && 'items' in old) {
+          return {
+            ...old,
+            items: old.items.map((task: Task) =>
+              task.id === id ? { ...task, ...data, updated_at: new Date().toISOString() } : task
+            ),
+          };
+        }
+        return (old || []).map((task: Task) =>
           task.id === id ? { ...task, ...data, updated_at: new Date().toISOString() } : task
         );
       });
@@ -93,10 +103,13 @@ export function useDeleteTask() {
     mutationFn: (id: number) => tasksAPI.delete(id),
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['tasks'] });
-      const previousTasks = queryClient.getQueryData(['tasks']);
+      const previousTasks = queryClient.getQueryData<TaskListResponse>(['tasks']);
 
-      queryClient.setQueryData(['tasks'], (old: Task[] | undefined) => {
-        return (old || []).filter(task => task.id !== id);
+      queryClient.setQueryData(['tasks'], (old: TaskListResponse | undefined) => {
+        if (old && 'items' in old) {
+          return { ...old, items: old.items.filter((task: Task) => task.id !== id) };
+        }
+        return (old || []).filter((task: Task) => task.id !== id);
       });
 
       return { previousTasks };
@@ -117,13 +130,28 @@ export function useCompleteTask() {
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['tasks'] });
       await queryClient.cancelQueries({ queryKey: ['nextActions'] });
-      const previousTasks = queryClient.getQueryData(['tasks']);
-      const previousNextActions = queryClient.getQueryData(['nextActions']);
+      const previousTasks = queryClient.getQueryData<TaskListResponse>(['tasks']);
+      const previousNextActions = queryClient.getQueryData<TaskListResponse>(['nextActions']);
 
-      queryClient.setQueryData(['tasks'], (old: Task[] | undefined) => {
-        return (old || []).map(task =>
+      queryClient.setQueryData(['tasks'], (old: TaskListResponse | undefined) => {
+        if (old && 'items' in old) {
+          return {
+            ...old,
+            items: old.items.map((task: Task) =>
+              task.id === id ? { ...task, status: 'completed' as TaskStatus, completed_at: new Date().toISOString() } : task
+            ),
+          };
+        }
+        return (old || []).map((task: Task) =>
           task.id === id ? { ...task, status: 'completed' as TaskStatus, completed_at: new Date().toISOString() } : task
         );
+      });
+
+      queryClient.setQueryData(['nextActions'], (old: TaskListResponse | undefined) => {
+        if (old && 'items' in old) {
+          return { ...old, items: old.items.filter((task: Task) => task.id !== id) };
+        }
+        return (old || []).filter((task: Task) => task.id !== id);
       });
 
       return { previousTasks, previousNextActions };
@@ -146,13 +174,32 @@ export function useSetNextAction() {
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['tasks'] });
       await queryClient.cancelQueries({ queryKey: ['nextActions'] });
-      const previousTasks = queryClient.getQueryData(['tasks']);
-      const previousNextActions = queryClient.getQueryData(['nextActions']);
+      const previousTasks = queryClient.getQueryData<TaskListResponse>(['tasks']);
+      const previousNextActions = queryClient.getQueryData<TaskListResponse>(['nextActions']);
 
-      queryClient.setQueryData(['tasks'], (old: Task[] | undefined) => {
-        return (old || []).map(task =>
+      queryClient.setQueryData(['tasks'], (old: TaskListResponse | undefined) => {
+        if (old && 'items' in old) {
+          return {
+            ...old,
+            items: old.items.map((task: Task) =>
+              task.id === id ? { ...task, is_next_action: true } : task
+            ),
+          };
+        }
+        return (old || []).map((task: Task) =>
           task.id === id ? { ...task, is_next_action: true } : task
         );
+      });
+
+      queryClient.setQueryData(['nextActions'], (old: TaskListResponse | undefined) => {
+        const newTaskItem = (old && 'items' in old ? old.items : old || []).find((task: Task) => task.id === id);
+        if (newTaskItem) {
+          if (old && 'items' in old) {
+            return { ...old, items: [...old.items, { ...newTaskItem, is_next_action: true }] };
+          }
+          return [...(old || []), { ...newTaskItem, is_next_action: true }];
+        }
+        return old;
       });
 
       return { previousTasks, previousNextActions };

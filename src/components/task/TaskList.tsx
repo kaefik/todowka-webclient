@@ -1,10 +1,10 @@
-import type { Task } from '@/types';
+import type { Task, TaskListResponse } from '@/types';
 import { TaskItem } from './TaskItem';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Spinner } from '@/components/ui/Spinner';
 
 interface TaskListProps {
-  tasks: Task[];
+  tasks: TaskListResponse;
   loading?: boolean;
   onComplete?: (id: number) => void;
   onNextAction?: (id: number) => void;
@@ -35,7 +35,7 @@ export function TaskList({ tasks, loading, onComplete, onNextAction, onEdit, onD
 
   return (
     <div className="space-y-3">
-      {taskList.map((task) => (
+      {taskList.map((task: Task) => (
         <TaskItem
           key={task.id}
           task={task}
