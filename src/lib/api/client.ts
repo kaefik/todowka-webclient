@@ -64,6 +64,13 @@ class TodoAPIClient {
     });
   }
 
+  async patch<T>(endpoint: string, data: any): Promise<T> {
+    return this.request<T>(endpoint, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  }
+
   async delete(endpoint: string): Promise<void> {
     await this.request<void>(endpoint, { method: 'DELETE' });
   }

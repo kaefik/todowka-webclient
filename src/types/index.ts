@@ -86,10 +86,18 @@ export interface TaskCreate {
 export interface TaskUpdate {
   title?: string;
   description?: string;
+  completed?: boolean;
   status?: TaskStatus;
   priority?: TaskPriority;
+  due_date?: string;
+  reminder_time?: string;
+  is_next_action?: boolean;
+  waiting_for?: string;
+  delegated_to?: string;
+  someday?: boolean;
   project_id?: number;
   context_id?: number;
+  area_id?: number;
   tag_ids?: number[];
 }
 

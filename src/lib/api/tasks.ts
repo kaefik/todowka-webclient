@@ -28,7 +28,7 @@ export const tasksAPI = {
   },
 
   async update(id: number, data: TaskUpdate): Promise<Task> {
-    return api.put<Task>(`/tasks/${id}`, data);
+    return api.patch<Task>(`/tasks/${id}`, data);
   },
 
   async delete(id: number): Promise<void> {
