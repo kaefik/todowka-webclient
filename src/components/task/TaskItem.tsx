@@ -18,7 +18,7 @@ export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete }: T
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-2">
-            <h3 className={`font-medium ${task.status === 'completed' ? 'line-through text-gray-400' : ''}`}>
+            <h3 className={`font-medium ${task.completed ? 'line-through text-gray-400' : ''}`}>
               {task.title}
             </h3>
             <Badge variant="status" value={task.status} />

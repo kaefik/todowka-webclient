@@ -40,10 +40,13 @@ export function useCreateTask() {
           id: Date.now(),
           status: newTask.status || 'inbox',
           priority: newTask.priority || 'medium',
+          completed: false,
+          someday: false,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
           tag_ids: newTask.tag_ids || [],
           is_next_action: false,
+          tags: [],
         } as Task;
 
         if (old && 'items' in old) {
@@ -138,12 +141,12 @@ export function useCompleteTask() {
           return {
             ...old,
             items: old.items.map((task: Task) =>
-              task.id === id ? { ...task, status: 'completed' as TaskStatus, completed_at: new Date().toISOString() } : task
+              task.id === id ? { ...task, completed: true, updated_at: new Date().toISOString() } : task
             ),
           };
         }
         return (old || []).map((task: Task) =>
-          task.id === id ? { ...task, status: 'completed' as TaskStatus, completed_at: new Date().toISOString() } : task
+          task.id === id ? { ...task, completed: true, updated_at: new Date().toISOString() } : task
         );
       });
 

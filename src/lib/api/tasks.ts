@@ -43,10 +43,6 @@ export const tasksAPI = {
     return api.post<Task>(`/tasks/${id}/next-action`, { flag: true });
   },
 
-  async toggleComplete(id: number): Promise<Task> {
-    return api.post<Task>(`/tasks/${id}/toggle-complete`, {});
-  },
-
   async getNextActions(): Promise<Task[]> {
     return api.get<Task[]>('/tasks/next-actions');
   }

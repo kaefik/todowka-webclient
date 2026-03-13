@@ -7,16 +7,21 @@ export interface Task {
   id: number;
   title: string;
   description?: string;
+  completed: boolean;
   status: TaskStatus;
   priority: TaskPriority;
-  project_id?: number;
-  context_id?: number;
-  tag_ids: number[];
+  due_date?: string;
+  reminder_time?: string;
   is_next_action: boolean;
-  completed_at?: string;
-  reminder_at?: string;
+  waiting_for?: string;
+  delegated_to?: string;
+  someday: boolean;
   created_at: string;
   updated_at: string;
+  project_id?: number;
+  context_id?: number;
+  area_id?: number;
+  tags: Tag[];
 }
 
 export interface Project {

@@ -26,10 +26,13 @@ export function useCreateInboxTask() {
         id: Date.now(),
         status: 'inbox' as TaskStatus,
         priority: 'medium' as TaskPriority,
+        completed: false,
+        someday: false,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
         tag_ids: [],
         is_next_action: false,
+        tags: [],
       } as Task;
 
       queryClient.setQueryData(['inbox'], (old: TaskListResponse | undefined) => {
