@@ -14,10 +14,18 @@ export function Select({ value, onChange, children, placeholder = 'Select...', c
   const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
 
-  const selectedChild = Array.isArray(children)
-    ? children.find((child: any) => child?.props?.value === value)
-    : null;
-  const displayValue = selectedChild?.props?.children || placeholder;
+  // Use React.Children.toArray to flatten nested arrays for consistent handling
+  const childrenArray = React.Children.toArray(children);
+  const selectedChild = childrenArray.find((child: any) => {
+    if (!child || typeof child !== 'object' || !('props' in child)) return false;
+    const childValue = child.props?.value;
+    return String(childValue) === String(value);
+  });
+  const displayValue = selectedChild && typeof selectedChild === 'object' && 'props' in selectedChild
+    ? selectedChild.props?.children
+    : placeholder;
+
+  console.log('Select render:', { value, selectedChild, displayValue });
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -48,7 +56,7 @@ export function Select({ value, onChange, children, placeholder = 'Select...', c
       const isSelectItem = child?.type?.name === 'SelectItem' ||
                           (child && typeof child === 'object' && 'props' in child && hasValue);
 
-      console.log('  hasValue:', hasValue, 'isSelectItem:', isSelectItem);
+      console.log('  hasValue:', hasValue, 'isSelectItem:', isSelectItem, 'childValue:', child?.props?.value, 'selectedValue:', value, 'isEqual:', String(child?.props?.value) === String(value));
 
       if (isSelectItem) {
         const cloned = React.cloneElement(child, {
