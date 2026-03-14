@@ -7,7 +7,12 @@ import type { Task, TaskCreate, TaskUpdate, TaskFilters, TaskStatus, TaskListRes
 export function useTasks(filters?: TaskFilters) {
   return useQuery({
     queryKey: ['tasks', filters],
-    queryFn: () => tasksAPI.getAll(filters),
+    queryFn: () => {
+      console.log('[useTasks] Fetching tasks with filters:', filters);
+      const result = tasksAPI.getAll(filters);
+      result.then(data => console.log('[useTasks] Fetched tasks:', data));
+      return result;
+    },
   });
 }
 
@@ -70,9 +75,12 @@ export function useCreateTask() {
 export function useUpdateTask() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: TaskUpdate }) =>
-      tasksAPI.update(id, data),
+    mutationFn: ({ id, data }: { id: number; data: TaskUpdate }) => {
+      console.log('[useUpdateTask] Calling API with id:', id, 'data:', data);
+      return tasksAPI.update(id, data);
+    },
     onMutate: async ({ id, data }) => {
+      console.log('[useUpdateTask] onMutate - id:', id, 'data:', data);
       await queryClient.cancelQueries({ queryKey: ['tasks'] });
       await queryClient.cancelQueries({ queryKey: ['inbox'] });
       await queryClient.cancelQueries({ queryKey: ['nextActions'] });
@@ -85,12 +93,24 @@ export function useUpdateTask() {
           return {
             ...old,
             items: old.items.map((task: Task) =>
-              task.id === id ? { ...task, ...data, updated_at: new Date().toISOString() } : task
+              task.id === id ? {
+                ...task,
+                ...data,
+                updated_at: new Date().toISOString(),
+                project_id: 'project_id' in data ? data.project_id : task.project_id,
+                context_id: 'context_id' in data ? data.context_id : task.context_id,
+              } : task
             ),
           };
         }
         return (old || []).map((task: Task) =>
-          task.id === id ? { ...task, ...data, updated_at: new Date().toISOString() } : task
+          task.id === id ? {
+            ...task,
+            ...data,
+            updated_at: new Date().toISOString(),
+            project_id: 'project_id' in data ? data.project_id : task.project_id,
+            context_id: 'context_id' in data ? data.context_id : task.context_id,
+          } : task
         );
       });
 
@@ -99,12 +119,24 @@ export function useUpdateTask() {
           return {
             ...old,
             items: old.items.map((task: Task) =>
-              task.id === id ? { ...task, ...data, updated_at: new Date().toISOString() } : task
+              task.id === id ? {
+                ...task,
+                ...data,
+                updated_at: new Date().toISOString(),
+                project_id: 'project_id' in data ? data.project_id : task.project_id,
+                context_id: 'context_id' in data ? data.context_id : task.context_id,
+              } : task
             ),
           };
         }
         return (old || []).map((task: Task) =>
-          task.id === id ? { ...task, ...data, updated_at: new Date().toISOString() } : task
+          task.id === id ? {
+            ...task,
+            ...data,
+            updated_at: new Date().toISOString(),
+            project_id: 'project_id' in data ? data.project_id : task.project_id,
+            context_id: 'context_id' in data ? data.context_id : task.context_id,
+          } : task
         );
       });
 
@@ -113,27 +145,41 @@ export function useUpdateTask() {
           return {
             ...old,
             items: old.items.map((task: Task) =>
-              task.id === id ? { ...task, ...data, updated_at: new Date().toISOString() } : task
+              task.id === id ? {
+                ...task,
+                ...data,
+                updated_at: new Date().toISOString(),
+                project_id: 'project_id' in data ? data.project_id : task.project_id,
+                context_id: 'context_id' in data ? data.context_id : task.context_id,
+              } : task
             ),
           };
         }
         return (old || []).map((task: Task) =>
-          task.id === id ? { ...task, ...data, updated_at: new Date().toISOString() } : task
+          task.id === id ? {
+            ...task,
+            ...data,
+            updated_at: new Date().toISOString(),
+            project_id: 'project_id' in data ? data.project_id : task.project_id,
+            context_id: 'context_id' in data ? data.context_id : task.context_id,
+          } : task
         );
       });
 
       return { previousTasks, previousInbox, previousNextActions };
     },
-    onError: (err, variables, context) => {
-      queryClient.setQueryData(['tasks'], (context as any)?.previousTasks);
-      queryClient.setQueryData(['inbox'], (context as any)?.previousInbox);
-      queryClient.setQueryData(['nextActions'], (context as any)?.previousNextActions);
-    },
-    onSettled: () => {
+    onSuccess: (result) => {
+      console.log('[useUpdateTask] onSuccess - result:', result);
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['inbox'] });
       queryClient.invalidateQueries({ queryKey: ['nextActions'] });
       queryClient.invalidateQueries({ queryKey: ['projects'] });
+    },
+    onError: (err, variables, context) => {
+      console.error('[useUpdateTask] onError:', err);
+      queryClient.setQueryData(['tasks'], (context as any)?.previousTasks);
+      queryClient.setQueryData(['inbox'], (context as any)?.previousInbox);
+      queryClient.setQueryData(['nextActions'], (context as any)?.previousNextActions);
     },
   });
 }
@@ -225,12 +271,12 @@ export function useSetNextAction() {
           return {
             ...old,
             items: old.items.map((task: Task) =>
-              task.id === id ? { ...task, is_next_action: true } : task
+              task.id === id ? { ...task, is_next_action: true, updated_at: new Date().toISOString() } : task
             ),
           };
         }
         return (old || []).map((task: Task) =>
-          task.id === id ? { ...task, is_next_action: true } : task
+          task.id === id ? { ...task, is_next_action: true, updated_at: new Date().toISOString() } : task
         );
       });
 

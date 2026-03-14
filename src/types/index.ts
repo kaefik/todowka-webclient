@@ -78,8 +78,8 @@ export interface TaskCreate {
   description?: string;
   status?: TaskStatus;
   priority?: TaskPriority;
-  project_id?: number;
-  context_id?: number;
+  project_id?: number | null;
+  context_id?: number | null;
   tag_ids?: number[];
 }
 
@@ -95,9 +95,9 @@ export interface TaskUpdate {
   waiting_for?: string;
   delegated_to?: string;
   someday?: boolean;
-  project_id?: number;
-  context_id?: number;
-  area_id?: number;
+  project_id?: number | null;
+  context_id?: number | null;
+  area_id?: number | null;
   tag_ids?: number[];
 }
 

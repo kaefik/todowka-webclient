@@ -3,6 +3,7 @@
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useEffect } from 'react';
 import type { Task, TaskCreate, TaskUpdate } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
@@ -48,6 +49,7 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
     register,
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TaskFormData>({
     resolver: zodResolver(taskSchema),
@@ -62,21 +64,47 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
     },
   });
 
+  useEffect(() => {
+    if (task) {
+      console.log('[TaskForm] Received task for editing:', task);
+      const resetData = {
+        title: task.title,
+        description: task.description || '',
+        priority: task.priority || 'medium',
+        project_id: task.project_id,
+        context_id: task.context_id,
+        tag_ids: task.tags?.map(t => t.id) || [],
+        move_to_active: false,
+      };
+      console.log('[TaskForm] Resetting form with data:', resetData);
+      reset(resetData);
+    }
+  }, [task, reset]);
+
   const handleSubmitWithLog = (data: TaskFormData) => {
+    console.log('[TaskForm] Raw form data:', data);
+
     const submitData: TaskCreate | TaskUpdate = {
       title: data.title,
       description: data.description,
       priority: data.priority,
-      project_id: data.project_id ? parseInt(data.project_id as string) : undefined,
-      context_id: data.context_id ? parseInt(data.context_id as string) : undefined,
+      project_id: data.project_id && data.project_id !== '' ? parseInt(data.project_id as string) : null,
+      context_id: data.context_id && data.context_id !== '' ? parseInt(data.context_id as string) : null,
       tag_ids: data.tag_ids,
     };
+
+    console.log('[TaskForm] Before filtering:', submitData);
 
     if (data.move_to_active) {
       submitData.status = 'active';
     }
 
-    onSubmit(submitData);
+    const filteredData = Object.fromEntries(
+      Object.entries(submitData).filter(([_, v]) => v !== undefined)
+    );
+
+    console.log('[TaskForm] After filtering (sending to onSubmit):', filteredData);
+    onSubmit(filteredData as TaskCreate | TaskUpdate);
   };
 
   return (
@@ -122,8 +150,8 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
             control={control}
             render={({ field }) => (
               <Select
-                value={field.value?.toString() || ''}
-                onChange={(value) => field.onChange(value ? parseInt(value) : undefined)}
+                value={typeof field.value === 'number' ? field.value.toString() : ''}
+                onChange={(value) => field.onChange(value === '' ? null : parseInt(value))}
                 placeholder="Select project"
               >
                 <SelectItem value="">None</SelectItem>
@@ -146,8 +174,8 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
           control={control}
           render={({ field }) => (
             <Select
-              value={field.value?.toString() || ''}
-              onChange={(value) => field.onChange(value ? parseInt(value) : undefined)}
+              value={typeof field.value === 'number' ? field.value.toString() : ''}
+              onChange={(value) => field.onChange(value === '' ? null : parseInt(value))}
               placeholder="Select context"
             >
               <SelectItem value="">None</SelectItem>

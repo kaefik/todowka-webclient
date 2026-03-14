@@ -2,21 +2,32 @@
 
 import { useState } from 'react';
 import { useInbox } from '@/lib/hooks/useInbox';
-import { useTasks, useUpdateTask } from '@/lib/hooks/useTasks';
+import { useTasks, useUpdateTask, useDeleteTask, useCompleteTask } from '@/lib/hooks/useTasks';
 import { useProjects } from '@/lib/hooks/useProjects';
 import { TaskList } from '@/components/task/TaskList';
 import { ProjectList } from '@/components/project/ProjectList';
 import { Button } from '@/components/ui/Button';
-import type { TaskUpdate } from '@/types';
+import { Modal } from '@/components/ui/Modal';
+import { TaskForm } from '@/components/task/TaskForm';
+import { useRouter } from 'next/navigation';
+import { useContexts } from '@/lib/hooks/useContexts';
+import { useTags } from '@/lib/hooks/useTags';
+import type { TaskUpdate, Task, Project } from '@/types';
 
 type ReviewStep = 'inbox' | 'projects' | 'next-actions' | 'someday';
 
 export default function ReviewPage() {
+  const router = useRouter();
   const [step, setStep] = useState<ReviewStep>('inbox');
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
   const { data: inboxTasks, isLoading: inboxLoading } = useInbox();
   const { data: somedayTasks, isLoading: somedayLoading } = useTasks({ status: 'someday' });
   const { data: projects, isLoading: projectsLoading } = useProjects(1, 50);
+  const { data: contexts } = useContexts();
+  const { data: tags } = useTags();
   const updateTask = useUpdateTask();
+  const deleteTask = useDeleteTask();
+  const completeTask = useCompleteTask();
 
   const steps = [
     { id: 'inbox' as ReviewStep, label: 'Inbox Review', icon: '📥' },
@@ -25,12 +36,33 @@ export default function ReviewPage() {
     { id: 'someday' as ReviewStep, label: 'Someday Review', icon: '🔮' },
   ];
 
+  const handleEditTask = (task: Task) => {
+    setEditingTask(task);
+  };
+
+  const handleDeleteTask = (id: number) => {
+    if (confirm('Delete this task?')) {
+      deleteTask.mutate(id);
+    }
+  };
+
+  const handleSaveTask = (data: TaskUpdate) => {
+    if (editingTask) {
+      updateTask.mutate({ id: editingTask.id, data });
+      setEditingTask(null);
+    }
+  };
+
   const handleSetActive = (task: any) => {
     updateTask.mutate({ id: task.id, data: { status: 'active' } });
   };
 
   const handleSetNextAction = (task: any) => {
     updateTask.mutate({ id: task.id, data: { is_next_action: true } as any });
+  };
+
+  const handleProjectClick = (project: Project) => {
+    router.push(`/projects/${project.id}`);
   };
 
   return (
@@ -55,7 +87,14 @@ export default function ReviewPage() {
           <p className="mb-4 text-foreground-secondary">
             Process all items in your inbox. Clarify, organize, or delete them.
           </p>
-          <TaskList tasks={inboxTasks || []} loading={inboxLoading} />
+          <TaskList
+            tasks={inboxTasks || []}
+            loading={inboxLoading}
+            showNextButton={false}
+            onComplete={(id) => completeTask.mutate(id)}
+            onEdit={handleEditTask}
+            onDelete={handleDeleteTask}
+          />
         </section>
       )}
 
@@ -65,7 +104,11 @@ export default function ReviewPage() {
           <p className="mb-4 text-foreground-secondary">
             Review your projects, update status, and check progress.
           </p>
-          <ProjectList projects={projects?.items || []} loading={projectsLoading} />
+          <ProjectList
+            projects={projects?.items || []}
+            loading={projectsLoading}
+            onProjectClick={handleProjectClick}
+          />
         </section>
       )}
 
@@ -78,6 +121,9 @@ export default function ReviewPage() {
           <TaskList
             tasks={inboxTasks || []}
             loading={inboxLoading}
+            onComplete={(id) => completeTask.mutate(id)}
+            onEdit={handleEditTask}
+            onDelete={handleDeleteTask}
             onNextAction={(id) => handleSetNextAction({ id })}
           />
         </section>
@@ -92,10 +138,27 @@ export default function ReviewPage() {
           <TaskList
             tasks={somedayTasks || []}
             loading={somedayLoading}
+            onComplete={(id) => completeTask.mutate(id)}
+            onEdit={handleEditTask}
+            onDelete={handleDeleteTask}
             onNextAction={(id) => handleSetActive({ id })}
           />
         </section>
       )}
+
+      <Modal isOpen={!!editingTask} onClose={() => setEditingTask(null)} title="Edit Task">
+        {editingTask && (
+          <TaskForm
+            task={editingTask}
+            projects={projects?.items || []}
+            contexts={contexts || []}
+            tags={tags || []}
+            onSubmit={handleSaveTask}
+            onCancel={() => setEditingTask(null)}
+            isSubmitting={updateTask.isPending}
+          />
+        )}
+      </Modal>
     </div>
   );
 }

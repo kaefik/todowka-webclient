@@ -37,7 +37,9 @@ class TodoAPIClient {
         return null as T;
       }
 
-      return await response.json();
+      const responseData = await response.json();
+      console.log('[API Client] Response from', endpoint, ':', responseData);
+      return responseData;
     } catch (error) {
       if (error instanceof APIError) {
         throw error;
@@ -47,6 +49,7 @@ class TodoAPIClient {
   }
 
   async get<T>(endpoint: string): Promise<T> {
+    console.log('[API Client] GET', endpoint);
     return this.request<T>(endpoint, { method: 'GET' });
   }
 
@@ -65,9 +68,16 @@ class TodoAPIClient {
   }
 
   async patch<T>(endpoint: string, data: any): Promise<T> {
+    const keysToKeepNull = ['project_id', 'context_id', 'area_id'];
+    const cleanedData = Object.fromEntries(
+      Object.entries(data).filter(([key, v]) => v !== null || keysToKeepNull.includes(key))
+    );
+    console.log('[API Client] PATCH', endpoint, '- Original data:', data);
+    console.log('[API Client] PATCH', endpoint, '- Cleaned data:', cleanedData);
+    console.log('[API Client] PATCH', endpoint, '- Request body JSON:', JSON.stringify(cleanedData, null, 2));
     return this.request<T>(endpoint, {
       method: 'PATCH',
-      body: JSON.stringify(data),
+      body: JSON.stringify(cleanedData),
     });
   }
 

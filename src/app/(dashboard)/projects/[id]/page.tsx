@@ -2,20 +2,22 @@
 
 import { useParams } from 'next/navigation';
 import { useProject } from '@/lib/hooks/useProjects';
-import { useTasks, useCreateTask, useCompleteTask } from '@/lib/hooks/useTasks';
+import { useTasks, useCreateTask, useCompleteTask, useUpdateTask, useDeleteTask } from '@/lib/hooks/useTasks';
+import { useQueryClient } from '@tanstack/react-query';
 import { ProjectCard } from '@/components/project/ProjectCard';
 import { TaskList } from '@/components/task/TaskList';
 import { Modal } from '@/components/ui/Modal';
 import { TaskForm } from '@/components/task/TaskForm';
 import { Button } from '@/components/ui/Button';
 import { useState, useMemo } from 'react';
-import type { TaskCreate } from '@/types';
+import type { TaskCreate, TaskUpdate, Task } from '@/types';
 import { useContexts } from '@/lib/hooks/useContexts';
 import { useTags } from '@/lib/hooks/useTags';
 
 type TaskFilter = 'next' | 'active' | 'all';
 
 export default function ProjectDetailsPage() {
+  const queryClient = useQueryClient();
   const params = useParams();
   const projectId = parseInt(params.id as string);
   const { data: project } = useProject(projectId);
@@ -25,8 +27,37 @@ export default function ProjectDetailsPage() {
 
   const [filter, setFilter] = useState<TaskFilter>('active');
   const [isCreatingTask, setIsCreatingTask] = useState(false);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
   const createTask = useCreateTask();
   const completeTask = useCompleteTask();
+  const updateTask = useUpdateTask();
+  const deleteTask = useDeleteTask();
+
+  const handleEditTask = (task: Task) => {
+    setEditingTask(task);
+  };
+
+  const handleDeleteTask = (id: number) => {
+    if (confirm('Delete this task?')) {
+      deleteTask.mutate(id);
+    }
+  };
+
+  const handleSaveTask = (data: TaskUpdate) => {
+    if (editingTask) {
+      updateTask.mutate(
+        { id: editingTask.id, data },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['tasks'] });
+            queryClient.invalidateQueries({ queryKey: ['tasks', { project_id: projectId }] });
+            queryClient.invalidateQueries({ queryKey: ['task', editingTask.id] });
+          },
+        }
+      );
+      setEditingTask(null);
+    }
+  };
 
   const filteredTasks = useMemo(() => {
     if (!projectTasks) return [];
@@ -89,6 +120,8 @@ export default function ProjectDetailsPage() {
         tasks={filteredTasks}
         loading={isLoading}
         onComplete={(id) => completeTask.mutate(id)}
+        onEdit={handleEditTask}
+        onDelete={handleDeleteTask}
       />
 
       <Modal isOpen={isCreatingTask} onClose={() => setIsCreatingTask(false)} title="Add Task">
@@ -103,6 +136,20 @@ export default function ProjectDetailsPage() {
           onCancel={() => setIsCreatingTask(false)}
           isSubmitting={createTask.isPending}
         />
+      </Modal>
+
+      <Modal isOpen={!!editingTask} onClose={() => setEditingTask(null)} title="Edit Task">
+        {editingTask && (
+          <TaskForm
+            task={editingTask}
+            projects={project ? [project] : []}
+            contexts={contexts || []}
+            tags={tags || []}
+            onSubmit={handleSaveTask}
+            onCancel={() => setEditingTask(null)}
+            isSubmitting={updateTask.isPending}
+          />
+        )}
       </Modal>
     </div>
   );
