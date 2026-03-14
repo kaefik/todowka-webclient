@@ -24,7 +24,13 @@ export default function CompletedPage() {
   const projectList = Array.isArray(projects) ? projects : (projects as any)?.items || [];
 
   const completedTasks = useMemo(() => {
-    return taskList.filter((t: Task) => t.completed);
+    return taskList
+      .filter((t: Task) => t.completed)
+      .sort((a: Task, b: Task) => {
+        const dateA = a.completed_at ? new Date(a.completed_at).getTime() : 0;
+        const dateB = b.completed_at ? new Date(b.completed_at).getTime() : 0;
+        return dateB - dateA;
+      });
   }, [taskList]);
 
   const handleEdit = (task: Task) => {

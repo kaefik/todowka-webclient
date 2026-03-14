@@ -18,6 +18,7 @@ export interface Task {
   someday: boolean;
   created_at: string;
   updated_at: string;
+  completed_at?: string;
   project_id?: number;
   context_id?: number;
   area_id?: number;
@@ -96,6 +97,9 @@ export interface TaskUpdate {
   waiting_for?: string;
   delegated_to?: string;
   someday?: boolean;
+  created_at?: string;
+  updated_at?: string;
+  completed_at?: string;
   project_id?: number | null;
   context_id?: number | null;
   area_id?: number | null;

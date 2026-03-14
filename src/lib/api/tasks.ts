@@ -36,7 +36,7 @@ export const tasksAPI = {
   },
 
   async complete(id: number): Promise<Task> {
-    return api.post<Task>(`/tasks/${id}/complete`, { status: 'completed' });
+    return api.post<Task>(`/tasks/${id}/complete`, { status: 'completed', completed_at: new Date().toISOString() });
   },
 
   async setNextAction(id: number, flag: boolean): Promise<Task> {
