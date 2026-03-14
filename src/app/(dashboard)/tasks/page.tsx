@@ -12,7 +12,7 @@ import { TaskForm } from '@/components/task/TaskForm';
 import type { TaskFilters as TaskFiltersType, TaskListResponse, Task, TaskUpdate } from '@/types';
 
 export default function TasksPage() {
-  const [filters, setFilters] = useState<TaskFiltersType>({});
+  const [filters, setFilters] = useState<TaskFiltersType>({ status: 'active' });
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const { data: tasks, isLoading } = useTasks(filters);
   const { data: projects } = useProjects();
