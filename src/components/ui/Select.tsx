@@ -25,8 +25,6 @@ export function Select({ value, onChange, children, placeholder = 'Select...', c
     ? selectedChild.props?.children
     : placeholder;
 
-  console.log('Select render:', { value, selectedChild, displayValue });
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
@@ -46,25 +44,17 @@ export function Select({ value, onChange, children, placeholder = 'Select...', c
     // Use React.Children.toArray to flatten nested arrays from .map()
     const childrenArray = React.Children.toArray(children);
 
-    console.log('Select children (flattened):', childrenArray);
-
     return childrenArray.map((child: any, index: number) => {
-      console.log('Select child:', child, 'props:', child?.props, 'type:', child?.type?.name);
-      // Check if child has value prop (indicates SelectItem)
-      // Try multiple checks to handle different scenarios
-      const hasValue = child?.props?.value !== undefined;
-      const isSelectItem = child?.type?.name === 'SelectItem' ||
-                          (child && typeof child === 'object' && 'props' in child && hasValue);
+      if (!child || typeof child !== 'object' || !('props' in child)) return child;
 
-      console.log('  hasValue:', hasValue, 'isSelectItem:', isSelectItem, 'childValue:', child?.props?.value, 'selectedValue:', value, 'isEqual:', String(child?.props?.value) === String(value));
+      const hasValue = child?.props?.value !== undefined;
+      const isSelectItem = hasValue;
 
       if (isSelectItem) {
-        const cloned = React.cloneElement(child, {
+        return React.cloneElement(child, {
           key: child.props.value || child.key || index,
           onItemSelect: handleSelect
         });
-        console.log('  Cloned element with onItemSelect');
-        return cloned;
       }
       return child;
     });
@@ -97,10 +87,7 @@ interface SelectItemProps {
 }
 
 export function SelectItem({ value, children, className = '', onItemSelect }: SelectItemProps) {
-  console.log('SelectItem render:', { value, children, onItemSelect: !!onItemSelect });
-
   const handleClick = () => {
-    console.log('SelectItem clicked:', value, 'onItemSelect:', !!onItemSelect);
     onItemSelect?.(value);
   };
 
