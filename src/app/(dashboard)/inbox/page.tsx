@@ -8,6 +8,7 @@ import { useTags } from '@/lib/hooks/useTags';
 import { TaskList } from '@/components/task/TaskList';
 import { Modal } from '@/components/ui/Modal';
 import { TaskForm } from '@/components/task/TaskForm';
+import { QuickCapture } from '@/components/layout/QuickCapture';
 import { Button } from '@/components/ui/Button';
 import { useState } from 'react';
 import type { Task, TaskUpdate, TaskListResponse } from '@/types';
@@ -83,6 +84,10 @@ export default function InboxPage() {
           Process All
         </Button>
       </div>
+
+      <section>
+        <QuickCapture />
+      </section>
 
       {isProcessing && selectedTask && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
