@@ -57,7 +57,7 @@ export function useCreateInboxTask() {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['inbox'] });
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'tasks' });
     },
   });
 }

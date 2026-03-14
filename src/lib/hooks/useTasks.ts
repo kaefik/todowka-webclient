@@ -66,7 +66,7 @@ export function useCreateTask() {
       queryClient.setQueryData(['tasks'], (context as any)?.previousTasks);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'tasks' });
       queryClient.invalidateQueries({ queryKey: ['projects'] });
     },
   });
@@ -170,7 +170,7 @@ export function useUpdateTask() {
     },
     onSuccess: (result) => {
       console.log('[useUpdateTask] onSuccess - result:', result);
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'tasks' });
       queryClient.invalidateQueries({ queryKey: ['inbox'] });
       queryClient.invalidateQueries({ queryKey: ['nextActions'] });
       queryClient.invalidateQueries({ queryKey: ['projects'] });
@@ -205,7 +205,7 @@ export function useDeleteTask() {
       queryClient.setQueryData(['tasks'], (context as any)?.previousTasks);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'tasks' });
       queryClient.invalidateQueries({ queryKey: ['inbox'] });
       queryClient.invalidateQueries({ queryKey: ['deletedTasks'] });
       queryClient.invalidateQueries({ queryKey: ['projects'] });
@@ -257,20 +257,7 @@ export function useCompleteTask() {
     },
     onSuccess: (result) => {
       console.log('[useCompleteTask] onSuccess - result:', result);
-      queryClient.setQueryData(['tasks'], (old: TaskListResponse | undefined) => {
-        if (old && 'items' in old) {
-          return {
-            ...old,
-            items: old.items.map((task: Task) =>
-              task.id === result.id ? { ...result, status: 'completed' } : task
-            ),
-          };
-        }
-        return (old || []).map((task: Task) =>
-          task.id === result.id ? { ...result, status: 'completed' } : task
-        );
-      });
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'tasks' });
       queryClient.invalidateQueries({ queryKey: ['inbox'] });
       queryClient.invalidateQueries({ queryKey: ['nextActions'] });
       queryClient.invalidateQueries({ queryKey: ['projects'] });
@@ -332,7 +319,7 @@ export function useSetNextAction() {
       queryClient.setQueryData(['nextActions'], (context as any)?.previousNextActions);
     },
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'tasks' });
       queryClient.invalidateQueries({ queryKey: ['nextActions'] });
     },
   });
@@ -361,7 +348,7 @@ export function useRestoreTask() {
     onSettled: () => {
       console.log('[useRestoreTask] Restore settled');
       queryClient.invalidateQueries({ queryKey: ['deletedTasks'] });
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'tasks' });
       queryClient.invalidateQueries({ queryKey: ['inbox'] });
     },
   });
