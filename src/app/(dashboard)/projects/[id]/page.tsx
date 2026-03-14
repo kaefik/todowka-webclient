@@ -69,9 +69,19 @@ export default function ProjectDetailsPage() {
       case 'next':
         return tasks.filter((t: any) => t.is_next_action && !t.completed);
       case 'active':
-        return tasks.filter((t: any) => !t.completed);
+        return tasks.filter((t: any) => !t.completed).sort((a: any, b: any) => {
+          if (a.is_next_action && !b.is_next_action) return -1;
+          if (!a.is_next_action && b.is_next_action) return 1;
+          return 0;
+        });
       case 'all':
-        return tasks;
+        return tasks.sort((a: any, b: any) => {
+          if (a.completed && !b.completed) return 1;
+          if (!a.completed && b.completed) return -1;
+          if (a.is_next_action && !b.is_next_action) return -1;
+          if (!a.is_next_action && b.is_next_action) return 1;
+          return 0;
+        });
       default:
         return tasks;
     }

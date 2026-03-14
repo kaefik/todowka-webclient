@@ -28,7 +28,7 @@ export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete, sho
           {task.description && (
             <p className="text-sm text-slate-600 mb-2">{task.description}</p>
           )}
-          {task.is_next_action && (
+          {task.is_next_action && !task.completed && (
             <span className="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">
               Next Action
             </span>
@@ -38,7 +38,7 @@ export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete, sho
           <Button type="button" variant="ghost" size="sm" onClick={() => onEdit?.(task)}>
             Edit
           </Button>
-          {showNextButton && (
+          {showNextButton && !task.completed && (
             <Button 
               type="button" 
               variant={task.is_next_action ? "primary" : "ghost"} 

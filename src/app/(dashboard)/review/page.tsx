@@ -123,8 +123,14 @@ export default function ReviewPage() {
           <TaskList
             tasks={nextActions || []}
             loading={nextActionsLoading}
-            showNextButton={false}
+            showNextButton={true}
             onComplete={(id) => completeTask.mutate(id)}
+            onNextAction={(id) => {
+              const task = (nextActions || []).find((t: any) => t.id === id);
+              if (task) {
+                handleSetNextAction(task);
+              }
+            }}
             onEdit={handleEditTask}
             onDelete={handleDeleteTask}
           />
