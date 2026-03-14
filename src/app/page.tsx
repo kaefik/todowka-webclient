@@ -31,7 +31,8 @@ export default function Dashboard() {
     router.push(`/projects/${project.id}`);
   };
 
-  const inboxCount = Array.isArray(inboxTasks) ? inboxTasks?.length : (inboxTasks as any)?.items?.length || 0;
+  const inboxTasksList = Array.isArray(inboxTasks) ? inboxTasks : (inboxTasks as any)?.items || [];
+  const inboxCount = inboxTasksList.filter((t: Task) => !t.completed).length;
   const nextActionsList = Array.isArray(nextActions) ? nextActions : (nextActions as any)?.items || [];
 
   return (

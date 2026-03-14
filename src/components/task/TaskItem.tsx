@@ -22,7 +22,7 @@ export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete, sho
             <h3 className={`font-medium ${task.completed ? 'line-through text-gray-400' : ''}`}>
               {task.title}
             </h3>
-            <Badge variant="status" value={task.status} />
+            {!task.completed && <Badge variant="status" value={task.status} />}
             <Badge variant="priority" value={task.priority} />
           </div>
           {task.description && (

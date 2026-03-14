@@ -230,12 +230,12 @@ export function useCompleteTask() {
           return {
             ...old,
             items: old.items.map((task: Task) =>
-              task.id === id ? { ...task, completed: true, updated_at: new Date().toISOString() } : task
+              task.id === id ? { ...task, completed: true, status: 'completed', updated_at: new Date().toISOString() } : task
             ),
           };
         }
         return (old || []).map((task: Task) =>
-          task.id === id ? { ...task, completed: true, updated_at: new Date().toISOString() } : task
+          task.id === id ? { ...task, completed: true, status: 'completed', updated_at: new Date().toISOString() } : task
         );
       });
 
@@ -248,30 +248,37 @@ export function useCompleteTask() {
 
       queryClient.setQueryData(['inbox'], (old: TaskListResponse | undefined) => {
         if (old && 'items' in old) {
+          return { ...old, items: old.items.filter((task: Task) => task.id !== id) };
+        }
+        return (old || []).filter((task: Task) => task.id !== id);
+      });
+
+      return { previousTasks, previousNextActions, previousInbox };
+    },
+    onSuccess: (result) => {
+      console.log('[useCompleteTask] onSuccess - result:', result);
+      queryClient.setQueryData(['tasks'], (old: TaskListResponse | undefined) => {
+        if (old && 'items' in old) {
           return {
             ...old,
             items: old.items.map((task: Task) =>
-              task.id === id ? { ...task, completed: true, updated_at: new Date().toISOString() } : task
+              task.id === result.id ? { ...result, status: 'completed' } : task
             ),
           };
         }
         return (old || []).map((task: Task) =>
-          task.id === id ? { ...task, completed: true, updated_at: new Date().toISOString() } : task
+          task.id === result.id ? { ...result, status: 'completed' } : task
         );
       });
-
-      return { previousTasks, previousNextActions, previousInbox };
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['inbox'] });
+      queryClient.invalidateQueries({ queryKey: ['nextActions'] });
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
     },
     onError: (err, id, context) => {
       queryClient.setQueryData(['tasks'], (context as any)?.previousTasks);
       queryClient.setQueryData(['nextActions'], (context as any)?.previousNextActions);
       queryClient.setQueryData(['inbox'], (context as any)?.previousInbox);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      queryClient.invalidateQueries({ queryKey: ['inbox'] });
-      queryClient.invalidateQueries({ queryKey: ['nextActions'] });
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
     },
   });
 }

@@ -21,6 +21,8 @@ export default function ReviewPage() {
   const [step, setStep] = useState<ReviewStep>('inbox');
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const { data: inboxTasks, isLoading: inboxLoading } = useInbox();
+  const inboxTasksList = Array.isArray(inboxTasks) ? inboxTasks : (inboxTasks as any)?.items || [];
+  const activeInboxTasks = inboxTasksList.filter((t: Task) => !t.completed);
   const { data: nextActions, isLoading: nextActionsLoading } = useNextActions();
   const { data: somedayTasks, isLoading: somedayLoading } = useTasks({ status: 'someday' });
   const { data: projects, isLoading: projectsLoading } = useProjects(1, 50);
@@ -90,7 +92,7 @@ export default function ReviewPage() {
             Process all items in your inbox. Clarify, organize, or delete them.
           </p>
           <TaskList
-            tasks={inboxTasks || []}
+            tasks={activeInboxTasks}
             loading={inboxLoading}
             showNextButton={false}
             onComplete={(id) => completeTask.mutate(id)}

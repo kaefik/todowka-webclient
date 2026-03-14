@@ -28,14 +28,16 @@ export default function InboxPage() {
   const taskList = Array.isArray(tasks) ? tasks : (tasks as any)?.items || [];
   const projectList = Array.isArray(projects) ? projects : (projects as any)?.items || [];
 
+  const activeTaskList = taskList.filter((t: Task) => !t.completed);
+
   const handleClarify = (task: Task) => {
     setSelectedTask(task);
   };
 
   const handleProcessAll = () => {
     setIsProcessing(true);
-    if (taskList.length > 0) {
-      setSelectedTask(taskList[0]);
+    if (activeTaskList.length > 0) {
+      setSelectedTask(activeTaskList[0]);
     }
   };
 
@@ -43,8 +45,8 @@ export default function InboxPage() {
     if (selectedTask) {
       updateTask.mutate({ id: selectedTask.id, data });
       if (isProcessing) {
-        const currentIndex = taskList.findIndex((t: Task) => t.id === selectedTask.id);
-        const nextTask = taskList[currentIndex + 1];
+        const currentIndex = activeTaskList.findIndex((t: Task) => t.id === selectedTask.id);
+        const nextTask = activeTaskList[currentIndex + 1];
         if (nextTask) {
           setSelectedTask(nextTask);
         } else {
@@ -60,8 +62,8 @@ export default function InboxPage() {
   const handleDelete = (id: number) => {
     if (confirm('Delete this task?')) {
       if (isProcessing && selectedTask?.id === id) {
-        const currentIndex = taskList.findIndex((t: Task) => t.id === id);
-        const nextTask = taskList[currentIndex + 1];
+        const currentIndex = activeTaskList.findIndex((t: Task) => t.id === id);
+        const nextTask = activeTaskList[currentIndex + 1];
         if (nextTask) {
           setSelectedTask(nextTask);
         } else {
@@ -77,7 +79,7 @@ export default function InboxPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Inbox</h1>
-        <Button variant="primary" onClick={handleProcessAll} disabled={taskList.length === 0}>
+        <Button variant="primary" onClick={handleProcessAll} disabled={activeTaskList.length === 0}>
           Process All
         </Button>
       </div>
@@ -85,20 +87,20 @@ export default function InboxPage() {
       {isProcessing && selectedTask && (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
           <p className="text-sm text-blue-800">
-            Processing task {taskList.findIndex((t: Task) => t.id === selectedTask.id) + 1} of {taskList.length}
+            Processing task {activeTaskList.findIndex((t: Task) => t.id === selectedTask.id) + 1} of {activeTaskList.length}
           </p>
         </div>
       )}
 
       <TaskList
-        tasks={taskList}
+        tasks={activeTaskList}
         loading={isLoading}
         showNextButton={false}
         onComplete={(id) => {
           completeTask.mutate(id);
           if (isProcessing && selectedTask?.id === id) {
-            const currentIndex = taskList.findIndex((t: Task) => t.id === id);
-            const nextTask = taskList[currentIndex + 1];
+            const currentIndex = activeTaskList.findIndex((t: Task) => t.id === id);
+            const nextTask = activeTaskList[currentIndex + 1];
             if (nextTask) {
               setSelectedTask(nextTask);
             } else {
@@ -117,7 +119,7 @@ export default function InboxPage() {
           setSelectedTask(null);
           setIsProcessing(false);
         }}
-        title={isProcessing ? `Process task ${taskList.findIndex((t: Task) => t.id === selectedTask?.id) + 1} of ${taskList.length}` : 'Clarify Task'}
+        title={isProcessing ? `Process task ${activeTaskList.findIndex((t: Task) => t.id === selectedTask?.id) + 1} of ${activeTaskList.length}` : 'Clarify Task'}
       >
         {selectedTask && (
           <TaskForm
