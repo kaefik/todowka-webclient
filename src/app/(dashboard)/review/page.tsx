@@ -58,7 +58,8 @@ export default function ReviewPage() {
   };
 
   const handleSetActive = (task: any) => {
-    updateTask.mutate({ id: task.id, data: { status: 'active' } });
+    const flag = task ? !task.is_next_action : true;
+    setNextAction.mutate({ id: task.id, flag });
   };
 
   const handleSetNextAction = (task: any) => {
@@ -148,10 +149,16 @@ export default function ReviewPage() {
           <TaskList
             tasks={somedayTasks || []}
             loading={somedayLoading}
+            showNextButton={true}
             onComplete={(id) => completeTask.mutate(id)}
             onEdit={handleEditTask}
             onDelete={handleDeleteTask}
-            onNextAction={(id) => handleSetActive({ id })}
+            onNextAction={(id) => {
+              const task = (somedayTasks || []).find((t: any) => t.id === id);
+              if (task) {
+                handleSetActive(task);
+              }
+            }}
           />
         </section>
       )}
