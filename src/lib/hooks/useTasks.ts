@@ -206,6 +206,7 @@ export function useDeleteTask() {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['inbox'] });
       queryClient.invalidateQueries({ queryKey: ['deletedTasks'] });
       queryClient.invalidateQueries({ queryKey: ['projects'] });
     },
@@ -219,8 +220,10 @@ export function useCompleteTask() {
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['tasks'] });
       await queryClient.cancelQueries({ queryKey: ['nextActions'] });
+      await queryClient.cancelQueries({ queryKey: ['inbox'] });
       const previousTasks = queryClient.getQueryData<TaskListResponse>(['tasks']);
       const previousNextActions = queryClient.getQueryData<TaskListResponse>(['nextActions']);
+      const previousInbox = queryClient.getQueryData<TaskListResponse>(['inbox']);
 
       queryClient.setQueryData(['tasks'], (old: TaskListResponse | undefined) => {
         if (old && 'items' in old) {
@@ -243,14 +246,30 @@ export function useCompleteTask() {
         return (old || []).filter((task: Task) => task.id !== id);
       });
 
-      return { previousTasks, previousNextActions };
+      queryClient.setQueryData(['inbox'], (old: TaskListResponse | undefined) => {
+        if (old && 'items' in old) {
+          return {
+            ...old,
+            items: old.items.map((task: Task) =>
+              task.id === id ? { ...task, completed: true, updated_at: new Date().toISOString() } : task
+            ),
+          };
+        }
+        return (old || []).map((task: Task) =>
+          task.id === id ? { ...task, completed: true, updated_at: new Date().toISOString() } : task
+        );
+      });
+
+      return { previousTasks, previousNextActions, previousInbox };
     },
     onError: (err, id, context) => {
       queryClient.setQueryData(['tasks'], (context as any)?.previousTasks);
       queryClient.setQueryData(['nextActions'], (context as any)?.previousNextActions);
+      queryClient.setQueryData(['inbox'], (context as any)?.previousInbox);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['inbox'] });
       queryClient.invalidateQueries({ queryKey: ['nextActions'] });
       queryClient.invalidateQueries({ queryKey: ['projects'] });
     },
