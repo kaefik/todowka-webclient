@@ -1,21 +1,31 @@
 'use client';
 
+import { useState } from 'react';
 import { useInbox } from '@/lib/hooks/useInbox';
-import { useNextActions, useCompleteTask, useSetNextAction } from '@/lib/hooks/useTasks';
+import { useNextActions, useCompleteTask, useSetNextAction, useDeleteTask, useUpdateTask } from '@/lib/hooks/useTasks';
 import { useProjects } from '@/lib/hooks/useProjects';
+import { useContexts } from '@/lib/hooks/useContexts';
+import { useTags } from '@/lib/hooks/useTags';
 import { QuickCapture } from '@/components/layout/QuickCapture';
 import { TaskList } from '@/components/task/TaskList';
 import { ProjectList } from '@/components/project/ProjectList';
+import { Modal } from '@/components/ui/Modal';
+import { TaskForm } from '@/components/task/TaskForm';
 import { useRouter } from 'next/navigation';
-import type { Task, TaskListResponse, Project } from '@/types';
+import type { Task, TaskListResponse, Project, TaskUpdate } from '@/types';
 
 export default function Dashboard() {
   const router = useRouter();
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const { data: inboxTasks, isLoading: inboxLoading } = useInbox();
   const { data: nextActions, isLoading: nextActionsLoading } = useNextActions();
   const { data: projects, isLoading: projectsLoading } = useProjects(1, 10);
+  const { data: contexts } = useContexts();
+  const { data: tags } = useTags();
   const completeTask = useCompleteTask();
   const setNextAction = useSetNextAction();
+  const deleteTask = useDeleteTask();
+  const updateTask = useUpdateTask();
 
   const handleComplete = (id: number) => {
     completeTask.mutate(id);
@@ -25,6 +35,23 @@ export default function Dashboard() {
     const task = nextActionsList.find((t: Task) => t.id === id);
     const flag = task ? !task.is_next_action : true;
     setNextAction.mutate({ id, flag });
+  };
+
+  const handleEdit = (task: Task) => {
+    setSelectedTask(task);
+  };
+
+  const handleSave = (data: TaskUpdate) => {
+    if (selectedTask) {
+      updateTask.mutate({ id: selectedTask.id, data });
+      setSelectedTask(null);
+    }
+  };
+
+  const handleDelete = (id: number) => {
+    if (confirm('Delete this task?')) {
+      deleteTask.mutate(id);
+    }
   };
 
   const handleProjectClick = (project: Project) => {
@@ -84,6 +111,8 @@ export default function Dashboard() {
           loading={nextActionsLoading}
           onComplete={handleComplete}
           onNextAction={handleNextAction}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
         />
       </section>
 
@@ -95,6 +124,20 @@ export default function Dashboard() {
           onProjectClick={handleProjectClick}
         />
       </section>
+
+      <Modal isOpen={!!selectedTask} onClose={() => setSelectedTask(null)} title="Edit Task">
+        {selectedTask && (
+          <TaskForm
+            task={selectedTask}
+            projects={projects?.items || []}
+            contexts={contexts || []}
+            tags={tags || []}
+            onSubmit={handleSave}
+            onCancel={() => setSelectedTask(null)}
+            isSubmitting={updateTask.isPending}
+          />
+        )}
+      </Modal>
     </div>
   );
 }
