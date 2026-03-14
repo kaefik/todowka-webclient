@@ -39,8 +39,13 @@ export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete, sho
             Edit
           </Button>
           {showNextButton && (
-            <Button type="button" variant="ghost" size="sm" onClick={() => onNextAction?.(task.id)}>
-              Next
+            <Button 
+              type="button" 
+              variant={task.is_next_action ? "primary" : "ghost"} 
+              size="sm" 
+              onClick={() => onNextAction?.(task.id)}
+            >
+              {task.is_next_action ? 'Next ✓' : 'Next'}
             </Button>
           )}
           <Button type="button" variant="primary" size="sm" onClick={() => onComplete?.(task.id)}>

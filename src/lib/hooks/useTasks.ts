@@ -279,8 +279,8 @@ export function useCompleteTask() {
 export function useSetNextAction() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => tasksAPI.setNextAction(id),
-    onMutate: async (id) => {
+    mutationFn: ({ id, flag }: { id: number; flag: boolean }) => tasksAPI.setNextAction(id, flag),
+    onMutate: async ({ id, flag }) => {
       await queryClient.cancelQueries({ queryKey: ['tasks'] });
       await queryClient.cancelQueries({ queryKey: ['nextActions'] });
       const previousTasks = queryClient.getQueryData<TaskListResponse>(['tasks']);
@@ -291,29 +291,36 @@ export function useSetNextAction() {
           return {
             ...old,
             items: old.items.map((task: Task) =>
-              task.id === id ? { ...task, is_next_action: true, updated_at: new Date().toISOString() } : task
+              task.id === id ? { ...task, is_next_action: flag, updated_at: new Date().toISOString() } : task
             ),
           };
         }
         return (old || []).map((task: Task) =>
-          task.id === id ? { ...task, is_next_action: true, updated_at: new Date().toISOString() } : task
+          task.id === id ? { ...task, is_next_action: flag, updated_at: new Date().toISOString() } : task
         );
       });
 
       queryClient.setQueryData(['nextActions'], (old: TaskListResponse | undefined) => {
-        const newTaskItem = (old && 'items' in old ? old.items : old || []).find((task: Task) => task.id === id);
-        if (newTaskItem) {
-          if (old && 'items' in old) {
-            return { ...old, items: [...old.items, { ...newTaskItem, is_next_action: true }] };
+        if (flag) {
+          const newTaskItem = (old && 'items' in old ? old.items : old || []).find((task: Task) => task.id === id);
+          if (newTaskItem) {
+            if (old && 'items' in old) {
+              return { ...old, items: [...old.items, { ...newTaskItem, is_next_action: true }] };
+            }
+            return [...(old || []), { ...newTaskItem, is_next_action: true }];
           }
-          return [...(old || []), { ...newTaskItem, is_next_action: true }];
+        } else {
+          if (old && 'items' in old) {
+            return { ...old, items: old.items.filter((task: Task) => task.id !== id) };
+          }
+          return (old || []).filter((task: Task) => task.id !== id);
         }
         return old;
       });
 
       return { previousTasks, previousNextActions };
     },
-    onError: (err, id, context) => {
+    onError: (err, { id }, context) => {
       queryClient.setQueryData(['tasks'], (context as any)?.previousTasks);
       queryClient.setQueryData(['nextActions'], (context as any)?.previousNextActions);
     },

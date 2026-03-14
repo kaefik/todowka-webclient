@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useProject } from '@/lib/hooks/useProjects';
-import { useTasks, useCreateTask, useCompleteTask, useUpdateTask, useDeleteTask } from '@/lib/hooks/useTasks';
+import { useTasks, useCreateTask, useCompleteTask, useUpdateTask, useDeleteTask, useSetNextAction } from '@/lib/hooks/useTasks';
 import { useQueryClient } from '@tanstack/react-query';
 import { ProjectCard } from '@/components/project/ProjectCard';
 import { TaskList } from '@/components/task/TaskList';
@@ -32,6 +32,7 @@ export default function ProjectDetailsPage() {
   const completeTask = useCompleteTask();
   const updateTask = useUpdateTask();
   const deleteTask = useDeleteTask();
+  const setNextAction = useSetNextAction();
 
   const handleEditTask = (task: Task) => {
     setEditingTask(task);
@@ -120,6 +121,12 @@ export default function ProjectDetailsPage() {
         tasks={filteredTasks}
         loading={isLoading}
         onComplete={(id) => completeTask.mutate(id)}
+        onNextAction={(id) => {
+          const tasks = Array.isArray(projectTasks) ? projectTasks : (projectTasks as any)?.items || [];
+          const task = tasks.find((t: Task) => t.id === id);
+          const flag = task ? !task.is_next_action : true;
+          setNextAction.mutate({ id, flag });
+        }}
         onEdit={handleEditTask}
         onDelete={handleDeleteTask}
       />

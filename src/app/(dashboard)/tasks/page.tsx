@@ -53,7 +53,11 @@ export default function TasksPage() {
         tasks={filteredTaskList}
         loading={isLoading}
         onComplete={(id) => completeTask.mutate(id)}
-        onNextAction={(id) => setNextAction.mutate(id)}
+        onNextAction={(id) => {
+          const task = taskList.find((t: Task) => t.id === id);
+          const flag = task ? !task.is_next_action : true;
+          setNextAction.mutate({ id, flag });
+        }}
         onEdit={handleEdit}
         onDelete={(id) => {
           if (confirm('Delete this task?')) {

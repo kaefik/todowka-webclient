@@ -60,7 +60,7 @@ export default function ReviewPage() {
   };
 
   const handleSetNextAction = (task: any) => {
-    setNextAction.mutate(task.id);
+    setNextAction.mutate({ id: task.id, flag: !task.is_next_action });
   };
 
   const handleProjectClick = (project: Project) => {

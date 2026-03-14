@@ -39,8 +39,8 @@ export const tasksAPI = {
     return api.post<Task>(`/tasks/${id}/complete`, {});
   },
 
-  async setNextAction(id: number): Promise<Task> {
-    return api.post<Task>(`/tasks/${id}/next-action`, { flag: true });
+  async setNextAction(id: number, flag: boolean): Promise<Task> {
+    return api.post<Task>(`/tasks/${id}/next-action`, { flag });
   },
 
   async getNextActions(): Promise<Task[]> {

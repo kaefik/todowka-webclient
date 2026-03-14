@@ -22,7 +22,9 @@ export default function Dashboard() {
   };
 
   const handleNextAction = (id: number) => {
-    setNextAction.mutate(id);
+    const task = nextActionsList.find((t: Task) => t.id === id);
+    const flag = task ? !task.is_next_action : true;
+    setNextAction.mutate({ id, flag });
   };
 
   const handleProjectClick = (project: Project) => {
