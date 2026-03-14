@@ -2,12 +2,39 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { projectsAPI } from '@/lib/api/projects';
-import type { Project, ProjectCreate, ProjectUpdate, ProjectStatus, ProjectListResponse } from '@/types';
+import { tasksAPI } from '@/lib/api/tasks';
+import type { Project, ProjectCreate, ProjectUpdate, ProjectStatus, ProjectListResponse, Task, TaskListResponse } from '@/types';
 
 export function useProjects(page: number = 1, limit: number = 10) {
   return useQuery({
     queryKey: ['projects', page, limit],
-    queryFn: () => projectsAPI.getAll(page, limit),
+    queryFn: async () => {
+      const [projectsResponse, tasksData] = await Promise.all([
+        projectsAPI.getAll(page, limit),
+        tasksAPI.getAll().catch(() => ({ items: [] as Task[] })),
+      ]);
+
+      const tasksList = Array.isArray(tasksData) ? tasksData : tasksData?.items || [];
+
+      const projectsWithStats = projectsResponse.items.map((project: Project) => {
+        const projectTasks = tasksList.filter((task: Task) => task.project_id === project.id);
+        const totalTasks = projectTasks.length;
+        const completedTasks = projectTasks.filter((task: Task) => task.completed).length;
+        const progress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+        return {
+          ...project,
+          total_tasks: totalTasks,
+          completed_tasks: completedTasks,
+          progress,
+        };
+      });
+
+      return {
+        ...projectsResponse,
+        items: projectsWithStats,
+      };
+    },
   });
 }
 
