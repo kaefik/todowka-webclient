@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useTasks, useCompleteTask, useSetNextAction, useDeleteTask, useUpdateTask } from '@/lib/hooks/useTasks';
 import { useProjects } from '@/lib/hooks/useProjects';
 import { useContexts } from '@/lib/hooks/useContexts';
@@ -26,6 +26,12 @@ export default function TasksPage() {
   const taskList = Array.isArray(tasks) ? tasks : (tasks as any)?.items || [];
   const projectList = Array.isArray(projects) ? projects : (projects as any)?.items || [];
 
+  const filteredTaskList = useMemo(() => {
+    return filters.status === 'active'
+      ? taskList.filter((t: Task) => !t.completed)
+      : taskList;
+  }, [taskList, filters.status]);
+
   const handleEdit = (task: Task) => {
     setSelectedTask(task);
   };
@@ -37,8 +43,6 @@ export default function TasksPage() {
     }
   };
 
-  console.log('TasksPage data:', { projectList, contexts: contexts || [], tags: tags || [] });
-
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Tasks</h1>
@@ -46,7 +50,7 @@ export default function TasksPage() {
       <TaskFilters filters={filters} onFiltersChange={setFilters} />
 
       <TaskList
-        tasks={taskList}
+        tasks={filteredTaskList}
         loading={isLoading}
         onComplete={(id) => completeTask.mutate(id)}
         onNextAction={(id) => setNextAction.mutate(id)}
