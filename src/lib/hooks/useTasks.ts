@@ -334,8 +334,18 @@ export function useDeletedTasks() {
 export function useRestoreTask() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: number) => tasksAPI.restore(id),
+    mutationFn: (id: number) => {
+      console.log('[useRestoreTask] Starting restore for id:', id);
+      return tasksAPI.restore(id);
+    },
+    onSuccess: (data, id) => {
+      console.log('[useRestoreTask] Restore success for id:', id, 'result:', data);
+    },
+    onError: (error, id) => {
+      console.error('[useRestoreTask] Restore error for id:', id, error);
+    },
     onSettled: () => {
+      console.log('[useRestoreTask] Restore settled');
       queryClient.invalidateQueries({ queryKey: ['deletedTasks'] });
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['inbox'] });
