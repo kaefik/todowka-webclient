@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useInbox } from '@/lib/hooks/useInbox';
-import { useTasks, useUpdateTask, useDeleteTask, useCompleteTask } from '@/lib/hooks/useTasks';
+import { useTasks, useUpdateTask, useDeleteTask, useCompleteTask, useSetNextAction, useNextActions } from '@/lib/hooks/useTasks';
 import { useProjects } from '@/lib/hooks/useProjects';
 import { TaskList } from '@/components/task/TaskList';
 import { ProjectList } from '@/components/project/ProjectList';
@@ -21,6 +21,7 @@ export default function ReviewPage() {
   const [step, setStep] = useState<ReviewStep>('inbox');
   const [editingTask, setEditingTask] = useState<Task | null>(null);
   const { data: inboxTasks, isLoading: inboxLoading } = useInbox();
+  const { data: nextActions, isLoading: nextActionsLoading } = useNextActions();
   const { data: somedayTasks, isLoading: somedayLoading } = useTasks({ status: 'someday' });
   const { data: projects, isLoading: projectsLoading } = useProjects(1, 50);
   const { data: contexts } = useContexts();
@@ -28,6 +29,7 @@ export default function ReviewPage() {
   const updateTask = useUpdateTask();
   const deleteTask = useDeleteTask();
   const completeTask = useCompleteTask();
+  const setNextAction = useSetNextAction();
 
   const steps = [
     { id: 'inbox' as ReviewStep, label: 'Inbox Review', icon: '📥' },
@@ -58,7 +60,7 @@ export default function ReviewPage() {
   };
 
   const handleSetNextAction = (task: any) => {
-    updateTask.mutate({ id: task.id, data: { is_next_action: true } as any });
+    setNextAction.mutate(task.id);
   };
 
   const handleProjectClick = (project: Project) => {
@@ -119,12 +121,12 @@ export default function ReviewPage() {
             Select tasks for next week by marking them as Next Actions.
           </p>
           <TaskList
-            tasks={inboxTasks || []}
-            loading={inboxLoading}
+            tasks={nextActions || []}
+            loading={nextActionsLoading}
+            showNextButton={false}
             onComplete={(id) => completeTask.mutate(id)}
             onEdit={handleEditTask}
             onDelete={handleDeleteTask}
-            onNextAction={(id) => handleSetNextAction({ id })}
           />
         </section>
       )}
