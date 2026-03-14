@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useProjects, useCreateProject, useUpdateProject, useDeleteProject, useCompleteProject } from '@/lib/hooks/useProjects';
 import { useAreas } from '@/lib/hooks/useAreas';
 import { ProjectList } from '@/components/project/ProjectList';
@@ -10,6 +11,7 @@ import { Button } from '@/components/ui/Button';
 import type { Project, ProjectCreate, ProjectUpdate } from '@/types';
 
 export default function ProjectsPage() {
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const { data: projectsData, isLoading } = useProjects(page, 10);
   const { data: areas } = useAreas();
@@ -53,6 +55,7 @@ export default function ProjectsPage() {
         onEdit={setEditingProject}
         onDelete={handleDelete}
         onComplete={(id) => completeProject.mutate(id)}
+        onProjectClick={(project) => router.push(`/projects/${project.id}`)}
       />
 
       <Modal isOpen={isCreating} onClose={() => setIsCreating(false)} title="Create Project">

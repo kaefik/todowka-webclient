@@ -9,9 +9,10 @@ interface ProjectListProps {
   onEdit?: (project: Project) => void;
   onDelete?: (id: number) => void;
   onComplete?: (id: number) => void;
+  onProjectClick?: (project: Project) => void;
 }
 
-export function ProjectList({ projects, loading, onEdit, onDelete, onComplete }: ProjectListProps) {
+export function ProjectList({ projects, loading, onEdit, onDelete, onComplete, onProjectClick }: ProjectListProps) {
   const projectList = Array.isArray(projects) ? projects : projects?.items || [];
 
   if (loading) {
@@ -41,6 +42,7 @@ export function ProjectList({ projects, loading, onEdit, onDelete, onComplete }:
           onEdit={onEdit}
           onDelete={onDelete}
           onComplete={onComplete}
+          onClick={() => onProjectClick?.(project)}
         />
       ))}
     </div>

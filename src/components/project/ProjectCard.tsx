@@ -4,17 +4,19 @@ import type { Project } from '@/types';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ProgressBar } from '@/components/project/ProgressBar';
+import Link from 'next/link';
 
 interface ProjectCardProps {
   project: Project;
   onEdit?: (project: Project) => void;
   onDelete?: (id: number) => void;
   onComplete?: (id: number) => void;
+  onClick?: () => void;
 }
 
-export function ProjectCard({ project, onEdit, onDelete, onComplete }: ProjectCardProps) {
+export function ProjectCard({ project, onEdit, onDelete, onComplete, onClick }: ProjectCardProps) {
   return (
-    <div className="p-4 border border-border rounded-lg bg-card hover:shadow-md transition-shadow">
+    <div className="p-4 border border-border rounded-lg bg-card hover:shadow-md transition-shadow cursor-pointer" onClick={onClick}>
       <div className="flex items-start justify-between gap-4 mb-3">
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
@@ -25,7 +27,7 @@ export function ProjectCard({ project, onEdit, onDelete, onComplete }: ProjectCa
             <p className="text-sm text-slate-600">{project.description}</p>
           )}
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
           <Button type="button" variant="ghost" size="sm" onClick={() => onEdit?.(project)}>
             Edit
           </Button>

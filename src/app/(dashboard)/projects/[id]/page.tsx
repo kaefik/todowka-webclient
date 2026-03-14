@@ -8,10 +8,12 @@ import { TaskList } from '@/components/task/TaskList';
 import { Modal } from '@/components/ui/Modal';
 import { TaskForm } from '@/components/task/TaskForm';
 import { Button } from '@/components/ui/Button';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import type { TaskCreate } from '@/types';
 import { useContexts } from '@/lib/hooks/useContexts';
 import { useTags } from '@/lib/hooks/useTags';
+
+type TaskFilter = 'next' | 'active' | 'all';
 
 export default function ProjectDetailsPage() {
   const params = useParams();
@@ -21,9 +23,27 @@ export default function ProjectDetailsPage() {
   const { data: contexts } = useContexts();
   const { data: tags } = useTags();
 
+  const [filter, setFilter] = useState<TaskFilter>('active');
   const [isCreatingTask, setIsCreatingTask] = useState(false);
   const createTask = useCreateTask();
   const completeTask = useCompleteTask();
+
+  const filteredTasks = useMemo(() => {
+    if (!projectTasks) return [];
+
+    const tasks = Array.isArray(projectTasks) ? projectTasks : (projectTasks as any)?.items || [];
+
+    switch (filter) {
+      case 'next':
+        return tasks.filter((t: any) => t.is_next_action && !t.completed);
+      case 'active':
+        return tasks.filter((t: any) => !t.completed);
+      case 'all':
+        return tasks;
+      default:
+        return tasks;
+    }
+  }, [projectTasks, filter]);
 
   return (
     <div className="space-y-6">
@@ -38,8 +58,35 @@ export default function ProjectDetailsPage() {
         </Button>
       </div>
 
+      <div className="flex gap-2 border-b border-border">
+        <button
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            filter === 'next' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:text-slate-700'
+          }`}
+          onClick={() => setFilter('next')}
+        >
+          Next
+        </button>
+        <button
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            filter === 'active' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:text-slate-700'
+          }`}
+          onClick={() => setFilter('active')}
+        >
+          Active
+        </button>
+        <button
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            filter === 'all' ? 'border-primary text-primary' : 'border-transparent text-slate-500 hover:text-slate-700'
+          }`}
+          onClick={() => setFilter('all')}
+        >
+          All
+        </button>
+      </div>
+
       <TaskList
-        tasks={projectTasks || []}
+        tasks={filteredTasks}
         loading={isLoading}
         onComplete={(id) => completeTask.mutate(id)}
       />
