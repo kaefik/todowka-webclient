@@ -41,7 +41,7 @@ export function ProjectCard({ project, onEdit, onDelete, onComplete }: ProjectCa
       <ProgressBar progress={project.progress} />
 
       <div className="mt-2 text-sm text-slate-600">
-        {project.completed_tasks} / {project.total_tasks} tasks
+        {project.completed_tasks ?? 0} / {project.total_tasks ?? 0} tasks
       </div>
     </div>
   );
