@@ -20,6 +20,7 @@ export default function InboxPage() {
   const { data: tags } = useTags();
 
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
   const updateTask = useUpdateTask();
   const deleteTask = useDeleteTask();
   const completeTask = useCompleteTask();
@@ -31,15 +32,43 @@ export default function InboxPage() {
     setSelectedTask(task);
   };
 
+  const handleProcessAll = () => {
+    setIsProcessing(true);
+    if (taskList.length > 0) {
+      setSelectedTask(taskList[0]);
+    }
+  };
+
   const handleSave = (data: TaskUpdate) => {
     if (selectedTask) {
       updateTask.mutate({ id: selectedTask.id, data });
-      setSelectedTask(null);
+      if (isProcessing) {
+        const currentIndex = taskList.findIndex((t: Task) => t.id === selectedTask.id);
+        const nextTask = taskList[currentIndex + 1];
+        if (nextTask) {
+          setSelectedTask(nextTask);
+        } else {
+          setIsProcessing(false);
+          setSelectedTask(null);
+        }
+      } else {
+        setSelectedTask(null);
+      }
     }
   };
 
   const handleDelete = (id: number) => {
     if (confirm('Delete this task?')) {
+      if (isProcessing && selectedTask?.id === id) {
+        const currentIndex = taskList.findIndex((t: Task) => t.id === id);
+        const nextTask = taskList[currentIndex + 1];
+        if (nextTask) {
+          setSelectedTask(nextTask);
+        } else {
+          setIsProcessing(false);
+          setSelectedTask(null);
+        }
+      }
       deleteTask.mutate(id);
     }
   };
@@ -48,18 +77,47 @@ export default function InboxPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Inbox</h1>
-        <Button variant="primary">Process All</Button>
+        <Button variant="primary" onClick={handleProcessAll} disabled={taskList.length === 0}>
+          Process All
+        </Button>
       </div>
+
+      {isProcessing && selectedTask && (
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+          <p className="text-sm text-blue-800">
+            Processing task {taskList.findIndex((t: Task) => t.id === selectedTask.id) + 1} of {taskList.length}
+          </p>
+        </div>
+      )}
 
       <TaskList
         tasks={taskList}
         loading={isLoading}
-        onComplete={(id) => completeTask.mutate(id)}
+        onComplete={(id) => {
+          completeTask.mutate(id);
+          if (isProcessing && selectedTask?.id === id) {
+            const currentIndex = taskList.findIndex((t: Task) => t.id === id);
+            const nextTask = taskList[currentIndex + 1];
+            if (nextTask) {
+              setSelectedTask(nextTask);
+            } else {
+              setIsProcessing(false);
+              setSelectedTask(null);
+            }
+          }
+        }}
         onEdit={handleClarify}
         onDelete={handleDelete}
       />
 
-      <Modal isOpen={!!selectedTask} onClose={() => setSelectedTask(null)} title="Clarify Task">
+      <Modal
+        isOpen={!!selectedTask}
+        onClose={() => {
+          setSelectedTask(null);
+          setIsProcessing(false);
+        }}
+        title={isProcessing ? `Process task ${taskList.findIndex((t: Task) => t.id === selectedTask?.id) + 1} of ${taskList.length}` : 'Clarify Task'}
+      >
         {selectedTask && (
           <TaskForm
             task={selectedTask}
@@ -67,7 +125,10 @@ export default function InboxPage() {
             contexts={contexts || []}
             tags={tags || []}
             onSubmit={handleSave}
-            onCancel={() => setSelectedTask(null)}
+            onCancel={() => {
+              setSelectedTask(null);
+              setIsProcessing(false);
+            }}
             isSubmitting={updateTask.isPending}
           />
         )}
