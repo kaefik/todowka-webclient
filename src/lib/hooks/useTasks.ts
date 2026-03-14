@@ -337,20 +337,53 @@ export function useRestoreTask() {
     mutationFn: (id: number) => tasksAPI.restore(id),
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ['deletedTasks'] });
+      await queryClient.cancelQueries({ queryKey: ['tasks'] });
+      await queryClient.cancelQueries({ queryKey: ['inbox'] });
       const previousDeletedTasks = queryClient.getQueryData<Task[]>(['deletedTasks']);
+      const previousTasks = queryClient.getQueryData<TaskListResponse>(['tasks']);
+      const previousInbox = queryClient.getQueryData<TaskListResponse>(['inbox']);
+
+      const deletedTask = previousDeletedTasks?.find((t: Task) => t.id === id);
 
       queryClient.setQueryData(['deletedTasks'], (old: Task[] | undefined) => {
         return (old || []).filter((task: Task) => task.id !== id);
       });
 
-      return { previousDeletedTasks };
+      if (deletedTask) {
+        const restoredTask = {
+          ...deletedTask,
+          deleted_at: undefined,
+        } as Task;
+
+        queryClient.setQueryData(['tasks'], (old: TaskListResponse | undefined) => {
+          if (old && 'items' in old) {
+            return { ...old, items: [...old.items, restoredTask] };
+          }
+          return [...(old || []), restoredTask];
+        });
+
+        queryClient.setQueryData(['inbox'], (old: TaskListResponse | undefined) => {
+          if (deletedTask.status === 'inbox') {
+            if (old && 'items' in old) {
+              return { ...old, items: [...old.items, restoredTask] };
+            }
+            return [...(old || []), restoredTask];
+          }
+          return old;
+        });
+      }
+
+      return { previousDeletedTasks, previousTasks, previousInbox };
     },
     onError: (err, id, context) => {
       queryClient.setQueryData(['deletedTasks'], (context as any)?.previousDeletedTasks);
+      queryClient.setQueryData(['tasks'], (context as any)?.previousTasks);
+      queryClient.setQueryData(['inbox'], (context as any)?.previousInbox);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['deletedTasks'] });
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['inbox'] });
     },
   });
 }
