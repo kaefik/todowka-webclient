@@ -120,6 +120,7 @@ export default function InboxPage() {
       >
         {selectedTask && (
           <TaskForm
+            key={selectedTask.id}
             task={selectedTask}
             projects={projectList}
             contexts={contexts || []}
