@@ -10,9 +10,10 @@ interface TaskListProps {
   onNextAction?: (id: number) => void;
   onEdit?: (task: Task) => void;
   onDelete?: (id: number) => void;
+  showNextButton?: boolean;
 }
 
-export function TaskList({ tasks, loading, onComplete, onNextAction, onEdit, onDelete }: TaskListProps) {
+export function TaskList({ tasks, loading, onComplete, onNextAction, onEdit, onDelete, showNextButton = true }: TaskListProps) {
   const taskList = Array.isArray(tasks) ? tasks : tasks?.items || [];
 
   if (loading) {
@@ -43,6 +44,7 @@ export function TaskList({ tasks, loading, onComplete, onNextAction, onEdit, onD
           onNextAction={onNextAction}
           onEdit={onEdit}
           onDelete={onDelete}
+          showNextButton={showNextButton}
         />
       ))}
     </div>

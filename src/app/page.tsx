@@ -6,9 +6,11 @@ import { useProjects } from '@/lib/hooks/useProjects';
 import { QuickCapture } from '@/components/layout/QuickCapture';
 import { TaskList } from '@/components/task/TaskList';
 import { ProjectList } from '@/components/project/ProjectList';
-import type { Task, TaskListResponse } from '@/types';
+import { useRouter } from 'next/navigation';
+import type { Task, TaskListResponse, Project } from '@/types';
 
 export default function Dashboard() {
+  const router = useRouter();
   const { data: inboxTasks, isLoading: inboxLoading } = useInbox();
   const { data: nextActions, isLoading: nextActionsLoading } = useNextActions();
   const { data: projects, isLoading: projectsLoading } = useProjects(1, 10);
@@ -21,6 +23,10 @@ export default function Dashboard() {
 
   const handleNextAction = (id: number) => {
     setNextAction.mutate(id);
+  };
+
+  const handleProjectClick = (project: Project) => {
+    router.push(`/projects/${project.id}`);
   };
 
   const inboxCount = Array.isArray(inboxTasks) ? inboxTasks?.length : (inboxTasks as any)?.items?.length || 0;
@@ -70,6 +76,7 @@ export default function Dashboard() {
         <ProjectList
           projects={projects?.items?.filter(p => p.status === 'active') || []}
           loading={projectsLoading}
+          onProjectClick={handleProjectClick}
         />
       </section>
     </div>

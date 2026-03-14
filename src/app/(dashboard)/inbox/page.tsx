@@ -93,6 +93,7 @@ export default function InboxPage() {
       <TaskList
         tasks={taskList}
         loading={isLoading}
+        showNextButton={false}
         onComplete={(id) => {
           completeTask.mutate(id);
           if (isProcessing && selectedTask?.id === id) {

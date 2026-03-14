@@ -10,9 +10,10 @@ interface TaskItemProps {
   onNextAction?: (id: number) => void;
   onEdit?: (task: Task) => void;
   onDelete?: (id: number) => void;
+  showNextButton?: boolean;
 }
 
-export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete }: TaskItemProps) {
+export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete, showNextButton = true }: TaskItemProps) {
   return (
     <div className="p-4 border border-border rounded-lg bg-card hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between gap-4">
@@ -37,9 +38,11 @@ export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete }: T
           <Button type="button" variant="ghost" size="sm" onClick={() => onEdit?.(task)}>
             Edit
           </Button>
-          <Button type="button" variant="ghost" size="sm" onClick={() => onNextAction?.(task.id)}>
-            Next
-          </Button>
+          {showNextButton && (
+            <Button type="button" variant="ghost" size="sm" onClick={() => onNextAction?.(task.id)}>
+              Next
+            </Button>
+          )}
           <Button type="button" variant="primary" size="sm" onClick={() => onComplete?.(task.id)}>
             ✓
           </Button>
