@@ -45,5 +45,21 @@ export const tasksAPI = {
 
   async getNextActions(): Promise<Task[]> {
     return api.get<Task[]>('/tasks/next-actions');
+  },
+
+  async getDeleted(): Promise<Task[]> {
+    return api.get<Task[]>('/tasks/deleted');
+  },
+
+  async restore(id: number): Promise<Task> {
+    return api.patch<Task>(`/tasks/${id}/restore`, {});
+  },
+
+  async permanentDelete(id: number): Promise<void> {
+    return api.delete(`/tasks/${id}/permanent`);
+  },
+
+  async deleteAllFromTrash(): Promise<void> {
+    return api.delete('/tasks/deleted/all');
   }
 };

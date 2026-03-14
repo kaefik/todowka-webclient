@@ -14,6 +14,7 @@ const navItems = [
   { path: '/areas', label: 'Areas', icon: '🎯' },
   { path: '/contexts', label: 'Contexts', icon: '📍' },
   { path: '/tags', label: 'Tags', icon: '🏷️' },
+  { path: '/trash', label: 'Trash', icon: '🗑️' },
   { path: '/review', label: 'Review', icon: '📋' },
 ];
 

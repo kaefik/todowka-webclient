@@ -22,6 +22,7 @@ export interface Task {
   context_id?: number;
   area_id?: number;
   tags: Tag[];
+  deleted_at?: string;
 }
 
 export interface Project {

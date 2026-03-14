@@ -206,6 +206,7 @@ export function useDeleteTask() {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['deletedTasks'] });
       queryClient.invalidateQueries({ queryKey: ['projects'] });
     },
   });
@@ -300,6 +301,81 @@ export function useSetNextAction() {
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['nextActions'] });
+    },
+  });
+}
+
+export function useDeletedTasks() {
+  return useQuery({
+    queryKey: ['deletedTasks'],
+    queryFn: () => tasksAPI.getDeleted(),
+  });
+}
+
+export function useRestoreTask() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => tasksAPI.restore(id),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['deletedTasks'] });
+      const previousDeletedTasks = queryClient.getQueryData<Task[]>(['deletedTasks']);
+
+      queryClient.setQueryData(['deletedTasks'], (old: Task[] | undefined) => {
+        return (old || []).filter((task: Task) => task.id !== id);
+      });
+
+      return { previousDeletedTasks };
+    },
+    onError: (err, id, context) => {
+      queryClient.setQueryData(['deletedTasks'], (context as any)?.previousDeletedTasks);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['deletedTasks'] });
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+}
+
+export function usePermanentDeleteTask() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (id: number) => tasksAPI.permanentDelete(id),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ['deletedTasks'] });
+      const previousDeletedTasks = queryClient.getQueryData<Task[]>(['deletedTasks']);
+
+      queryClient.setQueryData(['deletedTasks'], (old: Task[] | undefined) => {
+        return (old || []).filter((task: Task) => task.id !== id);
+      });
+
+      return { previousDeletedTasks };
+    },
+    onError: (err, id, context) => {
+      queryClient.setQueryData(['deletedTasks'], (context as any)?.previousDeletedTasks);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['deletedTasks'] });
+    },
+  });
+}
+
+export function useDeleteAllFromTrash() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => tasksAPI.deleteAllFromTrash(),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: ['deletedTasks'] });
+      const previousDeletedTasks = queryClient.getQueryData<Task[]>(['deletedTasks']);
+
+      queryClient.setQueryData(['deletedTasks'], []);
+
+      return { previousDeletedTasks };
+    },
+    onError: (err, variables, context) => {
+      queryClient.setQueryData(['deletedTasks'], (context as any)?.previousDeletedTasks);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['deletedTasks'] });
     },
   });
 }
