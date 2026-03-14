@@ -131,6 +131,7 @@ export default function InboxPage() {
               setIsProcessing(false);
             }}
             isSubmitting={updateTask.isPending}
+            moveToActive={isProcessing}
           />
         )}
       </Modal>

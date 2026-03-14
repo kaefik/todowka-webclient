@@ -12,6 +12,16 @@ import { Checkbox } from '@/components/ui/Checkbox';
 import { Spinner } from '@/components/ui/Spinner';
 import type { Project, Context, Tag } from '@/types';
 
+interface TaskFormData {
+  title: string;
+  description?: string;
+  priority?: 'low' | 'medium' | 'high';
+  project_id?: number | string;
+  context_id?: number | string;
+  tag_ids?: number[];
+  move_to_active?: boolean;
+}
+
 const taskSchema = z.object({
   title: z.string().min(1, 'Title is required').max(200, 'Title too long'),
   description: z.string().max(1000).nullable().optional(),
@@ -19,6 +29,7 @@ const taskSchema = z.object({
   project_id: z.coerce.number().optional().or(z.literal('')),
   context_id: z.coerce.number().optional().or(z.literal('')),
   tag_ids: z.array(z.number()).optional(),
+  move_to_active: z.boolean().optional(),
 });
 
 interface TaskFormProps {
@@ -29,15 +40,16 @@ interface TaskFormProps {
   onSubmit: (data: TaskCreate | TaskUpdate) => void;
   onCancel?: () => void;
   isSubmitting?: boolean;
+  moveToActive?: boolean;
 }
 
-export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, isSubmitting }: TaskFormProps) {
+export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, isSubmitting, moveToActive }: TaskFormProps) {
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<TaskCreate | TaskUpdate>({
+  } = useForm<TaskFormData>({
     resolver: zodResolver(taskSchema),
     defaultValues: {
       title: task?.title || '',
@@ -46,12 +58,25 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
       project_id: task?.project_id,
       context_id: task?.context_id,
       tag_ids: task?.tags?.map(t => t.id) || [],
+      move_to_active: moveToActive !== undefined ? moveToActive : false,
     },
   });
 
-  const handleSubmitWithLog = (data: TaskCreate | TaskUpdate) => {
-    console.log('Form data submitted:', data);
-    onSubmit(data);
+  const handleSubmitWithLog = (data: TaskFormData) => {
+    const submitData: TaskCreate | TaskUpdate = {
+      title: data.title,
+      description: data.description,
+      priority: data.priority,
+      project_id: data.project_id ? parseInt(data.project_id as string) : undefined,
+      context_id: data.context_id ? parseInt(data.context_id as string) : undefined,
+      tag_ids: data.tag_ids,
+    };
+
+    if (data.move_to_active) {
+      submitData.status = 'active';
+    }
+
+    onSubmit(submitData);
   };
 
   return (
@@ -165,6 +190,23 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
           />
         </div>
       </div>
+
+      {moveToActive !== undefined || task?.status === 'inbox' ? (
+        <div className="flex items-center gap-2">
+          <Controller
+            name="move_to_active"
+            control={control}
+            render={({ field }) => (
+              <Checkbox
+                label="Move to Active"
+                checked={field.value || false}
+                onChange={field.onChange}
+              />
+            )}
+          />
+          <span className="text-sm text-slate-600">Remove from Inbox and set status to Active</span>
+        </div>
+      ) : null}
 
       <div className="flex justify-end gap-2 pt-4">
         {onCancel && (
