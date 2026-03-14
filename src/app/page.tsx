@@ -31,6 +31,10 @@ export default function Dashboard() {
     router.push(`/projects/${project.id}`);
   };
 
+  const handleStatClick = (path: string) => {
+    router.push(path);
+  };
+
   const inboxTasksList = Array.isArray(inboxTasks) ? inboxTasks : (inboxTasks as any)?.items || [];
   const inboxCount = inboxTasksList.filter((t: Task) => !t.completed).length;
   const nextActionsList = Array.isArray(nextActions) ? nextActions : (nextActions as any)?.items || [];
@@ -44,19 +48,28 @@ export default function Dashboard() {
       </section>
 
       <section className="grid grid-cols-3 gap-4">
-        <div className="p-4 bg-white border border-border rounded-lg">
+        <div
+          className="p-4 bg-white border border-border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+          onClick={() => handleStatClick('/inbox')}
+        >
           <div className="text-3xl font-bold text-blue-600">
             {inboxCount}
           </div>
           <div className="text-sm text-foreground-secondary">Inbox</div>
         </div>
-        <div className="p-4 bg-white border border-border rounded-lg">
+        <div
+          className="p-4 bg-white border border-border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+          onClick={() => handleStatClick('/tasks/next-actions')}
+        >
           <div className="text-3xl font-bold text-green-600">
             {nextActionsList.length || 0}
           </div>
           <div className="text-sm text-foreground-secondary">Next Actions</div>
         </div>
-        <div className="p-4 bg-white border border-border rounded-lg">
+        <div
+          className="p-4 bg-white border border-border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+          onClick={() => handleStatClick('/projects')}
+        >
           <div className="text-3xl font-bold text-purple-600">
             {projects?.items?.filter(p => p.status === 'active').length || 0}
           </div>
