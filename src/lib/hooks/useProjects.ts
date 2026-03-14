@@ -41,7 +41,24 @@ export function useProjects(page: number = 1, limit: number = 10) {
 export function useProject(id: number) {
   return useQuery({
     queryKey: ['project', id],
-    queryFn: () => projectsAPI.getById(id),
+    queryFn: async () => {
+      const project = await projectsAPI.getById(id);
+      const tasksData = await tasksAPI.getAll().catch(() => ({ items: [] as Task[] }));
+
+      const tasksList = Array.isArray(tasksData) ? tasksData : tasksData?.items || [];
+
+      const projectTasks = tasksList.filter((task: Task) => task.project_id === project.id);
+      const totalTasks = projectTasks.length;
+      const completedTasks = projectTasks.filter((task: Task) => task.completed).length;
+      const progress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+      return {
+        ...project,
+        total_tasks: totalTasks,
+        completed_tasks: completedTasks,
+        progress,
+      };
+    },
     enabled: !!id,
   });
 }
