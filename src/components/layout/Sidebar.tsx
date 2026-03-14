@@ -10,6 +10,7 @@ const navItems = [
   { path: '/inbox', label: 'Inbox', icon: '📥' },
   { path: '/tasks', label: 'Tasks', icon: '✓' },
   { path: '/tasks/next-actions', label: 'Next Actions', icon: '⚡' },
+  { path: '/completed', label: 'Completed', icon: '✅' },
   { path: '/projects', label: 'Projects', icon: '📁' },
   { path: '/areas', label: 'Areas', icon: '🎯' },
   { path: '/contexts', label: 'Contexts', icon: '📍' },
