@@ -52,7 +52,7 @@ export const tasksAPI = {
   },
 
   async restore(id: number): Promise<Task> {
-    return api.patch<Task>(`/tasks/${id}/restore`, {});
+    return api.post<Task>(`/tasks/${id}/restore`, {});
   },
 
   async permanentDelete(id: number): Promise<void> {
