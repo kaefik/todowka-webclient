@@ -12,7 +12,7 @@ import type { Task, TaskUpdate } from '@/types';
 
 export default function CompletedPage() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-  const { data: allTasks, isLoading } = useTasks({});
+  const { data: completedTasksData, isLoading } = useTasks({ status: 'completed' });
   const { data: projects } = useProjects();
   const { data: contexts } = useContexts();
   const { data: tags } = useTags();
@@ -20,17 +20,15 @@ export default function CompletedPage() {
   const deleteTask = useDeleteTask();
   const updateTask = useUpdateTask();
 
-  const taskList = Array.isArray(allTasks) ? allTasks : (allTasks as any)?.items || [];
+  const taskList = Array.isArray(completedTasksData) ? completedTasksData : (completedTasksData as any)?.items || [];
   const projectList = Array.isArray(projects) ? projects : (projects as any)?.items || [];
 
   const completedTasks = useMemo(() => {
-    return taskList
-      .filter((t: Task) => t.completed)
-      .sort((a: Task, b: Task) => {
-        const dateA = a.completed_at ? new Date(a.completed_at).getTime() : 0;
-        const dateB = b.completed_at ? new Date(b.completed_at).getTime() : 0;
-        return dateB - dateA;
-      });
+    return taskList.sort((a: Task, b: Task) => {
+      const dateA = a.completed_at ? new Date(a.completed_at).getTime() : 0;
+      const dateB = b.completed_at ? new Date(b.completed_at).getTime() : 0;
+      return dateB - dateA;
+    });
   }, [taskList]);
 
   const handleEdit = (task: Task) => {
