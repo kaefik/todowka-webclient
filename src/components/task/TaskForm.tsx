@@ -130,6 +130,10 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
       submitData.waiting_for = null;
     }
 
+    if (newStatus === 'waiting' && task?.is_next_action) {
+      submitData.is_next_action = false;
+    }
+
     const filteredData = Object.fromEntries(
       Object.entries(submitData).filter(([_, v]) => v !== undefined)
     );

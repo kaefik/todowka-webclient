@@ -61,12 +61,37 @@ export default function ReviewPage() {
   };
 
   const handleSetActive = (task: any) => {
-    const flag = task ? !task.is_next_action : true;
-    setNextAction.mutate({ id: task.id, flag });
+    const flag = !task.is_next_action;
+    if (flag && (task.status === 'waiting' || task.status === 'someday' || task.status === 'completed')) {
+      const statusMessage = task.status === 'waiting' ? 'Waiting' :
+                          task.status === 'someday' ? 'Someday' : 'Completed';
+      if (confirm(`Task is in ${statusMessage} status. Setting as Next Action will change status to Active. Continue?`)) {
+        updateTask.mutate({ id: task.id, data: { status: 'active' } }, {
+          onSuccess: () => {
+            setNextAction.mutate({ id: task.id, flag });
+          }
+        });
+      }
+    } else {
+      setNextAction.mutate({ id: task.id, flag });
+    }
   };
 
   const handleSetNextAction = (task: any) => {
-    setNextAction.mutate({ id: task.id, flag: !task.is_next_action });
+    const flag = !task.is_next_action;
+    if (flag && (task.status === 'waiting' || task.status === 'someday' || task.status === 'completed')) {
+      const statusMessage = task.status === 'waiting' ? 'Waiting' :
+                          task.status === 'someday' ? 'Someday' : 'Completed';
+      if (confirm(`Task is in ${statusMessage} status. Setting as Next Action will change status to Active. Continue?`)) {
+        updateTask.mutate({ id: task.id, data: { status: 'active' } }, {
+          onSuccess: () => {
+            setNextAction.mutate({ id: task.id, flag });
+          }
+        });
+      }
+    } else {
+      setNextAction.mutate({ id: task.id, flag });
+    }
   };
 
   const handleWaiting = (task: Task) => {

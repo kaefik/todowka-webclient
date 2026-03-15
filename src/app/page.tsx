@@ -36,8 +36,22 @@ export default function Dashboard() {
 
   const handleNextAction = (id: number) => {
     const task = nextActionsList.find((t: Task) => t.id === id);
-    const flag = task ? !task.is_next_action : true;
-    setNextAction.mutate({ id, flag });
+    if (!task) return;
+
+    const flag = !task.is_next_action;
+    if (flag && (task.status === 'waiting' || task.status === 'someday' || task.status === 'completed')) {
+      const statusMessage = task.status === 'waiting' ? 'Waiting' :
+                          task.status === 'someday' ? 'Someday' : 'Completed';
+      if (confirm(`Task is in ${statusMessage} status. Setting as Next Action will change status to Active. Continue?`)) {
+        updateTask.mutate({ id, data: { status: 'active' } }, {
+          onSuccess: () => {
+            setNextAction.mutate({ id, flag });
+          }
+        });
+      }
+    } else {
+      setNextAction.mutate({ id, flag });
+    }
   };
 
   const handleEdit = (task: Task) => {
