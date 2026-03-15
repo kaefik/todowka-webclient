@@ -33,16 +33,8 @@ const taskSchema = z.object({
   context_id: z.coerce.number().optional().or(z.literal('')),
   tag_ids: z.array(z.number()).optional(),
   status: z.enum(['inbox', 'active', 'waiting', 'someday']).optional(),
-  waiting_for: z.string().optional(),
+  waiting_for: z.string().nullable().optional(),
   move_to_active: z.boolean().optional(),
-}).refine((data) => {
-  if (data.status === 'waiting' && !data.waiting_for?.trim()) {
-    return false;
-  }
-  return true;
-}, {
-  message: "Waiting for is required when status is waiting",
-  path: ['waiting_for'],
 });
 
 interface TaskFormProps {
