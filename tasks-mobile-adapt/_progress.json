@@ -1,0 +1,120 @@
+{
+  "project": "Todo Web Client — Mobile Adaptation",
+  "created": "2026-03-15T00:00:00Z",
+  "guide": "tasks-mobile-adapt/00-guide.md",
+  "base_project": "/home/oilnur/01-Projects/todo/todowka-webclient",
+  "tasks": {
+    "L0/01-task-action-menu.md": {
+      "title": "Create TaskActionMenu component",
+      "layer": 0,
+      "effort": "M",
+      "depends_on": [],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L0/02-more-menu.md": {
+      "title": "Create MoreMenu component",
+      "layer": 0,
+      "effort": "M",
+      "depends_on": [],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L0/03-bottom-navigation.md": {
+      "title": "Create BottomNavigation component",
+      "layer": 0,
+      "effort": "L",
+      "depends_on": ["L0/02-more-menu.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L0/04-button-xs-size.md": {
+      "title": "Add xs size to Button component",
+      "layer": 0,
+      "effort": "XS",
+      "depends_on": [],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L1/01-adapt-taskitem.md": {
+      "title": "Adapt TaskItem for mobile",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": ["L0/01-task-action-menu.md", "L0/04-button-xs-size.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L1/02-adapt-projectcard.md": {
+      "title": "Adapt ProjectCard for mobile",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": ["L0/04-button-xs-size.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L1/03-adapt-taskform.md": {
+      "title": "Adapt TaskForm for mobile",
+      "layer": 1,
+      "effort": "XS",
+      "depends_on": [],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L1/04-adapt-modal.md": {
+      "title": "Adapt Modal for mobile",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": [],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L2/01-adapt-dashboard.md": {
+      "title": "Adapt Dashboard for mobile",
+      "layer": 2,
+      "effort": "XS",
+      "depends_on": [],
+      "status": "READY",
+      "completed_output": null
+    },
+    "L2/02-adapt-header.md": {
+      "title": "Adapt Header for mobile",
+      "layer": 2,
+      "effort": "XS",
+      "depends_on": ["L0/03-bottom-navigation.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L2/03-adapt-sidebar.md": {
+      "title": "Verify Sidebar adaptation for mobile",
+      "layer": 2,
+      "effort": "S",
+      "depends_on": ["L0/03-bottom-navigation.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L2/04-adapt-rootlayout.md": {
+      "title": "Adapt RootLayout for BottomNavigation",
+      "layer": 2,
+      "effort": "M",
+      "depends_on": ["L0/03-bottom-navigation.md", "L2/02-adapt-header.md", "L2/03-adapt-sidebar.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L3/01-optimize-spacing-typography.md": {
+      "title": "Optimize spacing and typography for mobile",
+      "layer": 3,
+      "effort": "M",
+      "depends_on": ["L1/01-adapt-taskitem.md", "L1/02-adapt-projectcard.md", "L1/03-adapt-taskform.md", "L1/04-adapt-modal.md", "L2/01-adapt-dashboard.md", "L2/04-adapt-rootlayout.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    },
+    "L3/02-test-mobile-adaptation.md": {
+      "title": "Test mobile adaptation on multiple devices",
+      "layer": 3,
+      "effort": "L",
+      "depends_on": ["L3/01-optimize-spacing-typography.md"],
+      "status": "BLOCKED",
+      "completed_output": null
+    }
+  }
+}
