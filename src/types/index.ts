@@ -95,7 +95,7 @@ export interface TaskUpdate {
   due_date?: string;
   reminder_time?: string;
   is_next_action?: boolean;
-  waiting_for?: string;
+  waiting_for?: string | null;
   delegated_to?: string;
   someday?: boolean;
   created_at?: string;

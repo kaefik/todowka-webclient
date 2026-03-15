@@ -113,6 +113,15 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
       submitData.waiting_for = data.waiting_for;
     }
 
+    const newStatus = data.move_to_active ? 'active' : data.status;
+    const oldStatus = task?.status;
+    const wasWaiting = oldStatus === 'waiting';
+    const isNotWaiting = newStatus !== 'waiting';
+
+    if (wasWaiting && isNotWaiting) {
+      submitData.waiting_for = null;
+    }
+
     const filteredData = Object.fromEntries(
       Object.entries(submitData).filter(([_, v]) => v !== undefined)
     );
