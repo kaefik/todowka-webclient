@@ -68,7 +68,7 @@ class TodoAPIClient {
   }
 
   async patch<T>(endpoint: string, data: any): Promise<T> {
-    const keysToKeepNull = ['project_id', 'context_id', 'area_id'];
+    const keysToKeepNull = ['project_id', 'context_id', 'area_id', 'waiting_for'];
     const cleanedData = Object.fromEntries(
       Object.entries(data).filter(([key, v]) => v !== null || keysToKeepNull.includes(key))
     );
