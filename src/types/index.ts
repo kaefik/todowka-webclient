@@ -18,7 +18,7 @@ export interface Task {
   priority: TaskPriority;
   due_date?: string;
   reminder_time?: string;
-  reminder_enabled: boolean;
+  reminder_enabled: boolean | null;
   recurrence_type: RecurrenceType | null;
   recurrence_config: RecurrenceConfig | null;
   timezone: string;

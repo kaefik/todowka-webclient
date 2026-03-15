@@ -119,7 +119,7 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
         move_to_active: false,
         due_date: task.due_date,
         reminder_time: task.reminder_time,
-        reminder_enabled: task.reminder_enabled || false,
+        reminder_enabled: task.reminder_enabled === true,
         recurrence_type: task.recurrence_type,
         recurrence_config: task.recurrence_config,
         timezone: task.timezone || 'UTC',
@@ -127,7 +127,7 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
       console.log('[TaskForm] Resetting form with data:', resetData);
       reset(resetData);
     }
-  }, [task, reset]);
+  }, [task]);
 
   const handleSubmitWithLog = (data: TaskFormData) => {
     console.log('[TaskForm] Raw form data:', data);
