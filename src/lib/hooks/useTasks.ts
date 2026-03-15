@@ -230,12 +230,12 @@ export function useCompleteTask() {
           return {
             ...old,
             items: old.items.map((task: Task) =>
-              task.id === id ? { ...task, completed: true, status: 'completed', updated_at: new Date().toISOString(), completed_at: new Date().toISOString() } : task
+              task.id === id ? { ...task, completed: true, status: 'completed', waiting_for: null, updated_at: new Date().toISOString(), completed_at: new Date().toISOString() } : task
             ),
           };
         }
         return (old || []).map((task: Task) =>
-          task.id === id ? { ...task, completed: true, status: 'completed', updated_at: new Date().toISOString(), completed_at: new Date().toISOString() } : task
+          task.id === id ? { ...task, completed: true, status: 'completed', waiting_for: null, updated_at: new Date().toISOString(), completed_at: new Date().toISOString() } : task
         );
       });
 

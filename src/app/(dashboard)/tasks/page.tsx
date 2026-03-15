@@ -30,7 +30,7 @@ export default function TasksPage() {
   const projectList = Array.isArray(projects) ? projects : (projects as any)?.items || [];
 
   const filteredTaskList = useMemo(() => {
-    return (filters.status === 'active' || filters.status === 'inbox')
+    return (filters.status === 'active' || filters.status === 'inbox' || filters.status === 'waiting')
       ? taskList.filter((t: Task) => !t.completed)
       : taskList;
   }, [taskList, filters.status]);
