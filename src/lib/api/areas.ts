@@ -1,7 +1,7 @@
-import { TodoAPIClient } from './client';
+import { getAPIClient } from './index';
 import type { Area, AreaCreate, AreaUpdate } from '@/types';
 
-const api = new TodoAPIClient();
+const api = getAPIClient();
 
 export const areasAPI = {
   async getAll(): Promise<Area[]> {

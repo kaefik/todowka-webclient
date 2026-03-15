@@ -6,6 +6,7 @@ import { Sidebar } from '@/components/layout/Sidebar';
 import { MainContent } from '@/components/layout/MainContent';
 import { BottomNavigation } from '@/components/layout/BottomNavigation';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { APIErrorHandler } from '@/components/APIErrorHandler';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
               </div>
               <BottomNavigation />
             </div>
+            <APIErrorHandler />
           </QueryClientProvider>
         </ErrorBoundary>
       </body>

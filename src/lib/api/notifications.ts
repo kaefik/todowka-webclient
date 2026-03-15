@@ -1,7 +1,7 @@
-import { TodoAPIClient } from './client';
+import { getAPIClient } from './index';
 import type { Notification } from '@/types';
 
-const api = new TodoAPIClient();
+const api = getAPIClient();
 
 export const notificationsAPI = {
   async getAll(): Promise<Notification[]> {

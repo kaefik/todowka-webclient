@@ -1,12 +1,14 @@
 class TodoAPIClient {
   private baseURL: string;
   private headers: Record<string, string>;
+  private onError?: (message: string, status: number) => void;
 
-  constructor(baseURL: string = 'http://localhost:8000/api/v1') {
+  constructor(baseURL: string = 'http://localhost:8000/api/v1', onError?: (message: string, status: number) => void) {
     this.baseURL = baseURL;
     this.headers = {
       'Content-Type': 'application/json',
     };
+    this.onError = onError;
   }
 
   private async request<T>(
@@ -27,10 +29,14 @@ class TodoAPIClient {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new APIError(
-          errorData.detail || response.statusText,
-          response.status
-        );
+        const errorMessage = errorData.detail || response.statusText || 'API Error';
+        const errorStatus = response.status;
+        
+        if (this.onError) {
+          this.onError(errorMessage, errorStatus);
+        }
+        
+        throw new APIError(errorMessage, errorStatus);
       }
 
       if (response.status === 204) {
@@ -42,9 +48,16 @@ class TodoAPIClient {
       return responseData;
     } catch (error) {
       if (error instanceof APIError) {
+        if (this.onError) {
+          this.onError(error.message, error.status);
+        }
         throw error;
       }
-      throw new APIError('Network error', 0);
+      const errorMessage = 'Сервис недоступен. Проверьте подключение к интернету.';
+      if (this.onError) {
+        this.onError(errorMessage, 0);
+      }
+      throw new APIError(errorMessage, 0);
     }
   }
 

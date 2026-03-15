@@ -1,7 +1,7 @@
-import { TodoAPIClient } from './client';
+import { getAPIClient } from './index';
 import type { Task, InboxCreate } from '@/types';
 
-const api = new TodoAPIClient();
+const api = getAPIClient();
 
 export const inboxAPI = {
   async getAll(): Promise<Task[]> {

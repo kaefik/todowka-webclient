@@ -1,7 +1,7 @@
-import { TodoAPIClient } from './client';
+import { getAPIClient } from './index';
 import type { Context, ContextCreate, ContextUpdate } from '@/types';
 
-const api = new TodoAPIClient();
+const api = getAPIClient();
 
 export const contextsAPI = {
   async getAll(): Promise<Context[]> {

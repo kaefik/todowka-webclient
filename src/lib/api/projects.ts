@@ -1,7 +1,7 @@
-import { TodoAPIClient } from './client';
+import { getAPIClient } from './index';
 import type { Project, ProjectCreate, ProjectUpdate, PaginatedResponse } from '@/types';
 
-const api = new TodoAPIClient();
+const api = getAPIClient();
 
 export const projectsAPI = {
   async getAll(page: number = 1, limit: number = 10): Promise<PaginatedResponse<Project>> {

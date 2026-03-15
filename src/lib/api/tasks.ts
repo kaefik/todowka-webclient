@@ -1,7 +1,7 @@
-import { TodoAPIClient } from './client';
+import { getAPIClient } from './index';
 import type { Task, TaskCreate, TaskUpdate } from '@/types';
 
-const api = new TodoAPIClient();
+const api = getAPIClient();
 
 export const tasksAPI = {
   async getAll(filters?: any): Promise<Task[]> {

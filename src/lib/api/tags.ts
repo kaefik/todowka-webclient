@@ -1,7 +1,7 @@
-import { TodoAPIClient } from './client';
+import { getAPIClient } from './index';
 import type { Tag, TagCreate, TagUpdate } from '@/types';
 
-const api = new TodoAPIClient();
+const api = getAPIClient();
 
 export const tagsAPI = {
   async getAll(): Promise<Tag[]> {
