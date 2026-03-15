@@ -1,135 +1,238 @@
-# Todo Web Client
+# ToDowka Web Client
 
-Веб-приложение для личного управления задачами по методологии GTD.
+GTD (Getting Things Done) task management web application.
 
-## Возможности
+## Features
 
-- **Capture (Захват):** Быстрое добавление задач в Inbox
-- **Clarify (Уточнение):** Обработка inbox-элементов с полными деталями задачи
-- **Organize (Организация):** Организация по проектам, контекстам, тегам и областям
-- **Engage (Выполнение):** Фокус на Next Actions
-- **Review (Обзор):** Направленный еженедельный обзор
+- **Capture:** Quick capture tasks into Inbox
+- **Clarify:** Process inbox items with full task details
+- **Organize:** Organize by projects, contexts, tags, and areas
+- **Engage:** Focus on Next Actions
+- **Review:** Guided weekly review workflow
+- **Mobile First:** Responsive design with bottom navigation
 
-## Технологический стек
+## Tech Stack
 
-- **Фреймворк:** Next.js 14 (App Router)
-- **Язык:** TypeScript
-- **Стилизация:** Tailwind CSS
-- **State:** Zustand (UI), TanStack Query (серверный)
-- **Формы:** React Hook Form + Zod
+- **Framework:** Next.js 16.1.6 (App Router)
+- **Language:** TypeScript 5.0
+- **Styling:** Tailwind CSS 3.0
+- **State Management:** Zustand (UI state), TanStack Query v5 (server state)
+- **Forms:** React Hook Form + Zod
+- **Utilities:** date-fns
 
-## Установка
+## Installation
 
-### Предварительные требования
+### Prerequisites
 
 - Node.js 18+
-- npm или yarn
+- npm or yarn
 
-### Установка
+### Setup
 
 ```bash
-# Клонировать репозиторий
+# Clone repository
 git clone <repo-url>
 cd todowka-webclient
 
-# Установить зависимости
+# Install dependencies
 npm install
 
-# Создать файл окружения
+# Create environment file
 cp .env.local.example .env.local
 ```
 
-### Переменные окружения
+### Environment Variables
 
-Создать `.env.local`:
+Create `.env.local`:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 
-### Запуск API
+### Running the API
 
-Убедитесь, что Todo API запущен:
+Ensure the Todo API is running:
 
 ```bash
-# Из проекта API
+# From the API project
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### Разработка
+### Development
 
 ```bash
 npm run dev
 ```
 
-Открыть http://localhost:3000
+Open http://localhost:3000
 
-### Сборка
+### Build
 
 ```bash
 npm run build
 ```
 
-### Линтер
+### Lint
 
 ```bash
 npm run lint
 ```
 
-## GTD Рабочий процесс
+### Type Check
 
-### 1. Capture (Захват)
+```bash
+npm run typecheck
+```
 
-Используйте быстрый захват на Dashboard для быстрого добавления задач в ваш Inbox.
+## GTD Workflow
 
-### 2. Clarify (Уточнение)
+### 1. Capture
 
-Перейдите на страницу Inbox для обработки элементов:
-- Редактируйте чтобы добавить проект, контекст, теги, приоритет
-- Удалите нерелевантные элементы
-- Переместите в "Someday" для потом
+Use the quick capture form on the Dashboard to quickly add tasks to your Inbox.
 
-### 3. Organize (Организация)
+### 2. Clarify
 
-Создавайте проекты для группировки связанных задач. Используйте контексты для "где" (Дом, Офис, Телефон). Используйте теги для "что" (Работа, Личное).
+Go to the Inbox page to process items:
+- Edit to add project, context, tags, priority
+- Delete irrelevant items
+- Move to "Someday" for later
 
-### 4. Engage (Выполнение)
+### 3. Organize
 
-Фокусируйтесь на Next Actions — задачи, которые вы отметили как готовые к выполнению. Завершайте их одну за одной.
+Create projects to group related tasks. Use contexts for "where" (Home, Office, Phone). Use tags for "what" (Work, Personal).
 
-### 5. Review (Обзор)
+### 4. Engage
 
-Еженедельный обзор:
-1. Обработать все Inbox элементы
-2. Обзор прогресса проектов
-3. Выбрать Next Actions на следующую неделю
-4. Обзор Someday элементов
+Focus on Next Actions — tasks you've marked as ready to do. Complete them one by one.
 
-## Структура проекта
+### 5. Review
+
+Weekly review:
+1. Process all Inbox items
+2. Review project progress
+3. Select Next Actions for the next week
+4. Review Someday items
+
+## Project Structure
 
 ```
 src/
-├── app/                    # Next.js страницы
-├── components/             # React компоненты
-│   ├── ui/              # Базовые компоненты
-│   ├── task/            # Компоненты задач
-│   ├── project/         # Компоненты проектов
-│   └── layout/          # Layout компоненты
-├── lib/                  # Утилиты и API
-│   ├── api/             # API клиент
-│   ├── hooks/           # React Query hooks
-│   └── utils/           # Helper функции
-├── types/                # TypeScript типы
-└── stores/               # Zustand stores
+├── app/                    # Next.js pages (App Router)
+│   ├── (dashboard)/       # Dashboard group layout
+│   │   ├── inbox/        # Inbox page
+│   │   ├── tasks/        # Tasks pages
+│   │   ├── projects/     # Project pages
+│   │   ├── contexts/     # Contexts page
+│   │   ├── areas/        # Areas page
+│   │   ├── tags/         # Tags page
+│   │   ├── review/       # Review page
+│   │   ├── completed/    # Completed tasks page
+│   │   └── trash/        # Trash page
+│   ├── layout.tsx        # Root layout
+│   └── page.tsx           # Dashboard page
+├── components/             # React components
+│   ├── ui/               # Base UI components
+│   │   ├── Button.tsx
+│   │   ├── Modal.tsx
+│   │   ├── Input.tsx
+│   │   ├── Select.tsx
+│   │   ├── Textarea.tsx
+│   │   ├── Checkbox.tsx
+│   │   ├── Badge.tsx
+│   │   ├── Card.tsx
+│   │   ├── Spinner.tsx
+│   │   └── EmptyState.tsx
+│   ├── task/             # Task components
+│   │   ├── TaskItem.tsx
+│   │   ├── TaskList.tsx
+│   │   ├── TaskForm.tsx
+│   │   ├── TaskFilters.tsx
+│   │   ├── TaskActionMenu.tsx
+│   │   └── WaitingModal.tsx
+│   ├── project/          # Project components
+│   │   ├── ProjectCard.tsx
+│   │   ├── ProjectList.tsx
+│   │   ├── ProjectForm.tsx
+│   │   ├── ProjectActionMenu.tsx
+│   │   └── ProgressBar.tsx
+│   ├── layout/           # Layout components
+│   │   ├── Sidebar.tsx
+│   │   ├── Header.tsx
+│   │   ├── MainContent.tsx
+│   │   ├── BottomNavigation.tsx
+│   │   ├── MoreMenu.tsx
+│   │   └── QuickCapture.tsx
+│   ├── ErrorBoundary.tsx
+│   ├── APIErrorHandler.tsx
+│   └── APIErrorAlert.tsx
+├── lib/                  # Utilities and API
+│   ├── api/              # API client modules
+│   │   ├── client.ts    # HTTP client
+│   │   ├── tasks.ts     # Task API
+│   │   ├── projects.ts  # Project API
+│   │   ├── inbox.ts     # Inbox API
+│   │   ├── contexts.ts  # Context API
+│   │   ├── areas.ts     # Area API
+│   │   ├── tags.ts      # Tag API
+│   │   └── notifications.ts
+│   ├── hooks/            # React Query hooks
+│   │   ├── useTasks.ts
+│   │   ├── useProjects.ts
+│   │   ├── useInbox.ts
+│   │   ├── useContexts.ts
+│   │   ├── useAreas.ts
+│   │   └── useTags.ts
+│   └── QueryClientProvider.tsx
+├── stores/               # Zustand stores
+│   ├── useTaskStore.ts
+│   ├── useGTDStore.ts
+│   ├── useNavigationStore.ts
+│   └── useAPIErrorStore.ts
+└── types/                # TypeScript types
+    └── index.ts
 ```
 
-## Участие
+## Task Status Flow
 
-1. Создайте ветку для фичи
-2. Внесите изменения
-3. Запустите lint и typecheck
-4. Отправьте pull request
+- `inbox` → `active` → `completed`
+- Can also go to `waiting` or `someday`
+- Soft delete with `deleted_at` timestamp
 
-## Лицензия
+## Mobile Responsiveness
+
+- Bottom navigation on mobile devices
+- Responsive grid layouts with `sm:` breakpoints
+- Mobile-optimized components
+- Touch-friendly interface
+
+## Contributing
+
+1. Create a feature branch
+2. Make your changes
+3. Run `npm run lint` and `npm run typecheck`
+4. Submit a pull request
+
+## Troubleshooting
+
+### Build Fails
+
+1. Run `npm run typecheck`
+2. Fix any type errors
+3. Clear cache: `rm -rf .next`
+4. Try build again
+
+### API Connection Issues
+
+1. Verify `NEXT_PUBLIC_API_URL` in `.env.local`
+2. Ensure API server is running on the specified port
+3. Check browser console for network errors
+
+### State Not Updating
+
+1. Check React Query DevTools (if installed)
+2. Verify query keys match between mutations and queries
+3. Ensure `invalidateQueries` is called after mutations
+
+## License
 
 MIT
