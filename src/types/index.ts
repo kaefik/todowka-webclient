@@ -2,6 +2,12 @@ export type TaskStatus = 'inbox' | 'active' | 'completed' | 'waiting' | 'someday
 export type TaskPriority = 'low' | 'medium' | 'high';
 export type ProjectStatus = 'active' | 'completed';
 export type NotificationStatus = 'pending' | 'sent' | 'failed';
+export type RecurrenceType = 'none' | 'daily' | 'weekly' | 'monthly' | 'yearly';
+
+export interface RecurrenceConfig {
+  days_of_week?: number[];
+  day_of_month?: number;
+}
 
 export interface Task {
   id: number;
@@ -12,6 +18,10 @@ export interface Task {
   priority: TaskPriority;
   due_date?: string;
   reminder_time?: string;
+  reminder_enabled: boolean;
+  recurrence_type: RecurrenceType | null;
+  recurrence_config: RecurrenceConfig | null;
+  timezone: string;
   is_next_action: boolean;
   waiting_for?: string;
   delegated_to?: string;
@@ -80,6 +90,12 @@ export interface TaskCreate {
   description?: string;
   status?: TaskStatus;
   priority?: TaskPriority;
+  due_date?: string;
+  reminder_time?: string;
+  reminder_enabled?: boolean;
+  recurrence_type?: RecurrenceType | null;
+  recurrence_config?: RecurrenceConfig | null;
+  timezone?: string;
   project_id?: number | null;
   context_id?: number | null;
   tag_ids?: number[];
@@ -95,6 +111,10 @@ export interface TaskUpdate {
   priority?: TaskPriority;
   due_date?: string;
   reminder_time?: string;
+  reminder_enabled?: boolean;
+  recurrence_type?: RecurrenceType | null;
+  recurrence_config?: RecurrenceConfig | null;
+  timezone?: string;
   is_next_action?: boolean;
   waiting_for?: string | null;
   delegated_to?: string;

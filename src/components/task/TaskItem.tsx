@@ -33,6 +33,17 @@ export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete, onW
           {task.description && (
             <p className="text-sm text-slate-600 mb-2 line-clamp-2 sm:line-clamp-3">{task.description}</p>
           )}
+          <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
+            {task.reminder_enabled && task.reminder_time && (
+              <span>🔔 {new Date(task.reminder_time).toLocaleString()}</span>
+            )}
+            {task.recurrence_type && task.recurrence_type !== 'none' && (
+              <span>🔄 {task.recurrence_type}</span>
+            )}
+            {task.due_date && (
+              <span>📅 {new Date(task.due_date).toLocaleDateString()}</span>
+            )}
+          </div>
           {task.completed && task.completed_at && (
             <p className="text-xs text-slate-500 mb-2">
               Completed: {new Date(task.completed_at).toLocaleDateString()}

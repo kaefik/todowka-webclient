@@ -4,13 +4,16 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useEffect } from 'react';
-import type { Task, TaskCreate, TaskUpdate } from '@/types';
+import type { Task, TaskCreate, TaskUpdate, RecurrenceType, RecurrenceConfig } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Textarea';
 import { Select, SelectItem } from '@/components/ui/Select';
 import { Checkbox } from '@/components/ui/Checkbox';
 import { Spinner } from '@/components/ui/Spinner';
+import { DateTimePicker } from '@/components/ui/DateTimePicker';
+import { ReminderSettings } from '@/components/task/ReminderSettings';
+import { RecurrenceSettings } from '@/components/task/RecurrenceSettings';
 import type { Project, Context, Tag } from '@/types';
 
 interface TaskFormData {
@@ -23,6 +26,12 @@ interface TaskFormData {
   status?: 'inbox' | 'active' | 'waiting' | 'someday' | undefined;
   waiting_for?: string;
   move_to_active?: boolean;
+  due_date?: string;
+  reminder_time?: string;
+  reminder_enabled?: boolean;
+  recurrence_type?: RecurrenceType | null;
+  recurrence_config?: RecurrenceConfig | null;
+  timezone?: string;
 }
 
 const taskSchema = z.object({
@@ -35,6 +44,15 @@ const taskSchema = z.object({
   status: z.enum(['inbox', 'active', 'waiting', 'someday']).optional(),
   waiting_for: z.string().nullable().optional(),
   move_to_active: z.boolean().optional(),
+  due_date: z.string().nullable().optional(),
+  reminder_time: z.string().nullable().optional(),
+  reminder_enabled: z.boolean().optional(),
+  recurrence_type: z.enum(['none', 'daily', 'weekly', 'monthly', 'yearly']).nullable().optional(),
+  recurrence_config: z.object({
+    days_of_week: z.array(z.number()).optional(),
+    day_of_month: z.number().optional(),
+  }).nullable().optional(),
+  timezone: z.string().optional(),
 }).refine((data) => {
   if (data.status !== 'waiting') {
     return true;
@@ -62,6 +80,8 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
     control,
     handleSubmit,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<TaskFormData>({
     resolver: zodResolver(taskSchema),
@@ -75,6 +95,12 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
       status: task?.status === 'completed' ? undefined : task?.status,
       waiting_for: task?.waiting_for,
       move_to_active: moveToActive !== undefined ? moveToActive : false,
+      due_date: task?.due_date,
+      reminder_time: task?.reminder_time,
+      reminder_enabled: task?.reminder_enabled || false,
+      recurrence_type: task?.recurrence_type,
+      recurrence_config: task?.recurrence_config,
+      timezone: task?.timezone || 'UTC',
     },
   });
 
@@ -91,6 +117,12 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
         status: task.status === 'completed' ? undefined : task.status,
         waiting_for: task.waiting_for,
         move_to_active: false,
+        due_date: task.due_date,
+        reminder_time: task.reminder_time,
+        reminder_enabled: task.reminder_enabled || false,
+        recurrence_type: task.recurrence_type,
+        recurrence_config: task.recurrence_config,
+        timezone: task.timezone || 'UTC',
       };
       console.log('[TaskForm] Resetting form with data:', resetData);
       reset(resetData);
@@ -107,6 +139,12 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
       project_id: data.project_id && data.project_id !== '' ? parseInt(data.project_id as string) : null,
       context_id: data.context_id && data.context_id !== '' ? parseInt(data.context_id as string) : null,
       tag_ids: data.tag_ids,
+      due_date: data.due_date,
+      reminder_time: data.reminder_time,
+      reminder_enabled: data.reminder_enabled,
+      recurrence_type: data.recurrence_type,
+      recurrence_config: data.recurrence_config,
+      timezone: data.timezone,
     };
 
     console.log('[TaskForm] Before filtering:', submitData);
@@ -274,25 +312,25 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
             control={control}
             render={({ field }) => (
               <>
-                {tags?.map((tag) => (
-                  <Checkbox
-                    key={tag.id}
-                    label={tag.name}
-                    checked={field.value?.includes(tag.id) || false}
-                    onChange={(checked) => {
-                      const currentIds = field.value || [];
-                      if (checked) {
-                        field.onChange([...currentIds, tag.id]);
-                      } else {
-                        field.onChange(currentIds.filter((id) => id !== tag.id));
-                      }
-                    }}
-                  />
-                ))}
-              </>
-            )}
-          />
-        </div>
+                 {tags?.map((tag) => (
+                   <Checkbox
+                     key={tag.id}
+                     label={tag.name}
+                     checked={field.value?.includes(tag.id) || false}
+                     onChange={(checked) => {
+                       const currentIds = field.value || [];
+                       if (checked) {
+                         field.onChange([...currentIds, tag.id]);
+                       } else {
+                         field.onChange(currentIds.filter((id) => id !== tag.id));
+                       }
+                     }}
+                   />
+                 ))}
+               </>
+             )}
+           />
+         </div>
       </div>
 
       {moveToActive !== undefined || task?.status === 'inbox' ? (
@@ -311,6 +349,47 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
           <span className="text-sm text-slate-600">Remove from Inbox and set status to Active</span>
         </div>
       ) : null}
+
+      <DateTimePicker
+        value={watch('due_date') || null}
+        onChange={(value) => setValue('due_date', value || undefined)}
+        timezone={watch('timezone') || 'UTC'}
+        label="Due date"
+      />
+
+      <ReminderSettings
+        reminderTime={watch('reminder_time') || null}
+        reminderEnabled={watch('reminder_enabled') || false}
+        timezone={watch('timezone') || 'UTC'}
+        onReminderTimeChange={(time) => setValue('reminder_time', time || undefined)}
+        onReminderEnabledChange={(enabled) => setValue('reminder_enabled', enabled)}
+      />
+
+      <RecurrenceSettings
+        recurrenceType={watch('recurrence_type') || null}
+        recurrenceConfig={watch('recurrence_config') || null}
+        onTypeChange={(type) => setValue('recurrence_type', type)}
+        onConfigChange={(config) => setValue('recurrence_config', config)}
+      />
+
+      <div>
+        <label className="block text-sm font-medium mb-1">Timezone</label>
+        <Controller
+          name="timezone"
+          control={control}
+          render={({ field }) => (
+            <Select
+              value={field.value || 'UTC'}
+              onChange={(value) => field.onChange(value)}
+            >
+              <SelectItem value="UTC">UTC</SelectItem>
+              <SelectItem value="Europe/Moscow">Moscow</SelectItem>
+              <SelectItem value="America/New_York">New York</SelectItem>
+              <SelectItem value="Asia/Tokyo">Tokyo</SelectItem>
+            </Select>
+          )}
+        />
+      </div>
 
       <div className="flex justify-end gap-2 pt-4">
         {onCancel && (

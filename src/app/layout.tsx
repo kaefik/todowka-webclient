@@ -7,6 +7,8 @@ import { MainContent } from '@/components/layout/MainContent';
 import { BottomNavigation } from '@/components/layout/BottomNavigation';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { APIErrorHandler } from '@/components/APIErrorHandler';
+import { NotificationManager } from '@/components/NotificationManager';
+import { ToastProvider } from '@/components/ToastProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,6 +27,8 @@ export default function RootLayout({
       <body className={inter.className}>
         <ErrorBoundary>
           <QueryClientProvider>
+            <NotificationManager />
+            <ToastProvider />
             <div className="flex min-h-screen flex-col">
               <div className="flex flex-1">
                 <Sidebar />

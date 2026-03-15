@@ -2,7 +2,7 @@
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { inboxAPI } from '@/lib/api/inbox';
-import type { InboxCreate, Task, TaskStatus, TaskPriority, TaskListResponse } from '@/types';
+import type { InboxCreate, Task, TaskStatus, TaskPriority, TaskListResponse, RecurrenceType } from '@/types';
 
 export function useInbox() {
   return useQuery({
@@ -27,6 +27,10 @@ export function useCreateInboxTask() {
         status: 'inbox' as TaskStatus,
         priority: 'medium' as TaskPriority,
         completed: false,
+        reminder_enabled: false,
+        recurrence_type: null as RecurrenceType | null,
+        recurrence_config: null,
+        timezone: 'UTC',
         someday: false,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),

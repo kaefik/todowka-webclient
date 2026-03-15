@@ -1,5 +1,5 @@
 import { getAPIClient } from './index';
-import type { Task, TaskCreate, TaskUpdate } from '@/types';
+import type { Task, TaskCreate, TaskUpdate, RecurrenceType, RecurrenceConfig } from '@/types';
 
 const api = getAPIClient();
 
@@ -35,13 +35,17 @@ export const tasksAPI = {
     return api.delete(`/tasks/${id}`);
   },
 
-  async complete(id: number): Promise<Task> {
-    return api.post<Task>(`/tasks/${id}/complete`, {
+  async complete(id: number, skipRecurrence = false): Promise<{ task: Task; nextTask?: Task }> {
+    return api.post<{ task: Task; next_task?: Task }>(`/tasks/${id}/complete`, { 
+      skip_recurrence: skipRecurrence,
       status: 'completed',
       completed_at: new Date().toISOString(),
       waiting_for: null,
       someday: false,
-    });
+    }).then(response => ({
+      task: response.task,
+      nextTask: response.next_task
+    }));
   },
 
   async setNextAction(id: number, flag: boolean): Promise<Task> {
@@ -70,5 +74,23 @@ export const tasksAPI = {
 
   async deleteAllFromTrash(): Promise<void> {
     return api.delete('/tasks/deleted/all');
+  },
+
+  async setReminder(id: number, reminderTime: string | null, enabled: boolean): Promise<Task> {
+    return api.post<Task>(`/tasks/${id}/reminder`, { 
+      reminder_time: reminderTime,
+      reminder_enabled: enabled 
+    });
+  },
+
+  async setRecurrence(id: number, recurrenceType: RecurrenceType | null, config: RecurrenceConfig | null): Promise<Task> {
+    return api.post<Task>(`/tasks/${id}/recurrence`, { 
+      recurrence_type: recurrenceType,
+      recurrence_config: config 
+    });
+  },
+
+  async setTimezone(id: number, timezone: string): Promise<Task> {
+    return api.post<Task>(`/tasks/${id}/timezone`, { timezone });
   }
 };

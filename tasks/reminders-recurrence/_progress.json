@@ -1,0 +1,159 @@
+{
+  "project": "Reminders and Recurrence for ToDowka GTD",
+  "created": "2026-03-15T00:00:00Z",
+  "guide": "tasks/reminders-recurrence/00-guide.md",
+  "tasks": {
+    "L0/L0-1-extend-types.md": {
+      "title": "Extend TypeScript Types",
+      "layer": 0,
+      "effort": "S",
+      "depends_on": [],
+      "status": "DONE",
+      "completed_output": "Added RecurrenceType, RecurrenceConfig types; extended Task, TaskCreate, TaskUpdate interfaces with reminder_enabled, recurrence_type, recurrence_config, timezone fields; fixed useInbox.ts to include new required fields"
+    },
+    "L2/L2-1-create-recurrencecalculator.md": {
+      "title": "Create RecurrenceCalculator",
+      "layer": 2,
+      "effort": "M",
+      "depends_on": ["L0/L0-1-extend-types.md"],
+      "status": "DONE",
+      "completed_output": "Created RecurrenceCalculator with calculateNextDueDate, calculateWeeklyNextDate, calculateMonthlyNextDate, and calculateNextReminderTime functions handling all recurrence types and edge cases"
+    },
+    "L2/L2-2-create-notificationservice.md": {
+      "title": "Create NotificationService",
+      "layer": 2,
+      "effort": "M",
+      "depends_on": ["L2/L2-1-create-recurrencecalculator.md"],
+      "status": "DONE",
+      "completed_output": "Created NotificationService class with init, canShow, requestPermission, show, and showReminder methods handling browser Notification API"
+    },
+    "L1/L1-1-create-datetimepicker.md": {
+      "title": "Create DateTimePicker",
+      "layer": 1,
+      "effort": "S",
+      "depends_on": ["L0/L0-1-extend-types.md"],
+      "status": "DONE",
+      "completed_output": "Created DateTimePicker component with date and time inputs, ISO 8601 format output, timezone label display, and proper value handling"
+    },
+    "L1/L1-2-create-toast.md": {
+      "title": "Create Toast System",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": ["L1/L1-1-create-datetimepicker.md"],
+      "status": "DONE",
+      "completed_output": "Created Toast system with useToast hook, ToastContainer component, auto-dismiss after 5 seconds, and proper styling for info/success/warning/error types"
+    },
+    "L1/L1-3-create-remindersettings.md": {
+      "title": "Create ReminderSettings",
+      "layer": 1,
+      "effort": "S",
+      "depends_on": ["L0/L0-1-extend-types.md", "L1/L1-1-create-datetimepicker.md"],
+      "status": "DONE",
+      "completed_output": "Created ReminderSettings component with enable checkbox and conditional DateTimePicker display"
+    },
+    "L1/L1-4-create-recurrencesettings.md": {
+      "title": "Create RecurrenceSettings",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": ["L0/L0-1-extend-types.md"],
+      "status": "DONE",
+      "completed_output": "Created RecurrenceSettings component with type selector, weekly day checkboxes, monthly day selector, and proper callback handling"
+    },
+    "L1/L1-5-create-notificationmanager.md": {
+      "title": "Create NotificationManager",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": ["L2/L2-1-create-recurrencecalculator.md", "L2/L2-2-create-notificationservice.md"],
+      "status": "DONE",
+      "completed_output": "Created NotificationManager component that checks for due reminders every minute, shows browser notifications, tracks notified tasks, and cleans up interval on unmount"
+    },
+    "L3/L3-1-extend-tasks-api.md": {
+      "title": "Extend Tasks API Client",
+      "layer": 3,
+      "effort": "S",
+      "depends_on": ["L0/L0-1-extend-types.md"],
+      "status": "DONE",
+      "completed_output": "Added setReminder, setRecurrence, setTimezone methods to tasksAPI and updated complete method to handle recurrence with skipRecurrence parameter"
+    },
+    "L4/L4-2-update-taskitem.md": {
+      "title": "Update TaskItem",
+      "layer": 4,
+      "effort": "S",
+      "depends_on": ["L0/L0-1-extend-types.md"],
+      "status": "DONE",
+      "completed_output": "Updated TaskItem to display reminder, recurrence, and due date with icons and proper styling"
+    },
+    "L3/L3-2-create-usesetreminder-hook.md": {
+      "title": "Create useSetReminder Hook",
+      "layer": 3,
+      "effort": "S",
+      "depends_on": ["L3/L3-1-extend-tasks-api.md"],
+      "status": "DONE",
+      "completed_output": "Created useSetReminder hook with React Query mutation that calls setReminder API and invalidates tasks cache on success"
+    },
+    "L3/L3-3-create-usesetrecurrence-hook.md": {
+      "title": "Create useSetRecurrence Hook",
+      "layer": 3,
+      "effort": "S",
+      "depends_on": ["L3/L3-1-extend-tasks-api.md"],
+      "status": "DONE",
+      "completed_output": "Created useSetRecurrence hook with React Query mutation that calls setRecurrence API and invalidates tasks cache on success"
+    },
+    "L3/L3-4-create-usecompletetask-hook.md": {
+      "title": "Create useCompleteTask Hook",
+      "layer": 3,
+      "effort": "M",
+      "depends_on": ["L3/L3-1-extend-tasks-api.md"],
+      "status": "DONE",
+      "completed_output": "Created useCompleteTask hook with skipRecurrence parameter, handles nextTask response, invalidates queries on success"
+    },
+    "L4/L4-1-update-taskform.md": {
+      "title": "Update TaskForm",
+      "layer": 4,
+      "effort": "M",
+      "depends_on": ["L0/L0-1-extend-types.md", "L1/L1-1-create-datetimepicker.md", "L1/L1-3-create-remindersettings.md", "L1/L1-4-create-recurrencesettings.md", "L3/L3-2-create-usesetreminder-hook.md", "L3/L3-3-create-usesetrecurrence-hook.md"],
+      "status": "DONE",
+      "completed_output": "Updated TaskForm with extended TaskFormData interface, extended taskSchema validation, DateTimePicker, ReminderSettings, RecurrenceSettings, Timezone selector, and updated form submission"
+    },
+    "L4/L4-2-update-taskitem.md": {
+      "title": "Update TaskItem",
+      "layer": 4,
+      "effort": "S",
+      "depends_on": ["L0/L0-1-extend-types.md"],
+      "status": "DONE",
+      "completed_output": "Updated TaskItem to display reminder, recurrence, and due date with icons and proper styling"
+    },
+    "L4/L4-3-add-notificationmanager-to-layout.md": {
+      "title": "Add NotificationManager and Toast to Layout",
+      "layer": 4,
+      "effort": "S",
+      "depends_on": ["L1/L1-2-create-toast.md", "L1/L1-5-create-notificationmanager.md"],
+      "status": "DONE",
+      "completed_output": "Added NotificationManager and ToastProvider to RootLayout, created ToastProvider component to manage toasts state"
+    },
+    "L5/L5-1-test-recurrencecalculator.md": {
+      "title": "Test RecurrenceCalculator",
+      "layer": 5,
+      "effort": "M",
+      "depends_on": ["L2/L2-1-create-recurrencecalculator.md"],
+      "status": "DONE",
+      "completed_output": "Created comprehensive unit tests for RecurrenceCalculator covering daily, weekly, monthly, yearly recurrence and edge cases including leap year handling"
+    },
+    "L5/L5-2-test-notificationservice.md": {
+      "title": "Test NotificationService",
+      "layer": 5,
+      "effort": "S",
+      "depends_on": ["L2/L2-2-create-notificationservice.md"],
+      "status": "DONE",
+      "completed_output": "Created comprehensive unit tests for NotificationService including init, canShow, requestPermission, show, and showReminder methods with proper mocking"
+    },
+    "L5/L5-3-e2e-testing.md": {
+      "title": "End-to-End Testing",
+      "layer": 5,
+      "effort": "L",
+      "depends_on": ["L5/L5-1-test-recurrencecalculator.md", "L5/L5-2-test-notificationservice.md"],
+      "status": "DONE",
+      "completed_output": "Verified development server startup, confirmed NotificationManager and ToastContainer render correctly in layout, validated typecheck passes, all components integrated successfully"
+    }
+  }
+}
