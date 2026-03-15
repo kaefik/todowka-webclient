@@ -27,15 +27,18 @@ export function NotificationManager() {
     
     let remindersShown = 0;
     tasksArray.forEach((task: Task) => {
+      const reminderEnabled = task.reminder_enabled === true;
+      
       console.log('[NotificationManager] Checking task:', task.title, {
         reminder_enabled: task.reminder_enabled,
         reminder_time: task.reminder_time,
         completed: task.completed,
         id: task.id,
-        checkedBefore: checkedTasks.current.has(task.id)
+        checkedBefore: checkedTasks.current.has(task.id),
+        reminderEnabledCalculated: reminderEnabled
       });
 
-      if (!task.reminder_enabled || !task.reminder_time || task.completed) {
+      if (!reminderEnabled || !task.reminder_time || task.completed) {
         console.log('[NotificationManager] Skipping task (condition failed)');
         return;
       }
