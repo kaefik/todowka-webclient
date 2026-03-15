@@ -10,10 +10,12 @@ interface TaskItemProps {
   onNextAction?: (id: number) => void;
   onEdit?: (task: Task) => void;
   onDelete?: (id: number) => void;
+  onWaiting?: (task: Task) => void;
   showNextButton?: boolean;
+  showWaitingButton?: boolean;
 }
 
-export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete, showNextButton = true }: TaskItemProps) {
+export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete, onWaiting, showNextButton = true, showWaitingButton = false }: TaskItemProps) {
   return (
     <div className="p-4 border border-border rounded-lg bg-card hover:shadow-md transition-shadow">
       <div className="flex items-start justify-between gap-4">
@@ -33,6 +35,11 @@ export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete, sho
               Completed: {new Date(task.completed_at).toLocaleDateString()}
             </p>
           )}
+          {task.waiting_for && !task.completed && (
+            <p className="text-xs text-orange-600 mb-2">
+              ⏳ Waiting for: {task.waiting_for}
+            </p>
+          )}
           {task.is_next_action && !task.completed && (
             <span className="inline-block px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded-full">
               Next Action
@@ -43,11 +50,21 @@ export function TaskItem({ task, onComplete, onNextAction, onEdit, onDelete, sho
           <Button type="button" variant="ghost" size="sm" onClick={() => onEdit?.(task)}>
             Edit
           </Button>
-          {showNextButton && !task.completed && (
-            <Button 
-              type="button" 
-              variant={task.is_next_action ? "primary" : "ghost"} 
-              size="sm" 
+          {showWaitingButton && !task.completed && task.status !== 'waiting' && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => onWaiting?.(task)}
+            >
+              ⏳
+            </Button>
+          )}
+          {showNextButton && !task.completed && task.status !== 'waiting' && (
+            <Button
+              type="button"
+              variant={task.is_next_action ? "primary" : "ghost"}
+              size="sm"
               onClick={() => onNextAction?.(task.id)}
             >
               {task.is_next_action ? 'Next ✓' : 'Next'}

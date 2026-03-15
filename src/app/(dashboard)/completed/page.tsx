@@ -50,6 +50,7 @@ export default function CompletedPage() {
         tasks={completedTasks}
         loading={isLoading}
         showNextButton={false}
+        showWaitingButton={false}
         onComplete={(id) => completeTask.mutate(id)}
         onEdit={handleEdit}
         onDelete={(id) => {

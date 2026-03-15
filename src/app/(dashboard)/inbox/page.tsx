@@ -1,7 +1,7 @@
 'use client';
 
 import { useInbox } from '@/lib/hooks/useInbox';
-import { useTasks, useUpdateTask, useDeleteTask, useCompleteTask } from '@/lib/hooks/useTasks';
+import { useTasks, useUpdateTask, useDeleteTask, useCompleteTask, useSetWaiting } from '@/lib/hooks/useTasks';
 import { useProjects } from '@/lib/hooks/useProjects';
 import { useContexts } from '@/lib/hooks/useContexts';
 import { useTags } from '@/lib/hooks/useTags';
@@ -9,6 +9,7 @@ import { TaskList } from '@/components/task/TaskList';
 import { Modal } from '@/components/ui/Modal';
 import { TaskForm } from '@/components/task/TaskForm';
 import { QuickCapture } from '@/components/layout/QuickCapture';
+import { WaitingModal } from '@/components/task/WaitingModal';
 import { Button } from '@/components/ui/Button';
 import { useState } from 'react';
 import type { Task, TaskUpdate, TaskListResponse } from '@/types';
@@ -21,10 +22,12 @@ export default function InboxPage() {
   const { data: tags } = useTags();
 
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [waitingTask, setWaitingTask] = useState<Task | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const updateTask = useUpdateTask();
   const deleteTask = useDeleteTask();
   const completeTask = useCompleteTask();
+  const setWaiting = useSetWaiting();
 
   const taskList = Array.isArray(tasks) ? tasks : (tasks as any)?.items || [];
   const projectList = Array.isArray(projects) ? projects : (projects as any)?.items || [];
@@ -58,6 +61,14 @@ export default function InboxPage() {
         setSelectedTask(null);
       }
     }
+  };
+
+  const handleWaiting = (task: Task) => {
+    setWaitingTask(task);
+  };
+
+  const handleSetWaiting = (id: number, waitingFor: string) => {
+    setWaiting.mutate({ id, waitingFor });
   };
 
   const handleDelete = (id: number) => {
@@ -101,6 +112,7 @@ export default function InboxPage() {
         tasks={activeTaskList}
         loading={isLoading}
         showNextButton={false}
+        showWaitingButton={true}
         onComplete={(id) => {
           completeTask.mutate(id);
           if (isProcessing && selectedTask?.id === id) {
@@ -116,6 +128,7 @@ export default function InboxPage() {
         }}
         onEdit={handleClarify}
         onDelete={handleDelete}
+        onWaiting={handleWaiting}
       />
 
       <Modal
@@ -143,6 +156,14 @@ export default function InboxPage() {
           />
         )}
       </Modal>
+
+      <WaitingModal
+        isOpen={!!waitingTask}
+        onClose={() => setWaitingTask(null)}
+        task={waitingTask}
+        onSubmit={handleSetWaiting}
+        isSubmitting={setWaiting.isPending}
+      />
     </div>
   );
 }

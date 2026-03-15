@@ -325,6 +325,62 @@ export function useSetNextAction() {
   });
 }
 
+export function useSetWaiting() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, waitingFor }: { id: number; waitingFor: string }) => tasksAPI.setWaiting(id, waitingFor),
+    onMutate: async ({ id, waitingFor }) => {
+      await queryClient.cancelQueries({ queryKey: ['tasks'] });
+      await queryClient.cancelQueries({ queryKey: ['nextActions'] });
+      await queryClient.cancelQueries({ queryKey: ['inbox'] });
+      const previousTasks = queryClient.getQueryData<TaskListResponse>(['tasks']);
+      const previousNextActions = queryClient.getQueryData<TaskListResponse>(['nextActions']);
+      const previousInbox = queryClient.getQueryData<TaskListResponse>(['inbox']);
+
+      queryClient.setQueryData(['tasks'], (old: TaskListResponse | undefined) => {
+        if (old && 'items' in old) {
+          return {
+            ...old,
+            items: old.items.map((task: Task) =>
+              task.id === id ? { ...task, status: 'waiting', waiting_for: waitingFor, updated_at: new Date().toISOString() } : task
+            ),
+          };
+        }
+        return (old || []).map((task: Task) =>
+          task.id === id ? { ...task, status: 'waiting', waiting_for: waitingFor, updated_at: new Date().toISOString() } : task
+        );
+      });
+
+      queryClient.setQueryData(['nextActions'], (old: TaskListResponse | undefined) => {
+        if (old && 'items' in old) {
+          return { ...old, items: old.items.filter((task: Task) => task.id !== id) };
+        }
+        return (old || []).filter((task: Task) => task.id !== id);
+      });
+
+      queryClient.setQueryData(['inbox'], (old: TaskListResponse | undefined) => {
+        if (old && 'items' in old) {
+          return { ...old, items: old.items.filter((task: Task) => task.id !== id) };
+        }
+        return (old || []).filter((task: Task) => task.id !== id);
+      });
+
+      return { previousTasks, previousNextActions, previousInbox };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ predicate: (query) => query.queryKey[0] === 'tasks' });
+      queryClient.invalidateQueries({ queryKey: ['inbox'] });
+      queryClient.invalidateQueries({ queryKey: ['nextActions'] });
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
+    },
+    onError: (err, variables, context) => {
+      queryClient.setQueryData(['tasks'], (context as any)?.previousTasks);
+      queryClient.setQueryData(['nextActions'], (context as any)?.previousNextActions);
+      queryClient.setQueryData(['inbox'], (context as any)?.previousInbox);
+    },
+  });
+}
+
 export function useDeletedTasks() {
   return useQuery({
     queryKey: ['deletedTasks'],

@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 import { useInbox } from '@/lib/hooks/useInbox';
-import { useTasks, useUpdateTask, useDeleteTask, useCompleteTask, useSetNextAction, useNextActions } from '@/lib/hooks/useTasks';
+import { useTasks, useUpdateTask, useDeleteTask, useCompleteTask, useSetNextAction, useNextActions, useSetWaiting } from '@/lib/hooks/useTasks';
 import { useProjects } from '@/lib/hooks/useProjects';
 import { TaskList } from '@/components/task/TaskList';
 import { ProjectList } from '@/components/project/ProjectList';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { TaskForm } from '@/components/task/TaskForm';
+import { WaitingModal } from '@/components/task/WaitingModal';
 import { useRouter } from 'next/navigation';
 import { useContexts } from '@/lib/hooks/useContexts';
 import { useTags } from '@/lib/hooks/useTags';
@@ -20,6 +21,7 @@ export default function ReviewPage() {
   const router = useRouter();
   const [step, setStep] = useState<ReviewStep>('inbox');
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [waitingTask, setWaitingTask] = useState<Task | null>(null);
   const { data: inboxTasks, isLoading: inboxLoading } = useInbox();
   const inboxTasksList = Array.isArray(inboxTasks) ? inboxTasks : (inboxTasks as any)?.items || [];
   const activeInboxTasks = inboxTasksList.filter((t: Task) => !t.completed);
@@ -32,6 +34,7 @@ export default function ReviewPage() {
   const deleteTask = useDeleteTask();
   const completeTask = useCompleteTask();
   const setNextAction = useSetNextAction();
+  const setWaiting = useSetWaiting();
 
   const steps = [
     { id: 'inbox' as ReviewStep, label: 'Inbox Review', icon: '📥' },
@@ -66,6 +69,14 @@ export default function ReviewPage() {
     setNextAction.mutate({ id: task.id, flag: !task.is_next_action });
   };
 
+  const handleWaiting = (task: Task) => {
+    setWaitingTask(task);
+  };
+
+  const handleSetWaiting = (id: number, waitingFor: string) => {
+    setWaiting.mutate({ id, waitingFor });
+  };
+
   const handleProjectClick = (project: Project) => {
     router.push(`/projects/${project.id}`);
   };
@@ -96,9 +107,11 @@ export default function ReviewPage() {
             tasks={activeInboxTasks}
             loading={inboxLoading}
             showNextButton={false}
+            showWaitingButton={true}
             onComplete={(id) => completeTask.mutate(id)}
             onEdit={handleEditTask}
             onDelete={handleDeleteTask}
+            onWaiting={handleWaiting}
           />
         </section>
       )}
@@ -127,6 +140,7 @@ export default function ReviewPage() {
             tasks={nextActions || []}
             loading={nextActionsLoading}
             showNextButton={true}
+            showWaitingButton={true}
             onComplete={(id) => completeTask.mutate(id)}
             onNextAction={(id) => {
               const task = (nextActions || []).find((t: any) => t.id === id);
@@ -136,6 +150,7 @@ export default function ReviewPage() {
             }}
             onEdit={handleEditTask}
             onDelete={handleDeleteTask}
+            onWaiting={handleWaiting}
           />
         </section>
       )}
@@ -150,6 +165,7 @@ export default function ReviewPage() {
             tasks={somedayTasks || []}
             loading={somedayLoading}
             showNextButton={true}
+            showWaitingButton={true}
             onComplete={(id) => completeTask.mutate(id)}
             onEdit={handleEditTask}
             onDelete={handleDeleteTask}
@@ -159,6 +175,7 @@ export default function ReviewPage() {
                 handleSetActive(task);
               }
             }}
+            onWaiting={handleWaiting}
           />
         </section>
       )}
@@ -176,6 +193,14 @@ export default function ReviewPage() {
           />
         )}
       </Modal>
+
+      <WaitingModal
+        isOpen={!!waitingTask}
+        onClose={() => setWaitingTask(null)}
+        task={waitingTask}
+        onSubmit={handleSetWaiting}
+        isSubmitting={setWaiting.isPending}
+      />
     </div>
   );
 }

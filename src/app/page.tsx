@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useInbox } from '@/lib/hooks/useInbox';
-import { useNextActions, useCompleteTask, useSetNextAction, useDeleteTask, useUpdateTask } from '@/lib/hooks/useTasks';
+import { useNextActions, useCompleteTask, useSetNextAction, useDeleteTask, useUpdateTask, useSetWaiting } from '@/lib/hooks/useTasks';
 import { useProjects } from '@/lib/hooks/useProjects';
 import { useContexts } from '@/lib/hooks/useContexts';
 import { useTags } from '@/lib/hooks/useTags';
@@ -11,12 +11,14 @@ import { TaskList } from '@/components/task/TaskList';
 import { ProjectList } from '@/components/project/ProjectList';
 import { Modal } from '@/components/ui/Modal';
 import { TaskForm } from '@/components/task/TaskForm';
+import { WaitingModal } from '@/components/task/WaitingModal';
 import { useRouter } from 'next/navigation';
 import type { Task, TaskListResponse, Project, TaskUpdate } from '@/types';
 
 export default function Dashboard() {
   const router = useRouter();
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [waitingTask, setWaitingTask] = useState<Task | null>(null);
   const { data: inboxTasks, isLoading: inboxLoading } = useInbox();
   const { data: nextActions, isLoading: nextActionsLoading } = useNextActions();
   const { data: projects, isLoading: projectsLoading } = useProjects(1, 10);
@@ -26,6 +28,7 @@ export default function Dashboard() {
   const setNextAction = useSetNextAction();
   const deleteTask = useDeleteTask();
   const updateTask = useUpdateTask();
+  const setWaiting = useSetWaiting();
 
   const handleComplete = (id: number) => {
     completeTask.mutate(id);
@@ -52,6 +55,14 @@ export default function Dashboard() {
     if (confirm('Delete this task?')) {
       deleteTask.mutate(id);
     }
+  };
+
+  const handleWaiting = (task: Task) => {
+    setWaitingTask(task);
+  };
+
+  const handleSetWaiting = (id: number, waitingFor: string) => {
+    setWaiting.mutate({ id, waitingFor });
   };
 
   const handleProjectClick = (project: Project) => {
@@ -113,6 +124,8 @@ export default function Dashboard() {
           onNextAction={handleNextAction}
           onEdit={handleEdit}
           onDelete={handleDelete}
+          onWaiting={handleWaiting}
+          showWaitingButton={true}
         />
       </section>
 
@@ -138,6 +151,14 @@ export default function Dashboard() {
           />
         )}
       </Modal>
+
+      <WaitingModal
+        isOpen={!!waitingTask}
+        onClose={() => setWaitingTask(null)}
+        task={waitingTask}
+        onSubmit={handleSetWaiting}
+        isSubmitting={setWaiting.isPending}
+      />
     </div>
   );
 }

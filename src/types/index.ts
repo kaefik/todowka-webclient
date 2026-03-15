@@ -83,6 +83,7 @@ export interface TaskCreate {
   project_id?: number | null;
   context_id?: number | null;
   tag_ids?: number[];
+  waiting_for?: string;
 }
 
 export interface TaskUpdate {

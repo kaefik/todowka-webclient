@@ -43,6 +43,10 @@ export const tasksAPI = {
     return api.post<Task>(`/tasks/${id}/next-action`, { flag });
   },
 
+  async setWaiting(id: number, waitingFor: string): Promise<Task> {
+    return api.post<Task>(`/tasks/${id}/waiting`, { waiting_for: waitingFor });
+  },
+
   async getNextActions(): Promise<Task[]> {
     return api.get<Task[]>('/tasks/next-actions');
   },

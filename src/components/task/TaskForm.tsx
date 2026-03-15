@@ -20,6 +20,8 @@ interface TaskFormData {
   project_id?: number | string;
   context_id?: number | string;
   tag_ids?: number[];
+  status?: 'inbox' | 'active' | 'waiting' | 'someday' | undefined;
+  waiting_for?: string;
   move_to_active?: boolean;
 }
 
@@ -30,7 +32,17 @@ const taskSchema = z.object({
   project_id: z.coerce.number().optional().or(z.literal('')),
   context_id: z.coerce.number().optional().or(z.literal('')),
   tag_ids: z.array(z.number()).optional(),
+  status: z.enum(['inbox', 'active', 'waiting', 'someday']).optional(),
+  waiting_for: z.string().optional(),
   move_to_active: z.boolean().optional(),
+}).refine((data) => {
+  if (data.status === 'waiting' && !data.waiting_for?.trim()) {
+    return false;
+  }
+  return true;
+}, {
+  message: "Waiting for is required when status is waiting",
+  path: ['waiting_for'],
 });
 
 interface TaskFormProps {
@@ -60,6 +72,8 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
       project_id: task?.project_id,
       context_id: task?.context_id,
       tag_ids: task?.tags?.map(t => t.id) || [],
+      status: task?.status === 'completed' ? undefined : task?.status,
+      waiting_for: task?.waiting_for,
       move_to_active: moveToActive !== undefined ? moveToActive : false,
     },
   });
@@ -74,6 +88,8 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
         project_id: task.project_id,
         context_id: task.context_id,
         tag_ids: task.tags?.map(t => t.id) || [],
+        status: task.status === 'completed' ? undefined : task.status,
+        waiting_for: task.waiting_for,
         move_to_active: false,
       };
       console.log('[TaskForm] Resetting form with data:', resetData);
@@ -97,6 +113,12 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
 
     if (data.move_to_active) {
       submitData.status = 'active';
+    } else if (data.status) {
+      submitData.status = data.status;
+    }
+
+    if (data.waiting_for) {
+      submitData.waiting_for = data.waiting_for;
     }
 
     const filteredData = Object.fromEntries(
@@ -168,6 +190,28 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
       </div>
 
       <div>
+        <label className="block text-sm font-medium mb-1">Status</label>
+        <Controller
+          name="status"
+          control={control}
+          render={({ field }) => (
+            <Select
+              value={field.value || ''}
+              onChange={(value) => field.onChange(value || undefined)}
+              placeholder="Select status"
+            >
+              <SelectItem value="">None</SelectItem>
+              <SelectItem value="inbox">Inbox</SelectItem>
+              <SelectItem value="active">Active</SelectItem>
+              <SelectItem value="waiting">Waiting</SelectItem>
+              <SelectItem value="someday">Someday</SelectItem>
+            </Select>
+          )}
+        />
+        {errors.status && <p className="text-red-600 text-sm mt-1">{errors.status.message}</p>}
+      </div>
+
+      <div>
         <label className="block text-sm font-medium mb-1">Context</label>
         <Controller
           name="context_id"
@@ -189,6 +233,25 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
         />
         {errors.context_id && <p className="text-red-600 text-sm mt-1">{errors.context_id.message}</p>}
       </div>
+
+      <Controller
+        name="status"
+        control={control}
+        render={({ field }) => (
+          <>
+            {field.value === 'waiting' && (
+              <div>
+                <label className="block text-sm font-medium mb-1">Waiting for *</label>
+                <Input
+                  {...register('waiting_for')}
+                  placeholder="Who or what are you waiting for?"
+                />
+                {errors.waiting_for && <p className="text-red-600 text-sm mt-1">{errors.waiting_for.message}</p>}
+              </div>
+            )}
+          </>
+        )}
+      />
 
       <div>
         <label className="block text-sm font-medium mb-2">Tags</label>
