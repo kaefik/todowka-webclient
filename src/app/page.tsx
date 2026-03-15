@@ -92,45 +92,45 @@ export default function Dashboard() {
   const nextActionsList = Array.isArray(nextActions) ? nextActions : (nextActions as any)?.items || [];
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
+    <div className="space-y-6 sm:space-y-8">
+      <h1 className="text-xl sm:text-2xl font-bold">Dashboard</h1>
 
       <section>
         <QuickCapture />
       </section>
 
-      <section className="grid grid-cols-3 gap-4">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         <div
-          className="p-4 bg-white border border-border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+          className="p-3 sm:p-4 bg-white border border-border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
           onClick={() => handleStatClick('/inbox')}
         >
-          <div className="text-3xl font-bold text-blue-600">
+          <div className="text-2xl sm:text-3xl font-bold text-blue-600">
             {inboxCount}
           </div>
-          <div className="text-sm text-foreground-secondary">Inbox</div>
+          <div className="text-xs sm:text-sm text-foreground-secondary">Inbox</div>
         </div>
         <div
-          className="p-4 bg-white border border-border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+          className="p-3 sm:p-4 bg-white border border-border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
           onClick={() => handleStatClick('/tasks/next-actions')}
         >
-          <div className="text-3xl font-bold text-green-600">
+          <div className="text-2xl sm:text-3xl font-bold text-green-600">
             {nextActionsList.length || 0}
           </div>
-          <div className="text-sm text-foreground-secondary">Next Actions</div>
+          <div className="text-xs sm:text-sm text-foreground-secondary">Next Actions</div>
         </div>
         <div
-          className="p-4 bg-white border border-border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
+          className="p-3 sm:p-4 bg-white border border-border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors"
           onClick={() => handleStatClick('/projects')}
         >
-          <div className="text-3xl font-bold text-purple-600">
+          <div className="text-2xl sm:text-3xl font-bold text-purple-600">
             {projects?.items?.filter(p => p.status === 'active').length || 0}
           </div>
-          <div className="text-sm text-foreground-secondary">Active Projects</div>
+          <div className="text-xs sm:text-sm text-foreground-secondary">Active Projects</div>
         </div>
       </section>
 
       <section>
-        <h2 className="text-xl font-semibold mb-4">Next Actions</h2>
+        <h2 className="text-lg sm:text-xl font-semibold mb-4">Next Actions</h2>
         <TaskList
           tasks={nextActionsList.slice(0, 5)}
           loading={nextActionsLoading}
@@ -144,7 +144,7 @@ export default function Dashboard() {
       </section>
 
       <section>
-        <h2 className="text-xl font-semibold mb-4">Active Projects</h2>
+        <h2 className="text-lg sm:text-xl font-semibold mb-4">Active Projects</h2>
         <ProjectList
           projects={projects?.items?.filter(p => p.status === 'active') || []}
           loading={projectsLoading}

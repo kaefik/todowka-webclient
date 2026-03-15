@@ -156,7 +156,7 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
         {errors.description && <p className="text-red-600 text-sm mt-1">{errors.description.message}</p>}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium mb-1">Priority</label>
           <Controller
