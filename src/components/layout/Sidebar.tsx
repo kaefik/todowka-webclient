@@ -39,7 +39,7 @@ export function Sidebar() {
         } lg:translate-x-0 lg:static lg:w-64`}
       >
         <div className="p-4 border-b border-border flex items-center justify-between">
-          <h1 className="text-xl font-bold">TodoGTD</h1>
+          <h1 className="text-xl font-bold">ToDowka</h1>
           <Button
             type="button"
             variant="ghost"

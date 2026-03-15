@@ -9,7 +9,7 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'TodoGTD - GTD Task Management',
+  title: 'ToDowka - GTD Task Management',
   description: 'Personal GTD task management app',
 };
 
