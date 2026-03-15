@@ -1,135 +1,135 @@
 # Todo Web Client
 
-Personal GTD task management web application.
+Веб-приложение для личного управления задачами по методологии GTD.
 
-## Features
+## Возможности
 
-- **Capture:** Quick capture tasks into Inbox
-- **Clarify:** Process inbox items with full task details
-- **Organize:** Organize by projects, contexts, tags, and areas
-- **Engage:** Focus on Next Actions
-- **Review:** Guided weekly review workflow
+- **Capture (Захват):** Быстрое добавление задач в Inbox
+- **Clarify (Уточнение):** Обработка inbox-элементов с полными деталями задачи
+- **Organize (Организация):** Организация по проектам, контекстам, тегам и областям
+- **Engage (Выполнение):** Фокус на Next Actions
+- **Review (Обзор):** Направленный еженедельный обзор
 
-## Tech Stack
+## Технологический стек
 
-- **Framework:** Next.js 14 (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **State:** Zustand (UI), TanStack Query (server)
-- **Forms:** React Hook Form + Zod
+- **Фреймворк:** Next.js 14 (App Router)
+- **Язык:** TypeScript
+- **Стилизация:** Tailwind CSS
+- **State:** Zustand (UI), TanStack Query (серверный)
+- **Формы:** React Hook Form + Zod
 
-## Setup
+## Установка
 
-### Prerequisites
+### Предварительные требования
 
 - Node.js 18+
-- npm or yarn
+- npm или yarn
 
-### Installation
+### Установка
 
 ```bash
-# Clone repository
+# Клонировать репозиторий
 git clone <repo-url>
 cd todowka-webclient
 
-# Install dependencies
+# Установить зависимости
 npm install
 
-# Create environment file
+# Создать файл окружения
 cp .env.local.example .env.local
 ```
 
-### Environment Variables
+### Переменные окружения
 
-Create `.env.local`:
+Создать `.env.local`:
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:8000
 ```
 
-### Running the API
+### Запуск API
 
-Ensure the Todo API is running:
+Убедитесь, что Todo API запущен:
 
 ```bash
-# From the API project
+# Из проекта API
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### Development
+### Разработка
 
 ```bash
 npm run dev
 ```
 
-Open http://localhost:3000
+Открыть http://localhost:3000
 
-### Build
+### Сборка
 
 ```bash
 npm run build
 ```
 
-### Lint
+### Линтер
 
 ```bash
 npm run lint
 ```
 
-## GTD Workflow
+## GTD Рабочий процесс
 
-### 1. Capture
+### 1. Capture (Захват)
 
-Use the quick capture form on the Dashboard to quickly add tasks to your Inbox.
+Используйте быстрый захват на Dashboard для быстрого добавления задач в ваш Inbox.
 
-### 2. Clarify
+### 2. Clarify (Уточнение)
 
-Go to the Inbox page to process items:
-- Edit to add project, context, tags, priority
-- Delete irrelevant items
-- Move to "Someday" for later
+Перейдите на страницу Inbox для обработки элементов:
+- Редактируйте чтобы добавить проект, контекст, теги, приоритет
+- Удалите нерелевантные элементы
+- Переместите в "Someday" для потом
 
-### 3. Organize
+### 3. Organize (Организация)
 
-Create projects to group related tasks. Use contexts for "where" (Home, Office, Phone). Use tags for "what" (Work, Personal).
+Создавайте проекты для группировки связанных задач. Используйте контексты для "где" (Дом, Офис, Телефон). Используйте теги для "что" (Работа, Личное).
 
-### 4. Engage
+### 4. Engage (Выполнение)
 
-Focus on Next Actions — tasks you've marked as ready to do. Complete them one by one.
+Фокусируйтесь на Next Actions — задачи, которые вы отметили как готовые к выполнению. Завершайте их одну за одной.
 
-### 5. Review
+### 5. Review (Обзор)
 
-Weekly review:
-1. Process all Inbox items
-2. Review project progress
-3. Select Next Actions for the next week
-4. Review Someday items
+Еженедельный обзор:
+1. Обработать все Inbox элементы
+2. Обзор прогресса проектов
+3. Выбрать Next Actions на следующую неделю
+4. Обзор Someday элементов
 
-## Project Structure
+## Структура проекта
 
 ```
 src/
-├── app/                    # Next.js pages
-├── components/             # React components
-│   ├── ui/              # Base components
-│   ├── task/            # Task components
-│   ├── project/         # Project components
-│   └── layout/          # Layout components
-├── lib/                  # Utilities and API
-│   ├── api/             # API client
+├── app/                    # Next.js страницы
+├── components/             # React компоненты
+│   ├── ui/              # Базовые компоненты
+│   ├── task/            # Компоненты задач
+│   ├── project/         # Компоненты проектов
+│   └── layout/          # Layout компоненты
+├── lib/                  # Утилиты и API
+│   ├── api/             # API клиент
 │   ├── hooks/           # React Query hooks
-│   └── utils/           # Helper functions
-├── types/                # TypeScript types
+│   └── utils/           # Helper функции
+├── types/                # TypeScript типы
 └── stores/               # Zustand stores
 ```
 
-## Contributing
+## Участие
 
-1. Create a feature branch
-2. Make your changes
-3. Run lint and typecheck
-4. Submit a pull request
+1. Создайте ветку для фичи
+2. Внесите изменения
+3. Запустите lint и typecheck
+4. Отправьте pull request
 
-## License
+## Лицензия
 
 MIT
