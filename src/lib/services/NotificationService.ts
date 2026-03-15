@@ -10,7 +10,8 @@ class NotificationService {
     this.permission = window.Notification.permission;
 
     if (this.permission === 'default') {
-      this.permission = await this.requestPermission();
+      const requested = await this.requestPermission();
+      console.log('NotificationService: permission requested, result:', requested);
     }
   }
 
