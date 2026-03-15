@@ -27,6 +27,8 @@ export default function ReviewPage() {
   const activeInboxTasks = inboxTasksList.filter((t: Task) => !t.completed);
   const { data: nextActions, isLoading: nextActionsLoading } = useNextActions();
   const { data: somedayTasks, isLoading: somedayLoading } = useTasks({ status: 'someday' });
+  const somedayTasksList = Array.isArray(somedayTasks) ? somedayTasks : (somedayTasks as any)?.items || [];
+  const activeSomedayTasks = somedayTasksList.filter((t: Task) => !t.completed);
   const { data: projects, isLoading: projectsLoading } = useProjects(1, 50);
   const { data: contexts } = useContexts();
   const { data: tags } = useTags();
@@ -187,7 +189,7 @@ export default function ReviewPage() {
             Review tasks without deadlines. Decide if any should become active.
           </p>
           <TaskList
-            tasks={somedayTasks || []}
+            tasks={activeSomedayTasks}
             loading={somedayLoading}
             showNextButton={true}
             showWaitingButton={true}
