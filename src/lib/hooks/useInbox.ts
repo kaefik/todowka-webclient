@@ -30,7 +30,7 @@ export function useCreateInboxTask() {
         reminder_enabled: false,
         recurrence_type: null as RecurrenceType | null,
         recurrence_config: null,
-        timezone: 'UTC',
+        timezone: 'Europe/Moscow',
         someday: false,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
