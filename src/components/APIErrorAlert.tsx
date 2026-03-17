@@ -35,7 +35,7 @@ export function APIErrorAlert() {
     <div className="fixed bottom-20 sm:bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-96 z-[70] space-y-2">
       {errors.map((error) => (
         <div
-          key={error.timestamp}
+          key={error.id}
           className="bg-red-50 border border-red-200 rounded-lg p-4 shadow-lg animate-in slide-in-from-bottom"
         >
           <div className="flex items-start gap-3">
@@ -54,7 +54,7 @@ export function APIErrorAlert() {
               type="button"
               variant="ghost"
               size="xs"
-              onClick={() => removeError(error.timestamp)}
+              onClick={() => removeError(error.id)}
               className="text-red-700 hover:text-red-900"
             >
               ✕
