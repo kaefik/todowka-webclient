@@ -2,6 +2,7 @@
 
 import { useNavigationStore } from '@/stores/useNavigationStore';
 import { Button } from '@/components/ui/Button';
+import { NotificationCenter } from './NotificationCenter';
 
 interface HeaderProps {
   title: string;
@@ -16,6 +17,9 @@ export function Header({ title }: HeaderProps) {
         ☰
       </Button>
       <h1 className="text-lg font-semibold">{title}</h1>
+      <div className="ml-auto">
+        <NotificationCenter />
+      </div>
     </header>
   );
 }

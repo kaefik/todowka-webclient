@@ -8,6 +8,18 @@ export const notificationsAPI = {
     return api.get<Notification[]>('/notifications');
   },
 
+  async getUnread(): Promise<Notification[]> {
+    return api.get<Notification[]>('/notifications/unread');
+  },
+
+  async markAsRead(id: number): Promise<void> {
+    return api.post(`/notifications/${id}/read`, {});
+  },
+
+  async markAllAsRead(): Promise<void> {
+    return api.post('/notifications/read-all', {});
+  },
+
   async getById(id: number): Promise<Notification> {
     return api.get<Notification>(`/notifications/${id}`);
   },

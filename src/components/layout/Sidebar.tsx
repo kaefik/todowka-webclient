@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 import { useNavigationStore } from '@/stores/useNavigationStore';
+import { useUnreadNotifications } from '@/lib/hooks/useNotifications';
+import { ConnectionStatus } from './ConnectionStatus';
 
 const navItems = [
   { path: '/', label: 'Dashboard', icon: '🏠' },
@@ -23,6 +25,8 @@ export function Sidebar() {
   const pathname = usePathname();
   const router = useRouter();
   const { sidebarOpen, setSidebarOpen } = useNavigationStore();
+  const { data: unreadNotifications } = useUnreadNotifications();
+  const unreadCount = unreadNotifications?.length || 0;
 
   return (
     <>
@@ -70,7 +74,41 @@ export function Sidebar() {
               </Button>
             );
           })}
+
+          <Button
+            type="button"
+            variant={pathname === '/notifications' ? 'primary' : 'ghost'}
+            className="w-full justify-start"
+            onClick={() => {
+              router.push('/notifications');
+              setSidebarOpen(false);
+            }}
+          >
+            <span className="mr-2">🔔</span>
+            Уведомления
+            {unreadCount > 0 && (
+              <span className="ml-auto bg-red-500 text-white text-xs rounded-full px-2 py-0.5 font-bold">
+                {unreadCount}
+              </span>
+            )}
+          </Button>
         </nav>
+
+        <div className="mt-auto pt-4 border-t">
+          <ConnectionStatus />
+          <Button
+            type="button"
+            variant={pathname === '/settings' ? 'primary' : 'ghost'}
+            className="w-full justify-start"
+            onClick={() => {
+              router.push('/settings');
+              setSidebarOpen(false);
+            }}
+          >
+            <span className="mr-2">⚙️</span>
+            Настройки
+          </Button>
+        </div>
       </aside>
     </>
   );

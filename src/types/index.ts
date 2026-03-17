@@ -75,12 +75,15 @@ export interface Area {
 
 export interface Notification {
   id: number;
-  message: string;
   task_id?: number;
+  message: string;
   status: NotificationStatus;
   scheduled_at?: string;
   sent_at?: string;
-  error?: string;
+  error_message?: string;
+  delivery_method?: string;
+  read: boolean;
+  metadata?: Record<string, any>;
   created_at: string;
   updated_at: string;
 }
