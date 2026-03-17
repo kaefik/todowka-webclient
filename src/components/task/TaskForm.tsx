@@ -38,8 +38,8 @@ const taskSchema = z.object({
   title: z.string().min(1, 'Title is required').max(200, 'Title too long'),
   description: z.string().max(1000).nullable().optional(),
   priority: z.enum(['low', 'medium', 'high']).optional(),
-  project_id: z.coerce.number().optional().or(z.literal('')),
-  context_id: z.coerce.number().optional().or(z.literal('')),
+  project_id: z.string().optional(),
+  context_id: z.string().optional(),
   tag_ids: z.array(z.number()).optional(),
   status: z.enum(['inbox', 'active', 'waiting', 'someday']).optional(),
   waiting_for: z.string().nullable().optional(),
@@ -89,8 +89,8 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
       title: task?.title || '',
       description: task?.description || '',
       priority: task?.priority || 'medium',
-      project_id: task?.project_id,
-      context_id: task?.context_id,
+      project_id: task?.project_id?.toString() || '',
+      context_id: task?.context_id?.toString() || '',
       tag_ids: task?.tags?.map(t => t.id) || [],
       status: task?.status === 'completed' ? undefined : task?.status,
       waiting_for: task?.waiting_for,
@@ -111,8 +111,8 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
         title: task.title,
         description: task.description || '',
         priority: task.priority || 'medium',
-        project_id: task.project_id,
-        context_id: task.context_id,
+        project_id: task.project_id?.toString() || '',
+        context_id: task.context_id?.toString() || '',
         tag_ids: task.tags?.map(t => t.id) || [],
         status: task.status === 'completed' ? undefined : task.status,
         waiting_for: task.waiting_for,
@@ -136,8 +136,8 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
       title: data.title,
       description: data.description,
       priority: data.priority,
-      project_id: data.project_id && data.project_id !== '' ? parseInt(data.project_id as string) : null,
-      context_id: data.context_id && data.context_id !== '' ? parseInt(data.context_id as string) : null,
+      project_id: data.project_id && data.project_id !== '' ? parseInt(data.project_id as string) : undefined,
+      context_id: data.context_id && data.context_id !== '' ? parseInt(data.context_id as string) : undefined,
       tag_ids: data.tag_ids,
       due_date: data.due_date,
       reminder_time: data.reminder_time,
@@ -223,8 +223,8 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
             control={control}
             render={({ field }) => (
               <Select
-                value={typeof field.value === 'number' ? field.value.toString() : ''}
-                onChange={(value) => field.onChange(value === '' ? null : parseInt(value))}
+                value={field.value?.toString() || ''}
+                onChange={(value) => field.onChange(value || undefined)}
                 placeholder="Select project"
               >
                 <SelectItem value="">None</SelectItem>
@@ -236,7 +236,7 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
               </Select>
             )}
           />
-          {errors.project_id && <p className="text-red-600 text-sm mt-1">{errors.project_id.message}</p>}
+          {errors.project_id && typeof errors.project_id.message === 'string' && <p className="text-red-600 text-sm mt-1">{errors.project_id.message}</p>}
         </div>
       </div>
 
@@ -269,8 +269,8 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
           control={control}
           render={({ field }) => (
             <Select
-              value={typeof field.value === 'number' ? field.value.toString() : ''}
-              onChange={(value) => field.onChange(value === '' ? null : parseInt(value))}
+              value={field.value?.toString() || ''}
+              onChange={(value) => field.onChange(value || undefined)}
               placeholder="Select context"
             >
               <SelectItem value="">None</SelectItem>
@@ -282,7 +282,7 @@ export function TaskForm({ task, projects, contexts, tags, onSubmit, onCancel, i
             </Select>
           )}
         />
-        {errors.context_id && <p className="text-red-600 text-sm mt-1">{errors.context_id.message}</p>}
+        {errors.context_id && typeof errors.context_id.message === 'string' && <p className="text-red-600 text-sm mt-1">{errors.context_id.message}</p>}
       </div>
 
       <Controller

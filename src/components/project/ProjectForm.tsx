@@ -13,7 +13,7 @@ import { Spinner } from '@/components/ui/Spinner';
 const projectSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100, 'Name too long'),
   description: z.string().max(500).optional(),
-  area_id: z.coerce.number().optional().or(z.literal('')),
+  area_id: z.string().optional(),
 });
 
 interface ProjectFormProps {
@@ -29,16 +29,29 @@ export function ProjectForm({ project, areas, onSubmit, onCancel, isSubmitting }
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<ProjectCreate | ProjectUpdate>({
+  } = useForm<any>({
     resolver: zodResolver(projectSchema),
-    defaultValues: project || {
+    defaultValues: project ? {
+      name: project.name,
+      description: project.description || '',
+      area_id: project.area_id?.toString() || '',
+    } : {
       name: '',
       description: '',
     },
   });
 
+  const handleSubmitWithTransform = (data: any) => {
+    const transformedData = {
+      name: data.name,
+      description: data.description,
+      area_id: data.area_id && data.area_id !== '' ? parseInt(data.area_id) : undefined,
+    };
+    onSubmit(transformedData);
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(handleSubmitWithTransform)} className="space-y-4">
       <div>
         <label className="block text-sm font-medium mb-1">Name *</label>
         <Controller
@@ -48,7 +61,7 @@ export function ProjectForm({ project, areas, onSubmit, onCancel, isSubmitting }
             <Input {...field} placeholder="Project name" />
           )}
         />
-        {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>}
+        {errors.name && typeof errors.name.message === 'string' && <p className="text-red-600 text-sm mt-1">{errors.name.message}</p>}
       </div>
 
       <div>
@@ -60,7 +73,7 @@ export function ProjectForm({ project, areas, onSubmit, onCancel, isSubmitting }
             <Textarea {...field} placeholder="Project description" />
           )}
         />
-        {errors.description && <p className="text-red-600 text-sm mt-1">{errors.description.message}</p>}
+        {errors.description && typeof errors.description.message === 'string' && <p className="text-red-600 text-sm mt-1">{errors.description.message}</p>}
       </div>
 
       <div>
@@ -71,7 +84,7 @@ export function ProjectForm({ project, areas, onSubmit, onCancel, isSubmitting }
           render={({ field }) => (
             <Select
               value={field.value?.toString() || ''}
-              onChange={(value) => field.onChange(value ? parseInt(value) : undefined)}
+              onChange={(value) => field.onChange(value || undefined)}
               placeholder="Select area"
             >
               <SelectItem value="">None</SelectItem>
@@ -83,7 +96,7 @@ export function ProjectForm({ project, areas, onSubmit, onCancel, isSubmitting }
             </Select>
           )}
         />
-        {errors.area_id && <p className="text-red-600 text-sm mt-1">{errors.area_id.message}</p>}
+        {errors.area_id && typeof errors.area_id.message === 'string' && <p className="text-red-600 text-sm mt-1">{errors.area_id.message}</p>}
       </div>
 
       <div className="flex justify-end gap-2 pt-4">
