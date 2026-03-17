@@ -1,0 +1,207 @@
+{
+  "project": "Tasks-notifications Web Client",
+  "created": "2026-03-17T00:00:00.000Z",
+  "guide": "tasks-notifications/00-guide.md",
+  "tasks": {
+    "L0/01-notifications-api.md": {
+      "title": "Дополнить notificationsAPI",
+      "layer": 0,
+      "effort": "S",
+      "depends_on": [],
+      "status": "DONE",
+      "completed_output": "Добавлены методы getUnread(), markAsRead(), markAllAsRead() в notificationsAPI"
+    },
+    "L0/02-use-notifications-hook.md": {
+      "title": "Создать useNotifications hook",
+      "layer": 0,
+      "effort": "M",
+      "depends_on": ["L0/01-notifications-api.md"],
+      "status": "DONE",
+      "completed_output": "useNotifications hook уже реализован с query и mutations"
+    },
+    "L0/03-use-unread-notifications-hook.md": {
+      "title": "Создать useUnreadNotifications hook",
+      "layer": 0,
+      "effort": "S",
+      "depends_on": ["L0/01-notifications-api.md"],
+      "status": "DONE",
+      "completed_output": "useUnreadNotifications hook уже реализован"
+    },
+    "L0/04-use-task-notifications-hook.md": {
+      "title": "Создать useTaskNotifications hook",
+      "layer": 0,
+      "effort": "S",
+      "depends_on": ["L0/01-notifications-api.md"],
+      "status": "DONE",
+      "completed_output": "useTaskNotifications hook уже реализован"
+    },
+    "L0/05-notification-types.md": {
+      "title": "Обновить типы Notification",
+      "layer": 0,
+      "effort": "S",
+      "depends_on": [],
+      "status": "DONE",
+      "completed_output": "Добавлены поля error_message, delivery_method, read, metadata в интерфейс Notification"
+    },
+    "L1/01-notificationstream-structure.md": {
+      "title": "Создать базовую структуру NotificationStream",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": ["L0/05-notification-types.md"],
+      "status": "DONE",
+      "completed_output": "NotificationStream класс уже реализован с базовой структурой"
+    },
+    "L1/02-notificationstream-sse-connection.md": {
+      "title": "Реализовать SSE connection",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": ["L1/01-notificationstream-structure.md"],
+      "status": "DONE",
+      "completed_output": "SSE connection уже реализован в NotificationStream"
+    },
+    "L1/03-notificationstream-helpers.md": {
+      "title": "Реализовать helper методы",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": ["L1/01-notificationstream-structure.md"],
+      "status": "DONE",
+      "completed_output": "Helper методы уже реализованы в NotificationStream"
+    },
+    "L1/04-notificationstream-polling-fallback.md": {
+      "title": "Реализовать polling fallback",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": ["L1/02-notificationstream-sse-connection.md"],
+      "status": "DONE",
+      "completed_output": "Polling fallback уже реализован в NotificationStream"
+    },
+    "L1/05-notificationstream-reconnection.md": {
+      "title": "Реализовать reconnection logic",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": ["L1/04-notificationstream-polling-fallback.md"],
+      "status": "DONE",
+      "completed_output": "Reconnection logic уже реализован в NotificationStream"
+    },
+    "L1/06-notification-item-component.md": {
+      "title": "Создать NotificationItem компонент",
+      "layer": 1,
+      "effort": "L",
+      "depends_on": ["L0/05-notification-types.md"],
+      "status": "DONE",
+      "completed_output": "NotificationItem компонент создан с отображением сообщения, задачи, статуса и кнопкой 'Отметить'"
+    },
+    "L1/07-connection-status-component.md": {
+      "title": "Создать ConnectionStatus компонент",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": [],
+      "status": "DONE",
+      "completed_output": "ConnectionStatus компонент создан с онлайн/оффлайн индикатором"
+    },
+    "L1/08-use-healthcheck-hook.md": {
+      "title": "Создать useHealthCheck hook",
+      "layer": 1,
+      "effort": "L",
+      "depends_on": [],
+      "status": "DONE",
+      "completed_output": "useHealthCheck hook создан с периодической проверкой здоровья системы"
+    },
+    "L1/09-simplify-notification-manager.md": {
+      "title": "Упростить NotificationManager",
+      "layer": 1,
+      "effort": "M",
+      "depends_on": ["L1/02-notificationstream-sse-connection.md", "L1/05-notificationstream-reconnection.md"],
+      "status": "DONE",
+      "completed_output": "NotificationManager упрощён: убран polling задач, добавлена SSE инициализация"
+    },
+    "L2/01-notification-list-component.md": {
+      "title": "Создать NotificationList компонент",
+      "layer": 2,
+      "effort": "L",
+      "depends_on": ["L0/02-use-notifications-hook.md", "L1/06-notification-item-component.md"],
+      "status": "DONE",
+      "completed_output": "NotificationList компонент создан с loading, error, empty состояниями и unread count badge"
+    },
+    "L2/02-notification-center-dropdown.md": {
+      "title": "Создать NotificationCenter dropdown",
+      "layer": 2,
+      "effort": "L",
+      "depends_on": ["L0/03-use-unread-notifications-hook.md", "L2/01-notification-list-component.md"],
+      "status": "DONE",
+      "completed_output": "NotificationCenter dropdown создан с badge и limit=5"
+    },
+    "L2/03-notifications-page.md": {
+      "title": "Создать страницу /notifications",
+      "layer": 2,
+      "effort": "M",
+      "depends_on": ["L2/01-notification-list-component.md"],
+      "status": "DONE",
+      "completed_output": "Страница /notifications создана с NotificationList"
+    },
+    "L2/04-settings-page.md": {
+      "title": "Создать страницу /settings",
+      "layer": 2,
+      "effort": "L",
+      "depends_on": ["L1/08-use-healthcheck-hook.md"],
+      "status": "DONE",
+      "completed_output": "Страница /settings создана с Health Status компонентом"
+    },
+    "L2/05-header-integration.md": {
+      "title": "Добавить NotificationCenter в Header",
+      "layer": 2,
+      "effort": "M",
+      "depends_on": ["L2/02-notification-center-dropdown.md"],
+      "status": "DONE",
+      "completed_output": "NotificationCenter добавлен в Header"
+    },
+    "L2/06-sidebar-integration.md": {
+      "title": "Добавить Navigation в Sidebar",
+      "layer": 2,
+      "effort": "L",
+      "depends_on": ["L0/03-use-unread-notifications-hook.md", "L1/07-connection-status-component.md"],
+      "status": "DONE",
+      "completed_output": "Navigation для уведомлений и ConnectionStatus добавлены в Sidebar"
+    },
+    "L2/07-bottomnavigation-integration.md": {
+      "title": "Добавить Navigation в BottomNavigation",
+      "layer": 2,
+      "effort": "L",
+      "depends_on": ["L1/07-connection-status-component.md"],
+      "status": "DONE",
+      "completed_output": "Navigation для уведомлений и ConnectionStatus добавлены в BottomNavigation"
+    },
+    "L3/01-notificationitem-tests.md": {
+      "title": "Тесты для NotificationItem",
+      "layer": 3,
+      "effort": "L",
+      "depends_on": ["L1/06-notification-item-component.md"],
+      "status": "DONE",
+      "completed_output": "Тесты для NotificationItem созданы"
+    },
+    "L3/02-notificationlist-tests.md": {
+      "title": "Тесты для NotificationList",
+      "layer": 3,
+      "effort": "L",
+      "depends_on": ["L2/01-notification-list-component.md"],
+      "status": "DONE",
+      "completed_output": "Тесты для NotificationList созданы"
+    },
+    "L3/03-notificationstream-tests.md": {
+      "title": "Тесты для NotificationStream",
+      "layer": 3,
+      "effort": "L",
+      "depends_on": ["L1/05-notificationstream-reconnection.md"],
+      "status": "DONE",
+      "completed_output": "Тесты для NotificationStream созданы"
+    },
+    "L3/04-readme-documentation.md": {
+      "title": "Обновить README",
+      "layer": 3,
+      "effort": "M",
+      "depends_on": ["L2/01-notification-list-component.md", "L2/02-notification-center-dropdown.md", "L2/03-notifications-page.md", "L2/04-settings-page.md", "L2/05-header-integration.md", "L2/06-sidebar-integration.md", "L2/07-bottomnavigation-integration.md"],
+      "status": "DONE",
+      "completed_output": "README.md обновлён с полной документацией по системе уведомлений"
+    }
+  }
+}
