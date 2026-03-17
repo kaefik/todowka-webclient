@@ -29,5 +29,13 @@ const config: Config = {
     },
   },
   plugins: [],
+  safelist: [
+    'bg-background',
+    'text-foreground',
+    'border-border',
+    {
+      pattern: /bg-(status|priority)-(inbox|active|completed|waiting|someday|low|medium|high)/,
+    },
+  ],
 }
 export default config
