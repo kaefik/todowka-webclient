@@ -11,6 +11,26 @@ class TodoAPIClient {
     this.onError = onError;
   }
 
+  private formatErrorDetail(detail: any): string {
+    if (typeof detail === 'string') {
+      return detail;
+    }
+    
+    if (Array.isArray(detail)) {
+      return detail.map((err) => {
+        if (typeof err === 'string') return err;
+        if (err.msg) return err.msg;
+        if (err.message) return err.message;
+        return 'Ошибка валидации';
+      }).join('; ');
+    }
+    
+    if (detail.msg) return detail.msg;
+    if (detail.message) return detail.message;
+    
+    return 'Ошибка запроса';
+  }
+
   private async request<T>(
     endpoint: string,
     options: RequestInit = {}
@@ -29,7 +49,8 @@ class TodoAPIClient {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        const errorMessage = errorData.detail || response.statusText || 'API Error';
+        const errorDetail = errorData.detail;
+        const errorMessage = this.formatErrorDetail(errorDetail) || response.statusText || 'API Error';
         const errorStatus = response.status;
         
         if (this.onError) {
