@@ -83,7 +83,7 @@ export interface Notification {
   error_message?: string;
   delivery_method?: string;
   read: boolean;
-  metadata?: Record<string, any>;
+  meta_data?: Record<string, any> | null;
   created_at: string;
   updated_at: string;
 }
@@ -186,6 +186,7 @@ export interface PaginatedResponse<T> {
   pages: number;
 }
 
+export type NotificationListResponse = Notification[] | PaginatedResponse<Notification>;
 export type TaskListResponse = Task[] | PaginatedResponse<Task>;
 export type ProjectListResponse = Project[] | PaginatedResponse<Project>;
 export type TagListResponse = Tag[] | PaginatedResponse<Tag>;

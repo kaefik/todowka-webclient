@@ -1,11 +1,11 @@
 import { getAPIClient } from './index';
-import type { Notification } from '@/types';
+import type { Notification, PaginatedResponse, NotificationListResponse } from '@/types';
 
 const api = getAPIClient();
 
 export const notificationsAPI = {
-  async getAll(): Promise<Notification[]> {
-    return api.get<Notification[]>('/notifications');
+  async getAll(page: number = 1, limit: number = 10): Promise<PaginatedResponse<Notification>> {
+    return api.get<PaginatedResponse<Notification>>(`/notifications?page=${page}&limit=${limit}`);
   },
 
   async getUnread(): Promise<Notification[]> {

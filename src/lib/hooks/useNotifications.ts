@@ -1,12 +1,13 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { notificationsAPI } from '@/lib/api/notifications';
+import type { Notification, PaginatedResponse } from '@/types';
 
-export function useNotifications() {
+export function useNotifications(page: number = 1, limit: number = 10) {
   const queryClient = useQueryClient();
 
   const notificationsQuery = useQuery({
-    queryKey: ['notifications'],
-    queryFn: () => notificationsAPI.getAll(),
+    queryKey: ['notifications', page, limit],
+    queryFn: () => notificationsAPI.getAll(page, limit),
     refetchInterval: false,
     staleTime: 10000,
   });
@@ -28,7 +29,11 @@ export function useNotifications() {
   });
 
   return {
-    notifications: notificationsQuery.data || [],
+    notifications: notificationsQuery.data?.items || [],
+    total: notificationsQuery.data?.total || 0,
+    page: notificationsQuery.data?.page || page,
+    limit: notificationsQuery.data?.limit || limit,
+    pages: notificationsQuery.data?.pages || 0,
     isLoading: notificationsQuery.isLoading,
     error: notificationsQuery.error,
     markAsRead: markAsReadMutation.mutate,
