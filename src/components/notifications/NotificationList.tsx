@@ -20,10 +20,6 @@ export function NotificationList({ limit }: NotificationListProps) {
     markAllAsRead 
   } = useNotifications(page, limit || 10);
 
-  const displayedNotifications = limit
-    ? notifications.slice(0, limit)
-    : notifications;
-
   const unreadCount = notifications.filter(n => !n.read).length;
 
   if (isLoading) {
@@ -52,7 +48,7 @@ export function NotificationList({ limit }: NotificationListProps) {
     );
   }
 
-  if (displayedNotifications.length === 0) {
+  if (notifications.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow">
         <div className="p-4 border-b">
@@ -90,7 +86,7 @@ export function NotificationList({ limit }: NotificationListProps) {
         )}
       </div>
       <div className="max-h-96 overflow-y-auto">
-        {displayedNotifications.map(notification => (
+        {notifications.map(notification => (
           <NotificationItem
             key={notification.id}
             notification={notification}
